@@ -1,0 +1,13 @@
+{% load meta %}
+
+{% if meta %}
+{% if meta.description %}{% meta 'description' meta.description %}{% endif %}
+{% if meta.keywords %}{% meta_list 'keywords' meta.keywords %}{% endif %}
+{% if meta.use_og %}
+{% if meta.title %}{% og_prop 'title' meta.title %}{% endif %}
+{% if meta.description %}{% og_prop 'description' meta.description %}{% endif %}
+{% if meta.image %}{% og_prop 'image' meta.image %}{% endif %}
+{% if meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}
+{% if meta.site_name %}{% og_prop 'site_name'  meta.site_name %}{% endif %}
+{% endif %}
+{% endif %}
