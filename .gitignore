@@ -1,0 +1,4 @@
+*.py[co]
+*.sw[op]
+dist
+MANIFEST
