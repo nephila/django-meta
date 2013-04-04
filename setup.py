@@ -2,7 +2,8 @@ from distutils.core import setup
 
 setup(
     name='django-meta',
-    description='Pluggable app for handling webpage metadata and META tags',
+    description='Pluggable app for handling webpage meta tags and OpenGraph '
+    'properties',
     long_description=open('README.rst').read(),
     version='0.0.1',
     packages=['meta', 'meta.templatetags'],
