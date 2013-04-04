@@ -24,6 +24,11 @@ Add ``meta`` to ``INSTALLED_APPS``::
 Basic concept
 =============
 
+You render the meta tags by including a ``meta.html`` parial template in your
+view templates. This template will only render meta tags if it can find a
+``meta`` object in the context, so you can safely include it in your base
+template to have it render on all your pages.
+
 The ``meta.html`` template expects to find a dict or object called ``meta`` in
 the template context. In that dict or object, it will expect to find any of the
 following keys/attributes:
@@ -37,7 +42,8 @@ following keys/attributes:
 + object_type
 + site_name
 
-In all cases, if the key is omitted, the matching property is not rendered.
+In all cases, if the key is omitted, the matching metadata/property is not 
+rendered.
 
 use_og
 ------
@@ -289,5 +295,10 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
 used at all. Default is ``False``. 
 
-.. _OpenGraph: http://opengraphprotocol.org/
+Reporting bugs
+==============
 
+Please report all bugs to our BitBucket `issue tracker`_.
+
+.. _OpenGraph: http://opengraphprotocol.org/
+.. _issue tracker: https://bitbucket.org/monwara/django-meta/issues/
