@@ -123,10 +123,10 @@ class MetadataMixin(object):
     def get_meta_description(self, context={}):
         return self.description
 
-    def get_meta_url(self, url=None, context={}):
+    def get_meta_url(self, context={}):
         return self.url
 
-    def get_meta_image(self, image=None, context={}):
+    def get_meta_image(self, context={}):
         return self.image
 
     def get_meta_object_type(self, context={}):
