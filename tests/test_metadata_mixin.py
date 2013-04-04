@@ -3,10 +3,17 @@ from __future__ import unicode_literals
 import unittest
 
 import meta
-from meta.views import MetadataMixin
+from meta.views import MetadataMixin, Meta
 
 
 class MetadataMixinTestCase(unittest.TestCase):
+    def test_get_meta_class(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_class(),
+            Meta
+        )
+
     def test_get_meta_title(self):
         m = MetadataMixin()
         self.assertEqual(
@@ -40,34 +47,10 @@ class MetadataMixinTestCase(unittest.TestCase):
             None
         )
 
-    def test_get_meta_url_with_full_url(self):
-        m = MetadataMixin()
-        m.url = 'http://example.com/some/path'
+        m.url = '/foo/bar'
         self.assertEqual(
             m.get_meta_url(),
-            'http://example.com/some/path'
-        )
-
-    def test_get_meta_url_with_absolute_path(self):
-        m = MetadataMixin()
-        m.url = '/some/path'
-
-        meta.settings.SITE_DOMAIN = 'foo.com'
-
-        self.assertEqual(
-            m.get_meta_url(),
-            'http://foo.com/some/path'
-        )
-
-    def test_get_meta_url_with_relative_path(self):
-        m = MetadataMixin()
-        m.url = 'some/path'
-
-        meta.settings.SITE_DOMAIN = 'foo.com'
-
-        self.assertEqual(
-            m.get_meta_url(),
-            'http://foo.com/some/path'
+            '/foo/bar'
         )
 
     def test_get_meta_image(self):
@@ -77,26 +60,11 @@ class MetadataMixinTestCase(unittest.TestCase):
             None
         )
 
-    def test_get_meta_image_with_relative_url(self):
-        m = MetadataMixin()
         m.image = 'img/foo.gif'
 
-        meta.settings.SITE_DOMAIN = 'foo.com'
-
         self.assertEqual(
             m.get_meta_image(),
-            'http://foo.com/static/img/foo.gif'
-        )
-
-    def test_get_meta_image_with_absolute_url(self):
-        m = MetadataMixin()
-        m.image = '/uploads/foo.gif'
-
-        meta.settings.SITE_DOMAIN = 'foo.com'
-
-        self.assertEqual(
-            m.get_meta_image(),
-            'http://foo.com/uploads/foo.gif'
+            'img/foo.gif'
         )
 
     def test_get_meta_object_tye(self):
@@ -156,25 +124,19 @@ class MetadataMixinTestCase(unittest.TestCase):
             url = 'some/path'
             image = 'images/foo.gif'
 
+        meta.settings.SITE_PROTOCOL = 'http'
         meta.settings.SITE_DOMAIN = 'foo.com'
-
         v = View()
 
         context = v.get_context_data()
 
         self.assertTrue('meta' in context)
-        self.assertEqual(context['meta']['title'], 'title')
-        self.assertEqual(context['meta']['description'], 'description')
+        self.assertTrue(type(context['meta']), Meta)
         self.assertEqual(
-            context['meta']['url'],
+            context['meta'].url,
             'http://foo.com/some/path'
         )
         self.assertEqual(
-            context['meta']['image'],
+            context['meta'].image,
             'http://foo.com/static/images/foo.gif'
         )
-        self.assertEqual(
-            context['meta']['use_og'],
-            False
-        )
-
