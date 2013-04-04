@@ -3,9 +3,9 @@ django-meta
 ===========
 
 This pluggable app allows Django developers to quickly add meta tags and
-`OpenGraph`_ properties to their HTML responses.
+OpenGraph_ properties to their HTML responses.
 
-.. contents
+.. contents::
 
 Installation
 ============
@@ -185,6 +185,23 @@ will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta``
 context variable. This is, in turn, used in the partial template to render the
 meta tags (see `Rendering mtea tags`_).
 
+Each of the properties on the mixin can be calculated dynamically by using the
+``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
+name of the property you wish the calculate at runtime. Each method will
+receive a ``context`` keyword argument containig the request context.
+
+For example, to calculate the description dynamically, you may use the mixin
+like so::
+
+    class MyView(MetadataMixin, SingleObjectMixin, View):
+        ...
+
+        def get_meta_description(self, context):
+            return self.get_object().description
+
+There are two more methods that you can overload in your view classes, and
+those are ``get_domain`` and ``get_protocol``.
+
 Rendering meta tags
 ===================
 
@@ -272,5 +289,5 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
 used at all. Default is ``False``. 
 
-.. _OpenGraph:: http://opengraphprotocol.org/
+.. _OpenGraph: http://opengraphprotocol.org/
 
