@@ -121,6 +121,7 @@ class MetadataMixinTestCase(unittest.TestCase):
         class View(MetadataMixin, Super):
             title = 'title'
             description = 'description'
+            keywords = ['foo', 'bar']
             url = 'some/path'
             image = 'images/foo.gif'
 
@@ -135,6 +136,10 @@ class MetadataMixinTestCase(unittest.TestCase):
         self.assertEqual(
             context['meta'].url,
             'http://foo.com/some/path'
+        )
+        self.assertEqual(
+            context['meta'].keywords,
+            set(['foo', 'bar'])
         )
         self.assertEqual(
             context['meta'].image,
