@@ -123,6 +123,9 @@ class MetadataMixin(object):
     def get_meta_description(self, context={}):
         return self.description
 
+    def get_meta_keywords(self, context={}):
+        return self.keywords
+
     def get_meta_url(self, context={}):
         return self.url
 
@@ -142,6 +145,7 @@ class MetadataMixin(object):
             use_sites=self.use_sites,
             title=self.get_meta_title(context=context),
             description=self.get_meta_description(context=context),
+            keywords=self.get_meta_keywords(context=context),
             image=self.get_meta_image(context=context),
             url=self.get_meta_url(context=context),
             object_type=self.get_meta_object_type(context=context),
