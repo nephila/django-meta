@@ -1,3 +1,9 @@
+2013-04-12 released 0.0.2
+=========================
+
++ Fixed keywords not being included in metadata
++ Fixed get_meta_class not being used in the mixin
+
 2013-04-04 released 0.0.1
 =========================
 
