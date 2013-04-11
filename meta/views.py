@@ -137,7 +137,7 @@ class MetadataMixin(object):
 
     def get_context_data(self, **kwargs):
         context = super(MetadataMixin, self).get_context_data(**kwargs)
-        context['meta'] = Meta(
+        context['meta'] = self.meta_class(
             use_og=self.use_og,
             use_sites=self.use_sites,
             title=self.get_meta_title(context=context),
