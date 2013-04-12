@@ -282,7 +282,7 @@ Note that you must add the trailing slash when specifying the URL. Even if you
 do not intend to use the ``og:image`` property, you need to define either this
 setting or the ``STATIC_URL`` setting or an attribute error will be raised.
 
-META_US_OG_PROPERTIES
+META_USE_OG_PROPERTIES
 ---------------------
 
 This setting tells django-meta whether to render the OpenGraph properties.
