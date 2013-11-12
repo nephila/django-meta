@@ -61,16 +61,17 @@ class Meta(object):
     @keywords.setter
     def keywords(self, keywords):
         if keywords is None:
-            self._keywords = set(settings.DEFAULT_KEYWORDS)
-            return
-        if not hasattr(keywords, '__iter__'):
-            # Not iterable
-            raise ValueError('Keywords must be an intrable')
-        kws = [k for k in keywords]
-        if settings.INCLUDE_KEYWORDS:
-            self._keywords = set(kws + settings.INCLUDE_KEYWORDS)
-            return
-        self._keywords = set(kws)
+            kws = settings.DEFAULT_KEYWORDS
+        else:
+            if not hasattr(keywords, '__iter__'):
+                # Not iterable
+                raise ValueError('Keywords must be an intrable')
+            kws = [k for k in keywords]
+            if settings.INCLUDE_KEYWORDS:
+                kws += settings.INCLUDE_KEYWORDS
+        seen = set()
+        seen_add = seen.add
+        self._keywords = [k for k in kws if k not in seen and not seen_add(k)]
 
     @property
     def url(self):

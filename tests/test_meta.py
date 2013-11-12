@@ -24,7 +24,7 @@ class MetaObjectTestCase(unittest.TestCase):
         m = Meta()
         self.assertEqual(m.title, None)
         self.assertEqual(m.description, None)
-        self.assertEqual(m.keywords, set([]))
+        self.assertEqual(m.keywords, [])
         self.assertEqual(m.url, None)
         self.assertEqual(m.image, None)
         self.assertEqual(m.object_type, None)
@@ -34,21 +34,26 @@ class MetaObjectTestCase(unittest.TestCase):
 
     def test_set_keywords(self):
         m = Meta(keywords = ['foo', 'bar'])
-        self.assertEqual(m.keywords, set(['foo', 'bar']))
+        self.assertEqual(m.keywords[0], 'foo')
+        self.assertEqual(m.keywords[1], 'bar')
 
     def test_set_keywords_with_include(self):
         meta.settings.INCLUDE_KEYWORDS = ['baz']
         m = Meta(keywords = ['foo', 'bar'])
-        self.assertEqual(m.keywords, set(['foo', 'bar', 'baz']))
+        self.assertEqual(m.keywords[0], 'foo')
+        self.assertEqual(m.keywords[1], 'bar')
+        self.assertEqual(m.keywords[2], 'baz')
 
     def test_set_keywords_no_duplicate(self):
         m = Meta(keywords = ['foo', 'foo', 'foo'])
-        self.assertEqual(m.keywords, set(['foo']))
+        self.assertEqual(m.keywords[0], 'foo')
+        self.assertEqual(len(m.keywords), 1)
 
     def test_set_keywords_with_defaults(self):
         meta.settings.DEFAULT_KEYWORDS = ['foo', 'bar']
         m = Meta()
-        self.assertEqual(m.keywords, set(['foo', 'bar']))
+        self.assertEqual(m.keywords[0], 'foo')
+        self.assertEqual(m.keywords[1], 'bar')
 
     def test_get_full_url_with_None(self):
         m = Meta()

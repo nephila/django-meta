@@ -127,6 +127,7 @@ class MetadataMixinTestCase(unittest.TestCase):
 
         meta.settings.SITE_PROTOCOL = 'http'
         meta.settings.SITE_DOMAIN = 'foo.com'
+
         v = View()
 
         context = v.get_context_data()
@@ -139,7 +140,7 @@ class MetadataMixinTestCase(unittest.TestCase):
         )
         self.assertEqual(
             context['meta'].keywords,
-            set(['foo', 'bar'])
+            ['foo', 'bar']
         )
         self.assertEqual(
             context['meta'].image,
