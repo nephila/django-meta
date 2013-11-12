@@ -1,3 +1,9 @@
+2013-11-12 released 0.0.3
+=========================
+
++ Keywords are now order-preserving
++ Keywords are no longer a set(), but a normal list
+
 2013-04-12 released 0.0.2
 =========================
 

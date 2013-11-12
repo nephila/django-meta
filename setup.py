@@ -5,7 +5,7 @@ setup(
     description='Pluggable app for handling webpage meta tags and OpenGraph '
     'properties',
     long_description=open('README.rst').read(),
-    version='0.0.2',
+    version='0.0.3',
     packages=['meta', 'meta.templatetags'],
     package_data={
         'meta': ['templates/*.html'],
