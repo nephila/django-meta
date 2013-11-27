@@ -23,6 +23,7 @@ class Meta(object):
         self.object_type = kwargs.get('object_type', settings.SITE_TYPE)
         self.site_name = kwargs.get('site_name', settings.SITE_NAME)
         self.use_og = kwargs.get('use_og', settings.USE_OG_PROPERTIES)
+        self.use_twitter = kwargs.get('use_twitter', settings.USE_TWITTER_PROPERTIES)
 
     def get_domain(self):
         if self.use_sites:
