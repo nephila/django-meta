@@ -3,7 +3,7 @@ django-meta
 ===========
 
 This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_ properties to their HTML responses.
+OpenGraph_ and Twitter properties to their HTML responses.
 
 .. contents::
 
@@ -34,6 +34,7 @@ the template context. In that dict or object, it will expect to find any of the
 following keys/attributes:
 
 + use_og
++ use_twitter
 + title
 + description
 + keywords
@@ -52,17 +53,24 @@ This key contains a boolean value, and instructs the template to render the
 OpenGraph_ properties. These are usually used by FaceBook to get more
 information about your site's pages.
 
+use_twitter
+------
+
+This key contains a boolean value, and instructs the template to render the
+Twitter properties. These are usually used by Twitter to get more
+information about your site's pages.
+
 title
 -----
 
 This key is used in the ``og:title`` OpenGraph property, if ``use_og`` is
-``True``.
+``True``, or ``twitter:title`` if ``use_twitter`` is ``True``.
 
 description
 -----------
 
 This key is used to render the ``description`` meta tag as well as the
-``og:description`` property.
+``og:description`` and ``twitter:description`` property.
 
 keywords
 --------
@@ -74,13 +82,13 @@ url
 ---
 
 This key should be the *full* URL of the page. It is used to render the
-``og:url`` property.
+``og:url`` and ``twitter:url`` property.
 
 image
 -----
 
 This key should be the *full* URL of an image to be used with the ``og:image``
-property.
+and ``twitter:image`` property.
 
 object_type
 -----------
@@ -286,6 +294,12 @@ META_USE_OG_PROPERTIES
 ---------------------
 
 This setting tells django-meta whether to render the OpenGraph properties.
+Default is ``False``.
+
+META_USE_TWITTER_PROPERTIES
+---------------------
+
+This setting tells django-meta whether to render the Twitter properties.
 Default is ``False``.
 
 META_USE_SITES

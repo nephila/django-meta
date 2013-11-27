@@ -9,6 +9,10 @@ def og_prop(name, value):
     return '<meta property="og:%s" content="%s">' % (name, value)
 
 @register.simple_tag
+def twitter_prop(name, value):
+    return '<meta name="twitter:%s" content="%s">' % (name, value)
+
+@register.simple_tag
 def meta(name, value):
     return '<meta name="%s" content="%s">' % (name, value)
 
