@@ -3,7 +3,7 @@ django-meta
 ===========
 
 This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_ and Twitter properties to their HTML responses.
+OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 
 .. contents::
 
@@ -324,6 +324,14 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
 used at all. Default is ``False``. 
 
+Contributors
+============
+
+We thank the contributors to this project:
+
+ + leifdenby_
+ + `Iacopo Spalletti`_
+
 Reporting bugs
 ==============
 
@@ -331,3 +339,5 @@ Please report all bugs to our BitBucket `issue tracker`_.
 
 .. _OpenGraph: http://opengraphprotocol.org/
 .. _issue tracker: https://bitbucket.org/monwara/django-meta/issues/
+.. _leifdenby: https://bitbucket.org/leifdenby
+.. _Iacopo Spalletti: https://bitbucket.org/yakky
