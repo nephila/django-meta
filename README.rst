@@ -3,7 +3,7 @@ django-meta
 ===========
 
 This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_ and Twitter properties to their HTML responses.
+OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 
 .. contents::
 
@@ -206,7 +206,7 @@ The mixin sports all properties listed in the `Basic concept`_ section with a
 few additional bells and whistles that make working with them easier. The mixin
 will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta`` 
 context variable. This is, in turn, used in the partial template to render the
-meta tags (see `Rendering mtea tags`_).
+meta tags (see `Rendering meta tags`_).
 
 Each of the properties on the mixin can be calculated dynamically by using the
 ``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
@@ -232,6 +232,10 @@ To render the meta tags, simply add the ``meta`` dictionary/object to the
 template context, and add this inside the ``<head>`` tags::
 
     {% include 'meta.html' %}
+
+The partial template will not output anything if the context dictionary does
+not contain a ``meta`` object, so you can safely include it in your base
+template.
 
 Configuration
 =============
@@ -324,6 +328,14 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
 used at all. Default is ``False``. 
 
+Contributors
+============
+
+We thank the contributors to this project:
+
+ + leifdenby_
+ + `Iacopo Spalletti`_
+
 Reporting bugs
 ==============
 
@@ -331,3 +343,5 @@ Please report all bugs to our BitBucket `issue tracker`_.
 
 .. _OpenGraph: http://opengraphprotocol.org/
 .. _issue tracker: https://bitbucket.org/monwara/django-meta/issues/
+.. _leifdenby: https://bitbucket.org/leifdenby
+.. _Iacopo Spalletti: https://bitbucket.org/yakky

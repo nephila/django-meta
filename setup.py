@@ -5,7 +5,7 @@ setup(
     description='Pluggable app for handling webpage meta tags and OpenGraph '
     'properties',
     long_description=open('README.rst').read(),
-    version='0.0.2',
+    version='0.1.0',
     packages=['meta', 'meta.templatetags'],
     package_data={
         'meta': ['templates/*.html'],
@@ -16,7 +16,7 @@ setup(
     download_url='https://bitbucket.org/monwara/django-meta/downloads',
     license='BSD',
     classifiers = [
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Framework :: Django',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
