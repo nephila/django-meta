@@ -12,6 +12,11 @@ class OgPropTestCase(unittest.TestCase):
             og_prop('type', 'website'),
             '<meta property="og:type" content="website">'
         )
+    def test_generic_prop_basically_works(self):
+        self.assertEqual(
+            generic_prop('og' 'type', 'website'),
+            '<meta property="og:type" content="website">'
+        )
 
 
 class MetaTestCase(unittest.TestCase):
@@ -35,6 +40,12 @@ class GooglePlusPropTestcase(unittest.TestCase):
         self.assertEqual(
             googleplus_prop('foo', 'bar'),
             '<meta itemprop="foo" content="bar">'
+        )
+        
+    def test_google_plus_scope_works(self):
+        self.assertEqual(
+            googleplus_html_scope('bar'),
+            ' itemscope itemtype="http://schema.org/bar" '
         )
 
 
