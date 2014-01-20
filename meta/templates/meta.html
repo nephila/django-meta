@@ -17,4 +17,10 @@
 {% if meta.description %}{% twitter_prop 'description' meta.description %}{% endif %}
 {% if meta.image %}{% twitter_prop 'image' meta.image %}{% endif %}
 {% endif %}
+{% if meta.use_googleplus %}
+{% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
+{% if meta.url %}{% googleplus_prop 'url' meta.url %}{% endif %}
+{% if meta.description %}{% googleplus_prop 'description' meta.description %}{% endif %}
+{% if meta.image %}{% googleplus_prop 'image' meta.image %}{% endif %}
+{% endif %}
 {% endif %}
