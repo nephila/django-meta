@@ -233,6 +233,10 @@ template context, and add this inside the ``<head>`` tags::
 
     {% include 'meta.html' %}
 
+The partial template will not output anything if the context dictionary does
+not contain a ``meta`` object, so you can safely include it in your base
+template.
+
 Configuration
 =============
 
