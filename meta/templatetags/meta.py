@@ -13,6 +13,10 @@ def twitter_prop(name, value):
     return '<meta name="twitter:%s" content="%s">' % (name, value)
 
 @register.simple_tag
+def googleplus_prop(name, value):
+    return '<meta itemprop="%s" content="%s">' % (name, value)
+
+@register.simple_tag
 def meta(name, value):
     return '<meta name="%s" content="%s">' % (name, value)
 
