@@ -206,7 +206,7 @@ The mixin sports all properties listed in the `Basic concept`_ section with a
 few additional bells and whistles that make working with them easier. The mixin
 will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta`` 
 context variable. This is, in turn, used in the partial template to render the
-meta tags (see `Rendering mtea tags`_).
+meta tags (see `Rendering meta tags`_).
 
 Each of the properties on the mixin can be calculated dynamically by using the
 ``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
