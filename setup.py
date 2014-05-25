@@ -11,9 +11,10 @@ setup(
         'meta': ['templates/*.html'],
     },
     author='Monwara LLC',
+    maintainer='Nephila',
     author_email='branko@monwara.com',
-    url='https://bitbucket.org/monwara/django-meta',
-    download_url='https://bitbucket.org/monwara/django-meta/downloads',
+    maintainer_email='info@nephila.it',
+    url='https://github.com/nephila/django-meta',
     license='BSD',
     classifiers = [
         'Development Status :: 4 - Beta',

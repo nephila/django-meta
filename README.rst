@@ -5,6 +5,10 @@ django-meta
 This pluggable app allows Django developers to quickly add meta tags and
 OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 
+
+.. note:: django-meta is now maintained by Nephila on `github`_. Old bitbucket
+          repository won't be updated anymore.
+
 .. contents::
 
 Installation
@@ -339,9 +343,10 @@ We thank the contributors to this project:
 Reporting bugs
 ==============
 
-Please report all bugs to our BitBucket `issue tracker`_.
+Please report all bugs to our Github `issue tracker`_.
 
 .. _OpenGraph: http://opengraphprotocol.org/
-.. _issue tracker: https://bitbucket.org/monwara/django-meta/issues/
+.. _issue tracker: https://github.com/nephila/django-meta/issues/
+.. _github: https://github.com/nephila/django-meta/
 .. _leifdenby: https://bitbucket.org/leifdenby
 .. _Iacopo Spalletti: https://bitbucket.org/yakky
