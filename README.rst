@@ -332,13 +332,16 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
 used at all. Default is ``False``. 
 
-Contributors
-============
+Authors and Contributors
+========================
+
+``django-meta`` has been started by `Branko Vukelic`_.
+
+Current maintainer: `Iacopo Spalletti`_
 
 We thank the contributors to this project:
 
- + leifdenby_
- + `Iacopo Spalletti`_
++ leifdenby_
 
 Reporting bugs
 ==============
@@ -349,4 +352,6 @@ Please report all bugs to our Github `issue tracker`_.
 .. _issue tracker: https://github.com/nephila/django-meta/issues/
 .. _github: https://github.com/nephila/django-meta/
 .. _leifdenby: https://bitbucket.org/leifdenby
-.. _Iacopo Spalletti: https://bitbucket.org/yakky
+.. _Iacopo Spalletti: https://github.com/yakky
+.. _Branko Vukelic: https://bitbucket.org/monwara
+
