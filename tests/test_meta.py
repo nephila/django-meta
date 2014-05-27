@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
 from django.core.exceptions import ImproperlyConfigured
 

@@ -1,9 +1,13 @@
 from __future__ import unicode_literals
 
-import unittest
+try:
+    import unittest2 as unittest
+except ImportError:
+    import unittest
 
-from meta.templatetags.meta import (og_prop, meta, meta_list, twitter_prop,
-                                    googleplus_prop)
+from meta.templatetags.meta import (
+    og_prop, meta, meta_list, twitter_prop, generic_prop,
+    googleplus_prop, googleplus_html_scope)
 
 
 class OgPropTestCase(unittest.TestCase):
@@ -14,7 +18,7 @@ class OgPropTestCase(unittest.TestCase):
         )
     def test_generic_prop_basically_works(self):
         self.assertEqual(
-            generic_prop('og' 'type', 'website'),
+            generic_prop('og', 'type', 'website'),
             '<meta property="og:type" content="website">'
         )
 
