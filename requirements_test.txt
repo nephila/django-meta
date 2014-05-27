@@ -2,3 +2,4 @@ django
 mock
 nose
 flake8
+coverage
