@@ -2,3 +2,5 @@
 *.sw[op]
 dist
 MANIFEST
+.tox
+.idea
