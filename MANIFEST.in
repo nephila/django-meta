@@ -1,3 +1,3 @@
 include README.rst
-include NEWS
+include CHANGELOG.rst
 include LICENSE
