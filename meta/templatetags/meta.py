@@ -4,6 +4,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.simple_tag
 def generic_prop(namespace, name, value):
     """
