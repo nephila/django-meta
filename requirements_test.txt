@@ -1,0 +1,4 @@
+django
+mock
+nose
+flake8
