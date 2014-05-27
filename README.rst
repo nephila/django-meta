@@ -2,6 +2,30 @@
 django-meta
 ===========
 
+.. image:: https://pypip.in/version/django-meta/badge.png
+    :target: https://pypi.python.org/pypi/django-meta/
+    :alt: Latest Version
+
+.. image:: https://travis-ci.org/nephila/django-meta.svg?branch=develop
+    :target: https://travis-ci.org/nephila/django-meta
+    :alt: Travis status
+
+.. image:: https://coveralls.io/repos/nephila/django-meta/badge.png?branch=develop
+    :target: https://coveralls.io/r/nephila/django-meta
+    :alt: Coveralls status
+
+.. image:: https://pypip.in/download/django-meta/badge.png
+    :target: https://pypi.python.org/pypi//django-meta/
+    :alt: Download
+
+.. image:: https://pypip.in/wheel/django-meta/badge.png
+    :target: https://pypi.python.org/pypi/django-meta/
+    :alt: Wheel Status
+
+.. image:: https://pypip.in/license/django-meta/badge.png
+    :target: https://pypi.python.org/pypi/django-meta/
+    :alt: License
+
 This pluggable app allows Django developers to quickly add meta tags and
 OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 
