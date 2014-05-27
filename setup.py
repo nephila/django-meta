@@ -1,11 +1,13 @@
+# -*- coding: utf-8 -*-
 from distutils.core import setup
+import meta
 
 setup(
     name='django-meta',
     description='Pluggable app for handling webpage meta tags and OpenGraph '
     'properties',
     long_description=open('README.rst').read(),
-    version='0.1.0',
+    version=meta.__version__,
     packages=['meta', 'meta.templatetags'],
     package_data={
         'meta': ['templates/*.html'],
@@ -16,6 +18,9 @@ setup(
     maintainer_email='info@nephila.it',
     url='https://github.com/nephila/django-meta',
     license='BSD',
+    install_requires=[
+        'Django>=1.4',
+    ],
     classifiers = [
         'Development Status :: 4 - Beta',
         'Framework :: Django',
