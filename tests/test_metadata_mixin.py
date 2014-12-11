@@ -116,6 +116,70 @@ class MetadataMixinTestCase(unittest.TestCase):
             'Foo'
         )
 
+    def test_get_meta_extra_props(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_extra_props(),
+            None
+        )
+
+        m.extra_props = {
+            'app_name': 'Foo',
+            'app_id': 'Bar'
+        }
+        self.assertEqual(
+            m.get_meta_extra_props(),
+            {
+                'app_name': 'Foo',
+                'app_id': 'Bar'
+            }
+        )
+
+    def test_get_meta_extra_custom_props(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_extra_custom_props(),
+            None
+        )
+
+        m.extra_props = [
+            ('property', 'app_name', 'Foo'),
+            ('property', 'app_id', 'Bar'),
+        ]
+        self.assertEqual(
+            m.get_meta_extra_props(),
+            [
+                ('property', 'app_name', 'Foo'),
+                ('property', 'app_id', 'Bar'),
+            ]
+        )
+
+    def test_get_meta_twitter_site(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_twitter_site(),
+            None
+        )
+
+        m.twitter_site = '@foo'
+        self.assertEqual(
+            m.get_meta_twitter_site(),
+            '@foo'
+        )
+
+    def test_get_meta_locale(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_locale(),
+            None
+        )
+
+        m.locale = 'en_US'
+        self.assertEqual(
+            m.get_meta_locale(),
+            'en_US'
+        )
+
     def test_get_context(self):
         class Super(object):
             def get_context_data(self):

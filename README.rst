@@ -71,6 +71,10 @@ following keys/attributes:
 + image
 + object_type
 + site_name
++ twitter_site
++ locale
++ meta_extras
++ meta_custom_extras
 
 In all cases, if the key is omitted, the matching metadata/property is not 
 rendered.
@@ -137,6 +141,46 @@ site_name
 
 This key is used to render the ``og:site_name`` property.
 
+twitter_site
+------------
+
+This key is used to render the ``twitter:site`` property.
+
+locale
+------
+
+This key is used to render the ``og:locale`` property.
+
+meta_extras
+-----------
+
+A dictionary of extra optional properties.
+
+    {
+        'foo': 'bar',
+        'key': 'value'
+    }
+
+    ...
+
+    <meta name="foo" content="bar">
+    <meta name="key" content="value">
+
+custom_meta_extras
+------------------
+
+A list of tuples for rendering custom extra properties.
+
+    [
+        ('key', 'foo', 'bar')
+        ('property', 'name', 'value')
+    ]
+
+    ...
+
+    <meta name="foo" content="bar">
+    <meta property="name" content="value">
+
 Meta objects
 ============
 
@@ -152,7 +196,13 @@ properties you want to use::
     meta = Meta(
         title="Sam's awesome ponies",
         description='Awesome page about ponies',
-        keywords=['pony', 'ponies', 'awesome']
+        keywords=['pony', 'ponies', 'awesome'],
+        meta_extras = {
+            'viewport': 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
+        }
+        'extra_custom_props': [
+            ('http-equiv', 'Content-Type', 'text/html; charset=UTF-8'),
+        ]
     )
 
 When the time comes to render the template, simply include the instance as

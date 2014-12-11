@@ -7,7 +7,7 @@ except ImportError:
 
 from meta.templatetags.meta import (
     og_prop, meta, meta_list, twitter_prop, generic_prop,
-    googleplus_prop, googleplus_html_scope)
+    googleplus_prop, googleplus_html_scope, custom_meta, custom_meta_extras, meta_extras)
 
 
 class OgPropTestCase(unittest.TestCase):
@@ -28,6 +28,14 @@ class MetaTestCase(unittest.TestCase):
         self.assertEqual(
             meta('description', 'Awesome website about ponies'),
             '<meta name="description" content="Awesome website about ponies">'
+        )
+
+
+class CustomMetaTestCase(unittest.TestCase):
+    def test_custom_meta_basically_works(self):
+        self.assertEqual(
+            custom_meta('property', 'foo', 'bar'),
+            '<meta property="foo" content="bar">'
         )
 
 
@@ -65,3 +73,23 @@ class MetaListTestCase(unittest.TestCase):
             meta_list('keywords', 12),
             ''
         )
+
+
+class MetaExtrasTestCase(unittest.TestCase):
+    def test_meta_extras_basically_works(self):
+        result = meta_extras({
+            'type': 'foo',
+            'image_width': 'bar'
+        })
+        self.assertTrue('<meta name="type" content="foo">' in result)
+        self.assertTrue('<meta name="image_width" content="bar">' in result)
+
+
+class CustomMetaExtrasTestCase(unittest.TestCase):
+    def test_custom_meta_extras_basically_works(self):
+        result = custom_meta_extras([
+                ('property', 'type', 'foo'),
+                ('key', 'image_width', 'bar')
+        ])
+        self.assertTrue('<meta property="type" content="foo">' in result)
+        self.assertTrue('<meta key="image_width" content="bar">' in result)
