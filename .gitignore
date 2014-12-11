@@ -6,3 +6,5 @@ MANIFEST
 .idea
 .coverage
 *.egg-info
+
+*.iml

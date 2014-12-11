@@ -41,6 +41,9 @@ def googleplus_html_scope(value):
 def meta(name, value):
     return '<meta name="%s" content="%s">' % (name, value)
 
+@register.simple_tag
+def custom_meta(name_key, name_value, content):
+    return '<meta %s="%s" content="%s">' % (name_key, name_value, content)
 
 @register.simple_tag
 def meta_list(name, lst):
@@ -48,3 +51,13 @@ def meta_list(name, lst):
         return '<meta name="%s" content="%s">' % (name, ', '.join(lst))
     except:
         return ''
+
+@register.simple_tag
+def meta_extras(extra_props):
+    return ' '.join([meta(name, extra_props[name]) if extra_props[name] else ''
+                     for name in extra_props])
+
+@register.simple_tag
+def custom_meta_extras(extra_custom_props):
+    return ' '.join([custom_meta(name_key, name_value, content) if content else ''
+                     for name_key, name_value, content in extra_custom_props])
