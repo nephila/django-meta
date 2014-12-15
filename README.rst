@@ -154,7 +154,7 @@ This key is used to render the ``og:locale`` property.
 meta_extras
 -----------
 
-A dictionary of extra optional properties.
+A dictionary of extra optional properties::
 
     {
         'foo': 'bar',
@@ -169,7 +169,7 @@ A dictionary of extra optional properties.
 custom_meta_extras
 ------------------
 
-A list of tuples for rendering custom extra properties.
+A list of tuples for rendering custom extra properties::
 
     [
         ('key', 'foo', 'bar')
