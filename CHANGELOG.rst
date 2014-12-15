@@ -4,6 +4,12 @@
 History
 *******
 
+0.2.1 (2014-12-15)
+==================
+
+* Add support for more attributes
+* Add templatetag to handle generic attributes
+
 0.2.0 (2014-05-28)
 ==================
 

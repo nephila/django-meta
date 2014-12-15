@@ -22,7 +22,7 @@ setup(
         'Django>=1.4',
     ],
     classifiers = [
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
