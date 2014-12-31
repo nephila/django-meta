@@ -73,8 +73,8 @@ following keys/attributes:
 + site_name
 + twitter_site
 + locale
-+ meta_extras
-+ meta_custom_extras
++ extra_props
++ extra_custom_props
 
 In all cases, if the key is omitted, the matching metadata/property is not 
 rendered.
@@ -151,7 +151,7 @@ locale
 
 This key is used to render the ``og:locale`` property.
 
-meta_extras
+extra_props
 -----------
 
 A dictionary of extra optional properties.
@@ -166,7 +166,7 @@ A dictionary of extra optional properties.
     <meta name="foo" content="bar">
     <meta name="key" content="value">
 
-custom_meta_extras
+extra_custom_props
 ------------------
 
 A list of tuples for rendering custom extra properties.
@@ -197,7 +197,7 @@ properties you want to use::
         title="Sam's awesome ponies",
         description='Awesome page about ponies',
         keywords=['pony', 'ponies', 'awesome'],
-        meta_extras = {
+        extra_props = {
             'viewport': 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
         }
         'extra_custom_props': [
