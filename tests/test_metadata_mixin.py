@@ -142,12 +142,12 @@ class MetadataMixinTestCase(unittest.TestCase):
             None
         )
 
-        m.extra_props = [
+        m.extra_custom_props = [
             ('property', 'app_name', 'Foo'),
             ('property', 'app_id', 'Bar'),
         ]
         self.assertEqual(
-            m.get_meta_extra_props(),
+            m.get_meta_extra_custom_props(),
             [
                 ('property', 'app_name', 'Foo'),
                 ('property', 'app_id', 'Bar'),
