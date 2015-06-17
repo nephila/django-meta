@@ -18,6 +18,7 @@ class Meta(object):
         self.description = kwargs.get('description')
         self.extra_props = kwargs.get('extra_props')
         self.extra_custom_props = kwargs.get('extra_custom_props')
+        self.custom_namespace = kwargs.get('custom_namespace')
         self.keywords = kwargs.get('keywords')
         self.url = kwargs.get('url')
         self.image = kwargs.get('image')
@@ -110,6 +111,7 @@ class MetadataMixin(object):
     description = None
     extra_props = None
     extra_custom_props = None
+    custom_namespace = None
     keywords = []
     url = None
     image = None
@@ -157,6 +159,9 @@ class MetadataMixin(object):
     def get_meta_extra_custom_props(self, context={}):
         return self.extra_custom_props
 
+    def get_meta_custom_namespace(self, context={}):
+        return self.custom_namespace
+
     def get_meta_twitter_site(self, context={}):
         return self.twitter_site
 
@@ -175,6 +180,7 @@ class MetadataMixin(object):
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),
+            custom_namespace=self.get_meta_custom_namespace(context=context),
             keywords=self.get_meta_keywords(context=context),
             image=self.get_meta_image(context=context),
             url=self.get_meta_url(context=context),

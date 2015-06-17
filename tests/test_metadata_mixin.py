@@ -154,6 +154,19 @@ class MetadataMixinTestCase(unittest.TestCase):
             ]
         )
 
+    def test_get_meta_custom_namespace(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_custom_namespace(),
+            None
+        )
+
+        m.custom_namespace = "my-website"
+        self.assertEqual(
+            m.get_meta_custom_namespace(),
+            'my-website'
+        )
+
     def test_get_meta_twitter_site(self):
         m = MetadataMixin()
         self.assertEqual(

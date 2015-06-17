@@ -32,6 +32,7 @@ class MetaObjectTestCase(unittest.TestCase):
         self.assertEqual(m.description, None)
         self.assertEqual(m.extra_props, None)
         self.assertEqual(m.extra_custom_props, None)
+        self.assertEqual(m.custom_namespace, None)
         self.assertEqual(m.keywords, [])
         self.assertEqual(m.url, None)
         self.assertEqual(m.image, None)
