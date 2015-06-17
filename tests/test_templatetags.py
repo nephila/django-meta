@@ -7,7 +7,8 @@ except ImportError:
 
 from meta.templatetags.meta import (
     og_prop, meta, meta_list, twitter_prop, generic_prop,
-    googleplus_prop, googleplus_html_scope, custom_meta, custom_meta_extras, meta_extras)
+    googleplus_prop, googleplus_html_scope, custom_meta,
+    custom_meta_extras, meta_extras, facebook_prop)
 
 
 class OgPropTestCase(unittest.TestCase):
@@ -44,6 +45,14 @@ class TwitterPropTestCase(unittest.TestCase):
         self.assertEqual(
             twitter_prop('foo', 'bar'),
             '<meta name="twitter:foo" content="bar">'
+        )
+
+
+class FacebookPropTestCase(unittest.TestCase):
+    def test_facebook_basically_works(self):
+        self.assertEqual(
+            facebook_prop('foo', 'bar'),
+            '<meta name="fb:foo" content="bar">'
         )
 
 
