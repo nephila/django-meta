@@ -5,10 +5,11 @@ try:
 except ImportError:
     import unittest
 
+from meta.views import Meta
 from meta.templatetags.meta import (
     og_prop, meta, meta_list, twitter_prop, generic_prop,
     googleplus_prop, googleplus_html_scope, custom_meta,
-    custom_meta_extras, meta_extras, facebook_prop)
+    custom_meta_extras, meta_extras, facebook_prop, meta_namespaces)
 
 
 class OgPropTestCase(unittest.TestCase):
@@ -102,3 +103,43 @@ class CustomMetaExtrasTestCase(unittest.TestCase):
         ])
         self.assertTrue('<meta property="type" content="foo">' in result)
         self.assertTrue('<meta key="image_width" content="bar">' in result)
+
+
+class MetaNamespaceTestCase(unittest.TestCase):
+    def test_meta_namespaces_no_meta_in_context(self):
+        context = {}
+        result = meta_namespaces(context)
+        expected = ''
+        self.assertEqual(result, expected)
+
+    def test_meta_namespaces_default(self):
+        context = {
+            'meta': Meta()
+        }
+        result = meta_namespaces(context)
+        expected = ' prefix="og: http://ogp.me/ns#"'
+        self.assertEqual(result, expected)
+
+    def test_meta_namespaces_facebook(self):
+        context = {
+            'meta': Meta(use_facebook=True)
+        }
+        result = meta_namespaces(context)
+        expected = ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb#"'
+        self.assertEqual(result, expected)
+
+    def test_meta_namespaces_custom(self):
+        context = {
+            'meta': Meta(custom_namespace='my-website')
+        }
+        result = meta_namespaces(context)
+        expected = ' prefix="og: http://ogp.me/ns# my-website: http://ogp.me/ns/my-website#"'
+        self.assertEqual(result, expected)
+
+    def test_meta_namespaces_facebook_and_custom(self):
+        context = {
+            'meta': Meta(use_facebook=True, custom_namespace='my-website')
+        }
+        result = meta_namespaces(context)
+        expected = ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# my-website: http://ogp.me/ns/my-website#"'
+        self.assertEqual(result, expected)
