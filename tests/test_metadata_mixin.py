@@ -167,6 +167,19 @@ class MetadataMixinTestCase(unittest.TestCase):
             '@foo'
         )
 
+    def test_get_meta_facebook_app_id(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_facebook_app_id(),
+            None
+        )
+
+        m.facebook_app_id = '12345'
+        self.assertEqual(
+            m.get_meta_facebook_app_id(),
+            '12345'
+        )
+
     def test_get_meta_locale(self):
         m = MetadataMixin()
         self.assertEqual(

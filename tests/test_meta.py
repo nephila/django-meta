@@ -22,6 +22,9 @@ class MetaObjectTestCase(unittest.TestCase):
         meta.settings.DEFAULT_KEYWORDS = []
         meta.settings.USE_OG_PROPERTIES = False
         meta.settings.IMAGE_URL = '/static/'
+        meta.settings.USE_TWITTER_PROPERTIES = False
+        meta.settings.USE_FACEBOOK_PROPERTIES = False
+        meta.settings.USE_GOOGLEPLUS_PROPERTIES = False
 
     def test_defaults(self):
         m = Meta()
@@ -36,8 +39,12 @@ class MetaObjectTestCase(unittest.TestCase):
         self.assertEqual(m.site_name, None)
         self.assertEqual(m.twitter_site, None)
         self.assertEqual(m.locale, None)
+        self.assertEqual(m.facebook_app_id, None)
         self.assertEqual(m.use_og, False)
         self.assertEqual(m.use_sites, False)
+        self.assertEqual(m.use_twitter, False)
+        self.assertEqual(m.use_facebook, False)
+        self.assertEqual(m.use_googleplus, False)
 
     def test_set_keywords(self):
         m = Meta(keywords = ['foo', 'bar'])
