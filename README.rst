@@ -63,6 +63,7 @@ following keys/attributes:
 
 + use_og
 + use_twitter
++ use_facebook
 + use_googleplus
 + title
 + description
@@ -72,6 +73,7 @@ following keys/attributes:
 + object_type
 + site_name
 + twitter_site
++ facebook_app_id
 + locale
 + extra_props
 + extra_custom_props
@@ -91,6 +93,13 @@ use_twitter
 
 This key contains a boolean value, and instructs the template to render the
 Twitter properties. These are usually used by Twitter to get more
+information about your site's pages.
+
+use_facebook
+-----------
+
+This key contains a boolean value, and instructs the template to render the
+Facebook properties. These are usually used by Facebook to get more
 information about your site's pages.
 
 use_googleplus
@@ -145,6 +154,11 @@ twitter_site
 ------------
 
 This key is used to render the ``twitter:site`` property.
+
+facebook_app_id
+------------
+
+This key is used to render the ``fb:app_id`` property.
 
 locale
 ------
