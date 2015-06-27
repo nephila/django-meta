@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 
 from django import template
+from django.utils.html import escape
 
 register = template.Library()
 
@@ -10,17 +11,17 @@ def generic_prop(namespace, name, value):
     """
     Generic property setter that allows to create custom namespaced meta
     """
-    return '<meta property="%s:%s" content="%s">' % (namespace, name, value)
+    return custom_meta('property', '%s:%s' % (namespace, name), value)
 
 
 @register.simple_tag
 def og_prop(name, value):
-    return '<meta property="og:%s" content="%s">' % (name, value)
+    return custom_meta('property', 'og:%s' % name, value)
 
 
 @register.simple_tag
 def twitter_prop(name, value):
-    return '<meta name="twitter:%s" content="%s">' % (name, value)
+    return custom_meta('name', 'twitter:%s' % name, value)
 
 
 @register.simple_tag
@@ -30,7 +31,7 @@ def facebook_prop(name, value):
 
 @register.simple_tag
 def googleplus_prop(name, value):
-    return '<meta itemprop="%s" content="%s">' % (name, value)
+    return custom_meta('itemprop', name, value)
 
 
 @register.simple_tag
@@ -39,23 +40,25 @@ def googleplus_html_scope(value):
     This is meant to be used as attribute to html / body or other tags to
     define schema.org type
     """
-    return ' itemscope itemtype="http://schema.org/%s" ' % value
+    return ' itemscope itemtype="http://schema.org/%s" ' % escape(value)
 
 
 @register.simple_tag
 def meta(name, value):
-    return '<meta name="%s" content="%s">' % (name, value)
+    return custom_meta('name', name, value)
+
 
 
 @register.simple_tag
-def custom_meta(name_key, name_value, content):
-    return '<meta %s="%s" content="%s">' % (name_key, name_value, content)
+def custom_meta(key, name, value):
+    return '<meta %s="%s" content="%s">' % (escape(key), escape(name), escape(value))
+
 
 
 @register.simple_tag
 def meta_list(name, lst):
     try:
-        return '<meta name="%s" content="%s">' % (name, ', '.join(lst))
+        return custom_meta('name', name, ', '.join(lst))
     except:
         return ''
 

@@ -18,10 +18,17 @@ class OgPropTestCase(unittest.TestCase):
             og_prop('type', 'website'),
             '<meta property="og:type" content="website">'
         )
+
     def test_generic_prop_basically_works(self):
         self.assertEqual(
             generic_prop('og', 'type', 'website'),
             '<meta property="og:type" content="website">'
+        )
+
+    def test_generic_prop_escapes_xss(self):
+        self.assertEqual(
+            generic_prop('og', 't"y&p<e', 'web&site'),
+            '<meta property="og:t&quot;y&amp;p&lt;e" content="web&amp;site">'
         )
 
 
@@ -32,6 +39,12 @@ class MetaTestCase(unittest.TestCase):
             '<meta name="description" content="Awesome website about ponies">'
         )
 
+    def test_meta_escapes_xss(self):
+        self.assertEqual(
+            meta('desc"rip&tion', 'Awesome website < about ponies'),
+            '<meta name="desc&quot;rip&amp;tion" content="Awesome website &lt; about ponies">'
+        )
+
 
 class CustomMetaTestCase(unittest.TestCase):
     def test_custom_meta_basically_works(self):
@@ -40,12 +53,24 @@ class CustomMetaTestCase(unittest.TestCase):
             '<meta property="foo" content="bar">'
         )
 
+    def test_custom_meta_escapes_xss(self):
+        self.assertEqual(
+            custom_meta('prop&erty', 'fo"o', 'b<ar'),
+            '<meta prop&amp;erty="fo&quot;o" content="b&lt;ar">'
+        )
+
 
 class TwitterPropTestCase(unittest.TestCase):
     def test_twitter_basically_works(self):
         self.assertEqual(
             twitter_prop('foo', 'bar'),
             '<meta name="twitter:foo" content="bar">'
+        )
+
+    def test_twitter_escapes_xss(self):
+        self.assertEqual(
+            twitter_prop('fo"o', 'b<ar'),
+            '<meta name="twitter:fo&quot;o" content="b&lt;ar">'
         )
 
 
@@ -58,16 +83,22 @@ class FacebookPropTestCase(unittest.TestCase):
 
 
 class GooglePlusPropTestcase(unittest.TestCase):
-    def test_google_plus_basically_wors(self):
+    def test_google_plus_basically_works(self):
         self.assertEqual(
             googleplus_prop('foo', 'bar'),
             '<meta itemprop="foo" content="bar">'
         )
-        
+
     def test_google_plus_scope_works(self):
         self.assertEqual(
             googleplus_html_scope('bar'),
             ' itemscope itemtype="http://schema.org/bar" '
+        )
+
+    def test_google_plus_escapes_xss(self):
+        self.assertEqual(
+            googleplus_prop('fo"o', 'b<ar'),
+            '<meta itemprop="fo&quot;o" content="b&lt;ar">'
         )
 
 
@@ -82,6 +113,12 @@ class MetaListTestCase(unittest.TestCase):
         self.assertEqual(
             meta_list('keywords', 12),
             ''
+        )
+
+    def test_meta_list_escapes_xss(self):
+        self.assertEqual(
+            meta_list('keywords', ['fo"o', 'bar', 'b<az']),
+            '<meta name="keywords" content="fo&quot;o, bar, b&lt;az">'
         )
 
 
