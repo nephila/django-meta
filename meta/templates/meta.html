@@ -20,6 +20,8 @@
 {% if meta.description %}{% twitter_prop 'description' meta.description %}{% endif %}
 {% if meta.image %}{% twitter_prop 'image' meta.image %}{% endif %}
 {% if meta.twitter_site %}{% twitter_prop 'site' meta.twitter_site %}{% endif %}
+{% if meta.twitter_creator %}{% twitter_prop 'creator' meta.twitter_creator %}{% endif %}
+{% if meta.twitter_card %}{% twitter_prop 'card' meta.twitter_card %}{% endif %}
 {% endif %}
 {% if meta.use_googleplus %}
 {% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}

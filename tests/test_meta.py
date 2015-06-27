@@ -35,6 +35,8 @@ class MetaObjectTestCase(unittest.TestCase):
         self.assertEqual(m.object_type, None)
         self.assertEqual(m.site_name, None)
         self.assertEqual(m.twitter_site, None)
+        self.assertEqual(m.twitter_creator, None)
+        self.assertEqual(m.twitter_card, None)
         self.assertEqual(m.locale, None)
         self.assertEqual(m.use_og, False)
         self.assertEqual(m.use_sites, False)
