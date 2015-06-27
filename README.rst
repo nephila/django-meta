@@ -49,6 +49,28 @@ Add ``meta`` to ``INSTALLED_APPS``::
         'meta',
     )
 
+Supported versions
+==================
+
+Django
+------
+
+* Django 1.4
+* Django 1.5
+* Django 1.6
+* Django 1.7
+* Django 1.8
+
+
+Python
+------
+
+* Python 2.6
+* Python 2.7
+* Python 3.2
+* Python 3.3
+* Python 3.4
+
 Basic concept
 =============
 
@@ -98,7 +120,7 @@ Twitter properties. These are usually used by Twitter to get more
 information about your site's pages.
 
 use_facebook
------------
+------------
 
 This key contains a boolean value, and instructs the template to render the
 Facebook properties. These are usually used by Facebook to get more
@@ -158,7 +180,7 @@ twitter_site
 This key is used to render the ``twitter:site`` property.
 
 twitter_creator
-------------
+---------------
 
 This key is used to render the ``twitter:creator`` property.
 
@@ -168,7 +190,7 @@ twitter_card
 This key is used to render the ``twitter:card`` property.
 
 facebook_app_id
-------------
+---------------
 
 This key is used to render the ``fb:app_id`` property.
 
@@ -450,6 +472,7 @@ Current maintainer: `Iacopo Spalletti`_
 We thank the contributors to this project:
 
 + leifdenby_
++ m-vdb_
 
 Reporting bugs
 ==============
@@ -460,6 +483,7 @@ Please report all bugs to our Github `issue tracker`_.
 .. _issue tracker: https://github.com/nephila/django-meta/issues/
 .. _github: https://github.com/nephila/django-meta/
 .. _leifdenby: https://bitbucket.org/leifdenby
+.. _m-vdb: https://github.com/m-vdb
 .. _Iacopo Spalletti: https://github.com/yakky
 .. _Branko Vukelic: https://bitbucket.org/monwara
 
