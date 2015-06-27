@@ -24,6 +24,11 @@ def twitter_prop(name, value):
 
 
 @register.simple_tag
+def facebook_prop(name, value):
+    return '<meta name="fb:%s" content="%s">' % (name, value)
+
+
+@register.simple_tag
 def googleplus_prop(name, value):
     return '<meta itemprop="%s" content="%s">' % (name, value)
 
@@ -61,3 +66,30 @@ def meta_extras(extra_props):
 def custom_meta_extras(extra_custom_props):
     return ' '.join([custom_meta(name_key, name_value, content) if content else ''
                      for name_key, name_value, content in extra_custom_props])
+
+
+@register.simple_tag(takes_context=True)
+def meta_namespaces(context):
+    """
+    Include OG namespaces. To be used in the <head> tag.
+    """
+    # do nothing if meta is not in context
+    if not context.get('meta'):
+        return ''
+
+    meta = context['meta']
+    namespaces = ['og: http://ogp.me/ns#']
+
+    # add Facebook namespace
+    if meta.use_facebook:
+        namespaces.append('fb: http://ogp.me/ns/fb#')
+
+    # add custom namespaces
+    # needs to be after Facebook
+    if meta.custom_namespace:
+        custom_namespace = '%s: http://ogp.me/ns/%s#' % (
+            meta.custom_namespace, meta.custom_namespace
+        )
+        namespaces.append(custom_namespace)
+
+    return ' prefix="%s"' % " ".join(namespaces)

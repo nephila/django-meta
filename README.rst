@@ -63,6 +63,7 @@ following keys/attributes:
 
 + use_og
 + use_twitter
++ use_facebook
 + use_googleplus
 + title
 + description
@@ -74,6 +75,7 @@ following keys/attributes:
 + twitter_site
 + twitter_creator
 + twitter_card
++ facebook_app_id
 + locale
 + extra_props
 + extra_custom_props
@@ -93,6 +95,13 @@ use_twitter
 
 This key contains a boolean value, and instructs the template to render the
 Twitter properties. These are usually used by Twitter to get more
+information about your site's pages.
+
+use_facebook
+-----------
+
+This key contains a boolean value, and instructs the template to render the
+Facebook properties. These are usually used by Facebook to get more
 information about your site's pages.
 
 use_googleplus
@@ -158,6 +167,11 @@ twitter_card
 
 This key is used to render the ``twitter:card`` property.
 
+facebook_app_id
+------------
+
+This key is used to render the ``fb:app_id`` property.
+
 locale
 ------
 
@@ -166,7 +180,7 @@ This key is used to render the ``og:locale`` property.
 extra_props
 -----------
 
-A dictionary of extra optional properties.
+A dictionary of extra optional properties::
 
     {
         'foo': 'bar',
@@ -181,7 +195,7 @@ A dictionary of extra optional properties.
 extra_custom_props
 ------------------
 
-A list of tuples for rendering custom extra properties.
+A list of tuples for rendering custom extra properties::
 
     [
         ('key', 'foo', 'bar')
@@ -326,6 +340,14 @@ template context, and add this inside the ``<head>`` tags::
 The partial template will not output anything if the context dictionary does
 not contain a ``meta`` object, so you can safely include it in your base
 template.
+
+Additionally, if you want to use facebook or a custom namespace, you should include
+them in the <head> tag, as follow::
+
+    {% load meta %}
+    <head {% meta_namespaces %} >
+
+This will take care of rendering OpenGraph namespaces in the ``<head prefix="...">``.
 
 Configuration
 =============

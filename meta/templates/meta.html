@@ -23,6 +23,9 @@
 {% if meta.twitter_creator %}{% twitter_prop 'creator' meta.twitter_creator %}{% endif %}
 {% if meta.twitter_card %}{% twitter_prop 'card' meta.twitter_card %}{% endif %}
 {% endif %}
+{% if meta.use_facebook %}
+{% if meta.facebook_app_id %}{% facebook_prop 'app_id' meta.facebook_app_id %}{% endif %}
+{% endif %}
 {% if meta.use_googleplus %}
 {% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
 {% if meta.url %}{% googleplus_prop 'url' meta.url %}{% endif %}

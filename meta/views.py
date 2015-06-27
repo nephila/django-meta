@@ -18,6 +18,7 @@ class Meta(object):
         self.description = kwargs.get('description')
         self.extra_props = kwargs.get('extra_props')
         self.extra_custom_props = kwargs.get('extra_custom_props')
+        self.custom_namespace = kwargs.get('custom_namespace')
         self.keywords = kwargs.get('keywords')
         self.url = kwargs.get('url')
         self.image = kwargs.get('image')
@@ -26,9 +27,11 @@ class Meta(object):
         self.twitter_site = kwargs.get('twitter_site')
         self.twitter_creator = kwargs.get('twitter_creator')
         self.twitter_card = kwargs.get('twitter_card')
+        self.facebook_app_id = kwargs.get('facebook_app_id')
         self.locale = kwargs.get('locale')
         self.use_og = kwargs.get('use_og', settings.USE_OG_PROPERTIES)
         self.use_twitter = kwargs.get('use_twitter', settings.USE_TWITTER_PROPERTIES)
+        self.use_facebook = kwargs.get('use_facebook', settings.USE_FACEBOOK_PROPERTIES)
         self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
 
     def get_domain(self):
@@ -110,6 +113,7 @@ class MetadataMixin(object):
     description = None
     extra_props = None
     extra_custom_props = None
+    custom_namespace = None
     keywords = []
     url = None
     image = None
@@ -118,6 +122,7 @@ class MetadataMixin(object):
     twitter_site = None
     twitter_creator = None
     twitter_card = None
+    facebook_app_id = None
     locale = None
     use_sites = settings.USE_SITES
     use_og = settings.USE_OG_PROPERTIES
@@ -158,6 +163,9 @@ class MetadataMixin(object):
     def get_meta_extra_custom_props(self, context={}):
         return self.extra_custom_props
 
+    def get_meta_custom_namespace(self, context={}):
+        return self.custom_namespace
+
     def get_meta_twitter_site(self, context={}):
         return self.twitter_site
 
@@ -166,6 +174,9 @@ class MetadataMixin(object):
 
     def get_meta_twitter_card(self, context={}):
         return self.twitter_card
+
+    def get_meta_facebook_app_id(self, context={}):
+        return self.facebook_app_id
 
     def get_meta_locale(self, context={}):
         return self.locale
@@ -179,6 +190,7 @@ class MetadataMixin(object):
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),
+            custom_namespace=self.get_meta_custom_namespace(context=context),
             keywords=self.get_meta_keywords(context=context),
             image=self.get_meta_image(context=context),
             url=self.get_meta_url(context=context),
@@ -188,5 +200,6 @@ class MetadataMixin(object):
             twitter_creator=self.get_meta_twitter_creator(context=context),
             twitter_card=self.get_meta_twitter_card(context=context),
             locale=self.get_meta_locale(context=context),
+            facebook_app_id=self.get_meta_facebook_app_id(context=context),
         )
         return context
