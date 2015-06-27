@@ -3,3 +3,4 @@ nose
 flake8
 coverage
 coveralls
+tox>2.0
