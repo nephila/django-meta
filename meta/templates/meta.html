@@ -21,6 +21,9 @@
 {% if meta.image %}{% twitter_prop 'image' meta.image %}{% endif %}
 {% if meta.twitter_site %}{% twitter_prop 'site' meta.twitter_site %}{% endif %}
 {% endif %}
+{% if meta.use_facebook %}
+{% if meta.facebook_app_id %}{% facebook_prop 'app_id' meta.facebook_app_id %}{% endif %}
+{% endif %}
 {% if meta.use_googleplus %}
 {% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
 {% if meta.url %}{% googleplus_prop 'url' meta.url %}{% endif %}

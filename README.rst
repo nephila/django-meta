@@ -63,6 +63,7 @@ following keys/attributes:
 
 + use_og
 + use_twitter
++ use_facebook
 + use_googleplus
 + title
 + description
@@ -72,9 +73,10 @@ following keys/attributes:
 + object_type
 + site_name
 + twitter_site
++ facebook_app_id
 + locale
-+ meta_extras
-+ meta_custom_extras
++ extra_props
++ extra_custom_props
 
 In all cases, if the key is omitted, the matching metadata/property is not 
 rendered.
@@ -91,6 +93,13 @@ use_twitter
 
 This key contains a boolean value, and instructs the template to render the
 Twitter properties. These are usually used by Twitter to get more
+information about your site's pages.
+
+use_facebook
+-----------
+
+This key contains a boolean value, and instructs the template to render the
+Facebook properties. These are usually used by Facebook to get more
 information about your site's pages.
 
 use_googleplus
@@ -146,12 +155,17 @@ twitter_site
 
 This key is used to render the ``twitter:site`` property.
 
+facebook_app_id
+------------
+
+This key is used to render the ``fb:app_id`` property.
+
 locale
 ------
 
 This key is used to render the ``og:locale`` property.
 
-meta_extras
+extra_props
 -----------
 
 A dictionary of extra optional properties::
@@ -166,7 +180,7 @@ A dictionary of extra optional properties::
     <meta name="foo" content="bar">
     <meta name="key" content="value">
 
-custom_meta_extras
+extra_custom_props
 ------------------
 
 A list of tuples for rendering custom extra properties::
@@ -197,7 +211,7 @@ properties you want to use::
         title="Sam's awesome ponies",
         description='Awesome page about ponies',
         keywords=['pony', 'ponies', 'awesome'],
-        meta_extras = {
+        extra_props = {
             'viewport': 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
         }
         'extra_custom_props': [
@@ -314,6 +328,14 @@ template context, and add this inside the ``<head>`` tags::
 The partial template will not output anything if the context dictionary does
 not contain a ``meta`` object, so you can safely include it in your base
 template.
+
+Additionally, if you want to use facebook or a custom namespace, you should include
+them in the <head> tag, as follow::
+
+    {% load meta %}
+    <head {% meta_namespaces %} >
+
+This will take care of rendering OpenGraph namespaces in the ``<head prefix="...">``.
 
 Configuration
 =============

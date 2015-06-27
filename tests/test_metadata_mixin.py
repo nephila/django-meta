@@ -142,16 +142,29 @@ class MetadataMixinTestCase(unittest.TestCase):
             None
         )
 
-        m.extra_props = [
+        m.extra_custom_props = [
             ('property', 'app_name', 'Foo'),
             ('property', 'app_id', 'Bar'),
         ]
         self.assertEqual(
-            m.get_meta_extra_props(),
+            m.get_meta_extra_custom_props(),
             [
                 ('property', 'app_name', 'Foo'),
                 ('property', 'app_id', 'Bar'),
             ]
+        )
+
+    def test_get_meta_custom_namespace(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_custom_namespace(),
+            None
+        )
+
+        m.custom_namespace = "my-website"
+        self.assertEqual(
+            m.get_meta_custom_namespace(),
+            'my-website'
         )
 
     def test_get_meta_twitter_site(self):
@@ -165,6 +178,19 @@ class MetadataMixinTestCase(unittest.TestCase):
         self.assertEqual(
             m.get_meta_twitter_site(),
             '@foo'
+        )
+
+    def test_get_meta_facebook_app_id(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_facebook_app_id(),
+            None
+        )
+
+        m.facebook_app_id = '12345'
+        self.assertEqual(
+            m.get_meta_facebook_app_id(),
+            '12345'
         )
 
     def test_get_meta_locale(self):
