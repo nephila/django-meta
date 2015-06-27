@@ -32,13 +32,12 @@ test-all:
 	tox
 
 coverage:
-	coverage run --source meta setup.py test
+	coverage run runtests.py test
 	coverage report -m
 	coverage html
 
 release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	python setup.py sdist bdist_wheel upload
 
 sdist: clean
 	python setup.py sdist
