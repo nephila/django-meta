@@ -7,6 +7,11 @@ register = template.Library()
 
 
 @register.simple_tag
+def title_prop(value):
+    return '<title>%s</title>' % escape(value)
+
+
+@register.simple_tag
 def generic_prop(namespace, name, value):
     """
     Generic property setter that allows to create custom namespaced meta
