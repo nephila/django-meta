@@ -141,7 +141,7 @@ use_title_tag
 This key contains a boolean value, and instructs the template to render the
 ``<title></title>`` tag. In the simple case, you use ``<title></title>`` tag
 in the templates where you can override it, but if you want to generate it
-dynamically in the views, you can set this property to True.
+dynamically in the views, you can set this property to ``True``.
 
 title
 -----
