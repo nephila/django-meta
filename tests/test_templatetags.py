@@ -7,7 +7,7 @@ except ImportError:
 
 from meta.views import Meta
 from meta.templatetags.meta import (
-    og_prop, meta, meta_list, twitter_prop, generic_prop,
+    og_prop, meta, meta_list, title_prop, twitter_prop, generic_prop,
     googleplus_prop, googleplus_html_scope, custom_meta,
     custom_meta_extras, meta_extras, facebook_prop, meta_namespaces)
 
@@ -180,3 +180,17 @@ class MetaNamespaceTestCase(unittest.TestCase):
         result = meta_namespaces(context)
         expected = ' prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# my-website: http://ogp.me/ns/my-website#"'
         self.assertEqual(result, expected)
+
+
+class TitlePropTestCase(unittest.TestCase):
+    def test_title_prop_basically_works(self):
+        self.assertEqual(
+            title_prop('I love django-meta app!'),
+            '<title>I love django-meta app!</title>'
+        )
+
+    def test_title_prop_escapes_xss(self):
+        self.assertEqual(
+            title_prop('I love "django-meta" app! >&:-)'),
+            '<title>I love &quot;django-meta&quot; app! &gt;&amp;:-)</title>'
+        )

@@ -25,6 +25,7 @@ class MetaObjectTestCase(unittest.TestCase):
         meta.settings.USE_TWITTER_PROPERTIES = False
         meta.settings.USE_FACEBOOK_PROPERTIES = False
         meta.settings.USE_GOOGLEPLUS_PROPERTIES = False
+        meta.settings.USE_TITLE_TAG = False
 
     def test_defaults(self):
         m = Meta()
@@ -48,6 +49,7 @@ class MetaObjectTestCase(unittest.TestCase):
         self.assertEqual(m.use_twitter, False)
         self.assertEqual(m.use_facebook, False)
         self.assertEqual(m.use_googleplus, False)
+        self.assertEqual(m.use_title_tag, False)
 
     def test_set_keywords(self):
         m = Meta(keywords = ['foo', 'bar'])
