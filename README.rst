@@ -88,6 +88,7 @@ following keys/attributes:
 + use_twitter
 + use_facebook
 + use_googleplus
++ use_title_tag
 + title
 + description
 + keywords
@@ -134,12 +135,21 @@ This key contains a boolean value, and instructs the template to render the
 Google+. These are usually used by Google to get more information about your
 site's pages.
 
+use_title_tag
+-------------
+
+This key contains a boolean value, and instructs the template to render the
+``<title></title>`` tag. In the simple case, you use ``<title></title>`` tag
+in the templates where you can override it, but if you want to generate it
+dynamically in the views, you can set this property to True.
+
 title
 -----
 
-This key is used in the ``og:title`` OpenGraph property, if ``use_og`` is
-``True``, ``twitter:title`` if ``use_twitter`` is ``True`` or
-``itemprop="title"`` if ``use_googleplus`` is ``True``.
+This key is used in the ``og:title`` OpenGraph property if ``use_og`` is
+``True``, ``twitter:title`` if ``use_twitter`` is ``True``,
+``itemprop="title"`` if ``use_googleplus`` is ``True`` or ``<title></title>`` tag
+if ``use_title_tag`` is ``True``.
 
 description
 -----------
@@ -454,6 +464,12 @@ META_USE_GOOGLEPLUS_PROPERTIES
 ------------------------------
 
 This setting tells django-meta whether to render the Google properties.
+Default is ``False``.
+
+META_USE_TITLE_TAG
+------------------
+
+This setting tells django-meta whether to render the ``<title></title>`` tag.
 Default is ``False``.
 
 META_USE_SITES
