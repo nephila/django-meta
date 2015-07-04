@@ -490,6 +490,7 @@ We thank the contributors to this project:
 
 + leifdenby_
 + m-vdb_
++ DmitryFillo_
 
 Reporting bugs
 ==============
@@ -501,6 +502,7 @@ Please report all bugs to our Github `issue tracker`_.
 .. _github: https://github.com/nephila/django-meta/
 .. _leifdenby: https://bitbucket.org/leifdenby
 .. _m-vdb: https://github.com/m-vdb
+.. _DmitryFillo: https://github.com/DmitryFillo
 .. _Iacopo Spalletti: https://github.com/yakky
 .. _Branko Vukelic: https://bitbucket.org/monwara
 
