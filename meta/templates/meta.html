@@ -5,6 +5,9 @@
 {% if meta.keywords %}{% meta_list 'keywords' meta.keywords %}{% endif %}
 {% if meta.extra_props %}{% meta_extras meta.extra_props %}{% endif %}
 {% if meta.extra_custom_props %}{% custom_meta_extras meta.extra_custom_props %}{% endif %}
+{% if meta.use_title_tag %}
+{% if meta.title %}{% title_prop meta.title %}{% endif %}
+{% endif %}
 {% if meta.use_og %}
 {% if meta.title %}{% og_prop 'title' meta.title %}{% endif %}
 {% if meta.url %}{% og_prop 'url' meta.url %}{% endif %}
