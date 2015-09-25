@@ -110,6 +110,8 @@ class MetadataMixin(object):
     """ Django CBV mixin to prepare metadata for the view context """
 
     meta_class = Meta
+    context_meta_name = 'meta'
+
     title = None
     description = None
     extra_props = None
@@ -183,9 +185,8 @@ class MetadataMixin(object):
     def get_meta_locale(self, context={}):
         return self.locale
 
-    def get_context_data(self, **kwargs):
-        context = super(MetadataMixin, self).get_context_data(**kwargs)
-        context['meta'] = self.get_meta_class()(
+    def get_meta(self, context={}):
+        return self.get_meta_class()(
             use_og=self.use_og,
             use_title_tag=self.use_title_tag,
             use_sites=self.use_sites,
@@ -205,4 +206,8 @@ class MetadataMixin(object):
             locale=self.get_meta_locale(context=context),
             facebook_app_id=self.get_meta_facebook_app_id(context=context),
         )
+
+    def get_context_data(self, **kwargs):
+        context = super(MetadataMixin, self).get_context_data(**kwargs)
+        context[self.context_meta_name] = self.get_meta(context=context)
         return context

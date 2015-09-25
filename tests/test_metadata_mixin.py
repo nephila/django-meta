@@ -232,6 +232,41 @@ class MetadataMixinTestCase(unittest.TestCase):
             'en_US'
         )
 
+    def test_get_meta(self):
+        m = MetadataMixin()
+        m.title = 'title'
+        m.description = 'description'
+        m.keywords = ['foo', 'bar']
+        m.url = 'some/path'
+        m.image = 'images/foo.gif'
+
+        meta.settings.SITE_PROTOCOL = 'http'
+        meta.settings.SITE_DOMAIN = 'foo.com'
+
+        meta_object = m.get_meta()
+
+        self.assertTrue(type(meta_object), Meta)
+        self.assertEqual(
+            meta_object.title,
+            'title'
+        )
+        self.assertEqual(
+            meta_object.description,
+            'description'
+        )
+        self.assertEqual(
+            meta_object.url,
+            'http://foo.com/some/path'
+        )
+        self.assertEqual(
+            meta_object.keywords,
+            ['foo', 'bar']
+        )
+        self.assertEqual(
+            meta_object.image,
+            'http://foo.com/static/images/foo.gif'
+        )
+
     def test_get_context(self):
         class Super(object):
             def get_context_data(self):
