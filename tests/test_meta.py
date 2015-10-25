@@ -90,6 +90,11 @@ class MetaObjectTestCase(unittest.TestCase):
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url('foo/bar')
 
+    def test_get_full_url_without_protocol_without_schema_will_raise(self):
+        m = Meta()
+        with self.assertRaises(ImproperlyConfigured):
+            m.get_full_url('//foo.com/foo/bar')
+
     def test_get_full_url_without_domain_will_raise(self):
         meta.settings.SITE_PROTOCOL = 'http'
         m = Meta()
@@ -102,6 +107,14 @@ class MetaObjectTestCase(unittest.TestCase):
         m = Meta()
         self.assertEqual(
             m.get_full_url('foo/bar'),
+            'https://foo.com/foo/bar'
+        )
+
+    def test_get_full_url_without_schema(self):
+        meta.settings.SITE_PROTOCOL = 'https'
+        m = Meta()
+        self.assertEqual(
+            m.get_full_url('//foo.com/foo/bar'),
             'https://foo.com/foo/bar'
         )
 
