@@ -53,6 +53,11 @@ class Meta(object):
             return None
         if url.startswith('http'):
             return url
+        if url.startswith('//'):
+            return '%s:%s' % (
+                self.get_protocol(),
+                url
+            )
         if url.startswith('/'):
             return '%s://%s%s' % (
                 self.get_protocol(),
