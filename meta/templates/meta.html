@@ -1,5 +1,5 @@
 {% load meta %}
-
+{% autoescape off %}
 {% if meta %}
 {% if meta.description %}{% meta 'description' meta.description %}{% endif %}
 {% if meta.keywords %}{% meta_list 'keywords' meta.keywords %}{% endif %}
@@ -36,3 +36,4 @@
 {% if meta.image %}{% googleplus_prop 'image' meta.image %}{% endif %}
 {% endif %}
 {% endif %}
+{% endautoescape %}
