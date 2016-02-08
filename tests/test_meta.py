@@ -2,30 +2,41 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from meta import settings
 from meta.views import Meta
 
 
 class MetaObjectTestCase(TestCase):
-    def setUp(self):
-        # Set all settings back to defaults
-        super(MetaObjectTestCase, self).setUp()
-        settings.SITE_TYPE = None
-        settings.SITE_NAME = None
-        settings.SITE_PROTOCOL = None
-        settings.SITE_DOMAIN = None
-        settings.INCLUDE_KEYWORDS = []
-        settings.DEFAULT_KEYWORDS = []
-        settings.USE_OG_PROPERTIES = False
-        settings.IMAGE_URL = '/static/'
-        settings.USE_TWITTER_PROPERTIES = False
-        settings.USE_FACEBOOK_PROPERTIES = False
-        settings.USE_GOOGLEPLUS_PROPERTIES = False
-        settings.USE_TITLE_TAG = False
-        settings.USE_SITES = False
+    old = {}
 
+    def setUp(self):
+        super(MetaObjectTestCase, self).setUp()
+        data = dict(
+            SITE_TYPE=None,
+            SITE_NAME=None,
+            SITE_PROTOCOL=None,
+            SITE_DOMAIN=None,
+            INCLUDE_KEYWORDS=[],
+            DEFAULT_KEYWORDS=[],
+            USE_OG_PROPERTIES=False,
+            IMAGE_URL='/static/',
+            USE_TWITTER_PROPERTIES=False,
+            USE_FACEBOOK_PROPERTIES=False,
+            USE_GOOGLEPLUS_PROPERTIES=False,
+            USE_TITLE_TAG=False,
+            USE_SITES=False,
+        )
+        self.old = {}
+        for key, val in data.items():
+            self.old[key] = getattr(settings, key)
+            setattr(settings, key, val)
+
+    def tearDown(self):
+        super(MetaObjectTestCase, self).tearDown()
+        for key, val in self.old.items():
+            setattr(settings, key, val)
 
     def test_defaults(self):
         m = Meta()
@@ -52,19 +63,19 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.use_title_tag, False)
 
     def test_set_keywords(self):
-        m = Meta(keywords = ['foo', 'bar'])
+        m = Meta(keywords=['foo', 'bar'])
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(m.keywords[1], 'bar')
 
     def test_set_keywords_with_include(self):
         settings.INCLUDE_KEYWORDS = ['baz']
-        m = Meta(keywords = ['foo', 'bar'])
+        m = Meta(keywords=['foo', 'bar'])
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(m.keywords[1], 'bar')
         self.assertEqual(m.keywords[2], 'baz')
 
     def test_set_keywords_no_duplicate(self):
-        m = Meta(keywords = ['foo', 'foo', 'foo'])
+        m = Meta(keywords=['foo', 'foo', 'foo'])
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(len(m.keywords), 1)
 
@@ -155,4 +166,3 @@ class MetaObjectTestCase(TestCase):
         settings.IMAGE_URL = '/thumb/'
         m = Meta(image='img/image.gif')
         self.assertEqual(m.image, 'https://foo.com/thumb/img/image.gif')
-

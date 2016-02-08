@@ -6,13 +6,14 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase
 
-from meta_mixin.models import ModelMeta
-from meta_mixin.templatetags.meta_extra import generic_prop, googleplus_scope
+from meta.models import ModelMeta
+from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
 
 from .example_app.models import Post
 
 
 class TestMeta(BaseTestCase):
+    post = None
 
     def setUp(self):
         super(TestMeta, self).setUp()
@@ -119,7 +120,6 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="description" content="%s">' % self.post.meta_description)
         self.assertContains(response, '<meta name="keywords" content="%s">' % ", ".join(self.post.meta_keywords.split(",")))
 
-    @override_settings(META_USE_OG_PROPERTIES=False)
     def test_templatetag_no_og(self):
         from meta import settings
         settings.USE_OG_PROPERTIES = False
@@ -128,6 +128,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta itemprop="description" content="%s">' % self.post.meta_description)
         self.assertContains(response, '<meta name="twitter:description" content="%s">' % self.post.meta_description)
         self.assertContains(response, '<meta name="keywords" content="%s">' % ", ".join(self.post.meta_keywords.split(",")))
+        settings.USE_OG_PROPERTIES = True
 
     def test_generic_prop_basically_works(self):
         """
@@ -143,13 +144,11 @@ class TestMeta(BaseTestCase):
         Test vendorized googleplus_scope templatetag
         """
         self.assertEqual(
-            googleplus_scope('bar'),
+            googleplus_html_scope('bar'),
             ' itemscope itemtype="http://schema.org/bar" '
         )
 
     @override_settings(META_SITE_PROTOCOL='https')
     def test_image_protocol(self):
-        from meta import settings
-        settings.SITE_PROTOCOL = 'https'
         meta = self.post.as_meta()
         self.assertEqual('https://example.com/path/to/image', getattr(meta, 'image'))
