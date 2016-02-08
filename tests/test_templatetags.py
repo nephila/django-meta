@@ -3,11 +3,12 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.test import TestCase
 
-from meta.views import Meta
 from meta.templatetags.meta import (
+    custom_meta_extras, facebook_prop, meta_extras, meta_namespaces,
     og_prop, meta, meta_list, title_prop, twitter_prop, generic_prop,
     googleplus_prop, googleplus_html_scope, custom_meta,
-    custom_meta_extras, meta_extras, facebook_prop, meta_namespaces)
+)
+from meta.views import Meta
 
 
 class OgPropTestCase(TestCase):
