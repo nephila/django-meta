@@ -4,9 +4,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.test import TestCase
 
 from meta.templatetags.meta import (
-    custom_meta_extras, facebook_prop, meta_extras, meta_namespaces,
-    og_prop, meta, meta_list, title_prop, twitter_prop, generic_prop,
-    googleplus_prop, googleplus_html_scope, custom_meta,
+    custom_meta, custom_meta_extras, facebook_prop, generic_prop, googleplus_html_scope, googleplus_prop, meta,
+    meta_extras, meta_list, meta_namespaces, og_prop, title_prop, twitter_prop,
 )
 from meta.views import Meta
 
