@@ -1,9 +1,6 @@
 from __future__ import unicode_literals
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+from django.test import TestCase
 
 from meta.views import Meta
 from meta.templatetags.meta import (
@@ -12,7 +9,7 @@ from meta.templatetags.meta import (
     custom_meta_extras, meta_extras, facebook_prop, meta_namespaces)
 
 
-class OgPropTestCase(unittest.TestCase):
+class OgPropTestCase(TestCase):
     def test_og_prop_basically_works(self):
         self.assertEqual(
             og_prop('type', 'website'),

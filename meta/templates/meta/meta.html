@@ -1,0 +1,59 @@
+{% load sekizai_tags meta %}
+{% autoescape off %}
+{% if meta %}
+	{% if meta.description %}{% meta 'description' meta.description %}{% endif %}
+    {% if meta.keywords %}{% meta_list 'keywords' meta.keywords %}{% endif %}
+    {% if meta.extra_props %}{% meta_extras meta.extra_props %}{% endif %}
+    {% if meta.extra_custom_props %}{% custom_meta_extras meta.extra_custom_props %}{% endif %}
+    {% if meta.use_title_tag %}
+        {% if meta.title %}{% title_prop meta.title %}{% endif %}
+    {% endif %}
+    {% if meta.use_og %}
+        {% if meta.title %}{% og_prop 'title' meta.title %}{% endif %}
+
+        {% if meta.url %}{% og_prop 'url' meta.url %}{% endif %}
+        {% if meta.og_description %}{% og_prop 'description' meta.og_description %}
+        {% elif meta.description %}{% og_prop 'description' meta.description %}{% endif %}
+        {% endif %}
+        {% if meta.image %}{% og_prop 'image' meta.image %}{% endif %}
+        {% if meta.og_type %}{% og_prop 'type' meta.og_type %}
+        {% elif meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}
+        {% if meta.site_name %}{% og_prop 'site_name' meta.site_name %}{% endif %}
+        {% if meta.og_author_url %}{% generic_prop 'article' 'author' meta.og_author_url %}
+        {% elif meta.og_author %}{% generic_prop 'article' 'author' meta.og_author %}
+        {% endif %}
+        {% if meta.published_time %}{% generic_prop 'article' 'published_time' meta.published_time %}{% endif %}
+        {% if meta.modified_time %}{% generic_prop 'article' 'modified_time' meta.modified_time %}{% endif %}
+        {% if meta.expiration_time %}{% generic_prop 'article' 'expiration_time' meta.expiration_time %}{% endif %}
+        {% if meta.og_publisher %}{% generic_prop 'article' 'publisher' meta.og_publisher %}{% endif %}
+        {% if meta.og_app_id %}{% generic_prop 'fb' 'app_id' meta.og_app_id %}
+        {% elif meta.facebook_app_id %}{% facebook_prop 'app_id' meta.facebook_app_id %}{% endif %}
+        {% if meta.og_profile_id %}{% generic_prop 'fb' 'profile_id' meta.og_profile_id %}{% endif %}
+        {% if meta.tag %}{% generic_prop 'article' 'tag' meta.tag %}{% endif %}
+        {% if meta.locale %}{% og_prop 'locale' meta.locale %}{% endif %}
+    {% endif %}
+    {% if meta.use_twitter %}
+        {% twitter_prop 'domain' meta.get_domain %}
+        {% if meta.twitter_type %}{% twitter_prop 'card' meta.twitter_type %}
+        {% elif meta.twitter_card %}{% twitter_prop 'card' meta.twitter_card %}{% endif %}
+        {% if meta.title %}{% twitter_prop 'title' meta.title %}{% endif %}
+        {% if meta.url %}{% twitter_prop 'url' meta.url %}{% endif %}
+        {% if meta.twitter_description %}{% twitter_prop 'description' meta.twitter_description %}
+        {% elif meta.description %}{% twitter_prop 'description' meta.description %}{% endif %}
+        {% if meta.image %}{% twitter_prop 'image:src' meta.image %}{% endif %}
+        {% if meta.twitter_author %}{% twitter_prop 'creator' meta.twitter_author %}{% endif %}
+        {% if meta.twitter_site %}{% twitter_prop 'site' meta.twitter_site %}{% endif %}
+    {% endif %}
+    {% if meta.use_googleplus %}
+        {% if meta.gplus_author %}<link rel="author" href="https://plus.google.com/{{ meta.gplus_author }}"/>{% endif %}
+        {% addtoblock 'html_extra' %}{% googleplus_scope meta.gplus_type %}{% endaddtoblock %}
+        {% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
+        {% if meta.published_time %}{% googleplus_prop 'datePublished' meta.published_time %}{% endif %}
+        {% if meta.modified_time %}{% googleplus_prop 'dateModified' meta.modified_time %}{% endif %}
+        {% if meta.url %}{% googleplus_prop 'url' meta.url %}{% endif %}
+        {% if meta.gplus_description %}{% googleplus_prop 'description' meta.gplus_description %}
+        {% elif meta.description %}{% googleplus_prop 'description' meta.description %}{% endif %}
+        {% if meta.image %}{% googleplus_prop 'image' meta.image %}{% endif %}
+    {% endif %}
+{% endif %}
+{% endautoescape %}

@@ -2,30 +2,33 @@
 django-meta
 ===========
 
-.. image:: https://img.shields.io/pypi/v/django-meta.svg
-    :target: https://pypi.python.org/pypi/django-meta/
-    :alt: Latest Version
+.. image:: https://img.shields.io/pypi/v/django-meta.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/django-meta
+    :alt: Latest PyPI version
 
-.. image:: https://img.shields.io/travis/nephila/django-meta.svg
+.. image:: https://img.shields.io/pypi/dm/django-meta.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/django-meta
+    :alt: Monthly downloads
+
+.. image:: https://img.shields.io/pypi/pyversions/django-meta.svg?style=flat-square
+    :target: https://pypi.python.org/pypi/django-meta
+    :alt: Python versions
+
+.. image:: https://img.shields.io/travis/nephila/django-meta.svg?style=flat-square
     :target: https://travis-ci.org/nephila/django-meta
-    :alt: Travis status
+    :alt: Latest Travis CI build status
 
-.. image:: https://coveralls.io/repos/nephila/django-meta/badge.png
-    :target: https://coveralls.io/r/nephila/django-meta
+.. image:: https://img.shields.io/coveralls/nephila/django-meta/master.svg?style=flat-square
+    :target: https://coveralls.io/r/nephila/django-meta?branch=master
     :alt: Test coverage
 
-.. image:: https://img.shields.io/pypi/dm/django-meta.svg
-    :target: https://pypi.python.org/pypi/django-meta/
-    :alt: Download
+.. image:: https://img.shields.io/codecov/c/github/nephila/django-meta/master.svg?style=flat-square
+    :target: https://codecov.io/github/nephila/django-meta
+    :alt: Test coverage
 
-.. image:: https://img.shields.io/pypi/wheel/django-meta.svg
-    :target: https://pypi.python.org/pypi/django-meta/
-    :alt: Wheel Status
-
-.. image:: https://img.shields.io/pypi/l/django-meta.svg
-    :target: https://pypi.python.org/pypi/django-meta/
-    :alt: License
-
+.. image:: https://codeclimate.com/github/nephila/django-meta/badges/gpa.svg?style=flat-square
+   :target: https://codeclimate.com/github/nephila/django-meta
+   :alt: Code Climate
 
 This pluggable app allows Django developers to quickly add meta tags and
 OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
@@ -56,11 +59,10 @@ Supported versions
 Django
 ------
 
-* Django 1.4
-* Django 1.5
 * Django 1.6
 * Django 1.7
 * Django 1.8
+* Django 1.9
 
 
 Python
@@ -68,14 +70,19 @@ Python
 
 * Python 2.6
 * Python 2.7
-* Python 3.2
 * Python 3.3
 * Python 3.4
+* Python 3.5
 
 Basic concept
 =============
 
-You render the meta tags by including a ``meta.html`` parial template in your
+``django-meta`` provides a **view-method** and **model-method** interface to provide
+
+Using the view
+--------------
+
+You render the meta tags by including a ``meta.html`` partial template in your
 view templates. This template will only render meta tags if it can find a
 ``meta`` object in the context, so you can safely include it in your base
 template to have it render on all your pages.
@@ -104,7 +111,7 @@ following keys/attributes:
 + extra_props
 + extra_custom_props
 
-In all cases, if the key is omitted, the matching metadata/property is not 
+In all cases, if the key is omitted, the matching metadata/property is not
 rendered.
 
 use_og
@@ -335,13 +342,13 @@ is very simple::
         description = 'This is an awesome page'
         image = 'img/some_page_thumb.gif'
         url = 'some/page/'
-        
+
         ....
 
 
 The mixin sports all properties listed in the `Basic concept`_ section with a
 few additional bells and whistles that make working with them easier. The mixin
-will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta`` 
+will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta``
 context variable. This is, in turn, used in the partial template to render the
 meta tags (see `Rendering meta tags`_).
 
@@ -442,7 +449,7 @@ This setting is used as the base URL for all image assets that you intend to
 use as ``og:image`` property in your views. This is django-meta's counterpart
 of the Django's ``STATIC_URL`` setting. In fact, Django's ``STATIC_URL``
 setting is a fallback if you do not specify this setting, so make sure either
-one is configured. Default is to use the ``STATIC_URL`` setting. 
+one is configured. Default is to use the ``STATIC_URL`` setting.
 
 Note that you must add the trailing slash when specifying the URL. Even if you
 do not intend to use the ``og:image`` property, you need to define either this
@@ -476,8 +483,8 @@ META_USE_SITES
 --------------
 
 This setting tells django-meta to derive the site's domain using the Django's
-sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not 
-used at all. Default is ``False``. 
+sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not
+used at all. Default is ``False``.
 
 Authors and Contributors
 ========================

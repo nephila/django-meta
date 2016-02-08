@@ -1,19 +1,16 @@
 from __future__ import unicode_literals
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
-
 from django.core.exceptions import ImproperlyConfigured
+from django.test import TestCase
 
 import meta
 from meta.views import Meta
 
 
-class MetaObjectTestCase(unittest.TestCase):
+class MetaObjectTestCase(TestCase):
     def setUp(self):
         # Set all settings back to defaults
+        super(MetaObjectTestCase, self).setUp()
         meta.settings.SITE_TYPE = None
         meta.settings.SITE_NAME = None
         meta.settings.SITE_PROTOCOL = None

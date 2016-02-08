@@ -1,15 +1,12 @@
 from __future__ import unicode_literals
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+from django.test import TestCase
 
 import meta
 from meta.views import MetadataMixin, Meta
 
 
-class MetadataMixinTestCase(unittest.TestCase):
+class MetadataMixinTestCase(TestCase):
     def test_get_meta_class(self):
         m = MetadataMixin()
         self.assertEqual(
@@ -240,32 +237,30 @@ class MetadataMixinTestCase(unittest.TestCase):
         m.url = 'some/path'
         m.image = 'images/foo.gif'
 
-        meta.settings.SITE_PROTOCOL = 'http'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        with self.settings(META_SITE_PROTOCOL='http', META_SITE_DOMAIN='foo.com'):
+            meta_object = m.get_meta()
 
-        meta_object = m.get_meta()
-
-        self.assertTrue(type(meta_object), Meta)
-        self.assertEqual(
-            meta_object.title,
-            'title'
-        )
-        self.assertEqual(
-            meta_object.description,
-            'description'
-        )
-        self.assertEqual(
-            meta_object.url,
-            'http://foo.com/some/path'
-        )
-        self.assertEqual(
-            meta_object.keywords,
-            ['foo', 'bar']
-        )
-        self.assertEqual(
-            meta_object.image,
-            'http://foo.com/static/images/foo.gif'
-        )
+            self.assertTrue(type(meta_object), Meta)
+            self.assertEqual(
+                meta_object.title,
+                'title'
+            )
+            self.assertEqual(
+                meta_object.description,
+                'description'
+            )
+            self.assertEqual(
+                meta_object.url,
+                'http://foo.com/some/path'
+            )
+            self.assertEqual(
+                meta_object.keywords,
+                ['foo', 'bar']
+            )
+            self.assertEqual(
+                meta_object.image,
+                'http://foo.com/static/images/foo.gif'
+            )
 
     def test_get_context(self):
         class Super(object):

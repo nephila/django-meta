@@ -19,11 +19,15 @@ setup(
     url='https://github.com/nephila/django-meta',
     license='BSD',
     install_requires=[
-        'Django>=1.4',
+        'django-sekizai',
     ],
     classifiers = [
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
+        'Framework :: Django :: 1.6',
+        'Framework :: Django :: 1.7',
+        'Framework :: Django :: 1.8',
+        'Framework :: Django :: 1.9',
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -32,6 +36,7 @@ setup(
         'Programming Language :: Python :: 3.2',
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
     ],
 )
 
