@@ -4,11 +4,10 @@
 History
 *******
 
-0.3.2 (XXXX-XX-XX)
+0.3.2 (2016-02-09)
 ==================
 
 * Use autoescape off in template for Django 1.9
-
 
 0.3.1 (2015-06-27)
 ==================
