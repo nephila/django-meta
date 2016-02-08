@@ -49,6 +49,9 @@ matrix:
   - python: 2.6
     env: DJANGO='django19'
 
+  - python: 3.3
+    env: DJANGO='django19'
+
   - python: 3.5
     env: DJANGO='django16'
   - python: 3.5
@@ -70,13 +73,3 @@ matrix:
     env: TOXENV='pep8'
   - python: 3.4
     env: TOXENV='isort'
-
-  allow_failures:
-  - python: 2.7
-    env: DJANGO='django19'
-  - python: 3.3
-    env: DJANGO='django19'
-  - python: 3.4
-    env: DJANGO='django19'
-  - python: 3.5
-    env: DJANGO='django19'
