@@ -5,7 +5,7 @@ import meta
 setup(
     name='django-meta',
     description='Pluggable app for handling webpage meta tags and OpenGraph '
-    'properties',
+                'properties',
     long_description=open('README.rst').read(),
     version=meta.__version__,
     packages=['meta', 'meta.templatetags'],
@@ -21,7 +21,7 @@ setup(
     install_requires=[
         'django-sekizai',
     ],
-    classifiers = [
+    classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'Framework :: Django :: 1.6',
@@ -39,5 +39,3 @@ setup(
         'Programming Language :: Python :: 3.5',
     ],
 )
-
-
