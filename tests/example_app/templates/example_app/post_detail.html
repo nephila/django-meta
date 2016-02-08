@@ -2,7 +2,8 @@
 
 <html {% render_block 'html_extra' %}>
 <head>
-	{% include "meta_mixin/../../../../meta/templates/meta/meta.html" %}
+    {{ meta }}
+	{% include "meta/meta.html" %}
 </head>
 <body>
 {{object.title}}

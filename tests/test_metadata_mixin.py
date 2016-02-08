@@ -1,4 +1,5 @@
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
 from django.test import TestCase
 
@@ -230,6 +231,10 @@ class MetadataMixinTestCase(TestCase):
         )
 
     def test_get_meta(self):
+        meta.settings.SITE_PROTOCOL = 'http'
+        meta.settings.SITE_DOMAIN = 'foo.com'
+        meta.settings.USE_SITES = False
+
         m = MetadataMixin()
         m.title = 'title'
         m.description = 'description'
@@ -237,30 +242,29 @@ class MetadataMixinTestCase(TestCase):
         m.url = 'some/path'
         m.image = 'images/foo.gif'
 
-        with self.settings(META_SITE_PROTOCOL='http', META_SITE_DOMAIN='foo.com'):
-            meta_object = m.get_meta()
+        meta_object = m.get_meta()
 
-            self.assertTrue(type(meta_object), Meta)
-            self.assertEqual(
-                meta_object.title,
-                'title'
-            )
-            self.assertEqual(
-                meta_object.description,
-                'description'
-            )
-            self.assertEqual(
-                meta_object.url,
-                'http://foo.com/some/path'
-            )
-            self.assertEqual(
-                meta_object.keywords,
-                ['foo', 'bar']
-            )
-            self.assertEqual(
-                meta_object.image,
-                'http://foo.com/static/images/foo.gif'
-            )
+        self.assertTrue(type(meta_object), Meta)
+        self.assertEqual(
+            meta_object.title,
+            'title'
+        )
+        self.assertEqual(
+            meta_object.description,
+            'description'
+        )
+        self.assertEqual(
+            meta_object.url,
+            'http://foo.com/some/path'
+        )
+        self.assertEqual(
+            meta_object.keywords,
+            ['foo', 'bar']
+        )
+        self.assertEqual(
+            meta_object.image,
+            'http://foo.com/static/images/foo.gif'
+        )
 
     def test_get_context(self):
         class Super(object):
@@ -276,6 +280,7 @@ class MetadataMixinTestCase(TestCase):
 
         meta.settings.SITE_PROTOCOL = 'http'
         meta.settings.SITE_DOMAIN = 'foo.com'
+        meta.settings.USE_SITES = False
 
         v = View()
 

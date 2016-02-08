@@ -1,4 +1,5 @@
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
@@ -23,6 +24,8 @@ class MetaObjectTestCase(TestCase):
         meta.settings.USE_FACEBOOK_PROPERTIES = False
         meta.settings.USE_GOOGLEPLUS_PROPERTIES = False
         meta.settings.USE_TITLE_TAG = False
+        meta.settings.USE_SITES = False
+
 
     def test_defaults(self):
         m = Meta()

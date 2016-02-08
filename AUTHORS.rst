@@ -7,7 +7,23 @@ Development Lead
 
 * Iacopo Spalletti <i.spalletti@nephila.it>
 
+Past core developers
+--------------------
+
+* Branko Vukelic
+
+
 Contributors
 ------------
 
-None yet. Why not be the first?
+* Cansin Yildiz
+* Dmitry Fillo
+* ellmetha
+* John Carter
+* Ken Cochrane
+* Leif Denby
+* Leonardo Cavallucci
+* Murat Aydos
+* mvergerdelbove
+* Sergei Maertens
+* Zan Anderle

@@ -2,4 +2,3 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from meta.templatetags.meta import *  # NOQA  # nopyflakes
-

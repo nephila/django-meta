@@ -10,18 +10,15 @@
     {% endif %}
     {% if meta.use_og %}
         {% if meta.title %}{% og_prop 'title' meta.title %}{% endif %}
-
         {% if meta.url %}{% og_prop 'url' meta.url %}{% endif %}
         {% if meta.og_description %}{% og_prop 'description' meta.og_description %}
         {% elif meta.description %}{% og_prop 'description' meta.description %}{% endif %}
-        {% endif %}
         {% if meta.image %}{% og_prop 'image' meta.image %}{% endif %}
         {% if meta.og_type %}{% og_prop 'type' meta.og_type %}
         {% elif meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}
         {% if meta.site_name %}{% og_prop 'site_name' meta.site_name %}{% endif %}
         {% if meta.og_author_url %}{% generic_prop 'article' 'author' meta.og_author_url %}
-        {% elif meta.og_author %}{% generic_prop 'article' 'author' meta.og_author %}
-        {% endif %}
+        {% elif meta.og_author %}{% generic_prop 'article' 'author' meta.og_author %}{% endif %}
         {% if meta.published_time %}{% generic_prop 'article' 'published_time' meta.published_time %}{% endif %}
         {% if meta.modified_time %}{% generic_prop 'article' 'modified_time' meta.modified_time %}{% endif %}
         {% if meta.expiration_time %}{% generic_prop 'article' 'expiration_time' meta.expiration_time %}{% endif %}

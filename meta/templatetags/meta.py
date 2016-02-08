@@ -1,4 +1,5 @@
-from __future__ import absolute_import, unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
 from django import template
 from django.utils.html import escape
@@ -53,18 +54,16 @@ def meta(name, value):
     return custom_meta('name', name, value)
 
 
-
 @register.simple_tag
 def custom_meta(key, name, value):
     return '<meta %s="%s" content="%s">' % (escape(key), escape(name), escape(value))
-
 
 
 @register.simple_tag
 def meta_list(name, lst):
     try:
         return custom_meta('name', name, ', '.join(lst))
-    except:
+    except Exception:
         return ''
 
 

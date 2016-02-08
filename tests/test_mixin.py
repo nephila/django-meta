@@ -5,7 +5,7 @@ from datetime import timedelta
 from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase
-from example_app.models import Post
+from tests.example_app.models import Post
 from meta_mixin.models import ModelMeta
 from meta_mixin.templatetags.meta_extra import generic_prop, googleplus_scope
 

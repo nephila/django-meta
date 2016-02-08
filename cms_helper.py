@@ -3,13 +3,12 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 HELPER_SETTINGS = dict(
-    ROOT_URLCONF='example_app.urls',
+    ROOT_URLCONF='tests.example_app.urls',
     INSTALLED_APPS=[
         'sekizai',
         'meta',
-        'example_app',
+        'tests.example_app',
     ],
-    META_SITE='http://foo.com',
     META_SITE_PROTOCOL='http',
     META_USE_SITES=True,
     META_USE_OG_PROPERTIES=True,
