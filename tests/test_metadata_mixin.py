@@ -3,7 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django.test import TestCase
 
-import meta
+from meta import settings
 from meta.views import MetadataMixin, Meta
 
 
@@ -84,7 +84,7 @@ class MetadataMixinTestCase(TestCase):
     def test_get_meta_object_type_with_setting(self):
         m = MetadataMixin()
 
-        meta.settings.SITE_TYPE = 'foo'
+        settings.SITE_TYPE = 'foo'
 
         self.assertEqual(
             m.get_meta_object_type(),
@@ -107,7 +107,7 @@ class MetadataMixinTestCase(TestCase):
     def test_get_meta_site_name_with_setting(self):
         m = MetadataMixin()
 
-        meta.settings.SITE_NAME = 'Foo'
+        settings.SITE_NAME = 'Foo'
 
         self.assertEqual(
             m.get_meta_site_name(),
@@ -231,9 +231,9 @@ class MetadataMixinTestCase(TestCase):
         )
 
     def test_get_meta(self):
-        meta.settings.SITE_PROTOCOL = 'http'
-        meta.settings.SITE_DOMAIN = 'foo.com'
-        meta.settings.USE_SITES = False
+        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.USE_SITES = False
 
         m = MetadataMixin()
         m.title = 'title'
@@ -278,9 +278,9 @@ class MetadataMixinTestCase(TestCase):
             url = 'some/path'
             image = 'images/foo.gif'
 
-        meta.settings.SITE_PROTOCOL = 'http'
-        meta.settings.SITE_DOMAIN = 'foo.com'
-        meta.settings.USE_SITES = False
+        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.USE_SITES = False
 
         v = View()
 

@@ -4,7 +4,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.core.exceptions import ImproperlyConfigured
 from django.test import TestCase
 
-import meta
+from meta import settings
 from meta.views import Meta
 
 
@@ -12,19 +12,19 @@ class MetaObjectTestCase(TestCase):
     def setUp(self):
         # Set all settings back to defaults
         super(MetaObjectTestCase, self).setUp()
-        meta.settings.SITE_TYPE = None
-        meta.settings.SITE_NAME = None
-        meta.settings.SITE_PROTOCOL = None
-        meta.settings.SITE_DOMAIN = None
-        meta.settings.INCLUDE_KEYWORDS = []
-        meta.settings.DEFAULT_KEYWORDS = []
-        meta.settings.USE_OG_PROPERTIES = False
-        meta.settings.IMAGE_URL = '/static/'
-        meta.settings.USE_TWITTER_PROPERTIES = False
-        meta.settings.USE_FACEBOOK_PROPERTIES = False
-        meta.settings.USE_GOOGLEPLUS_PROPERTIES = False
-        meta.settings.USE_TITLE_TAG = False
-        meta.settings.USE_SITES = False
+        settings.SITE_TYPE = None
+        settings.SITE_NAME = None
+        settings.SITE_PROTOCOL = None
+        settings.SITE_DOMAIN = None
+        settings.INCLUDE_KEYWORDS = []
+        settings.DEFAULT_KEYWORDS = []
+        settings.USE_OG_PROPERTIES = False
+        settings.IMAGE_URL = '/static/'
+        settings.USE_TWITTER_PROPERTIES = False
+        settings.USE_FACEBOOK_PROPERTIES = False
+        settings.USE_GOOGLEPLUS_PROPERTIES = False
+        settings.USE_TITLE_TAG = False
+        settings.USE_SITES = False
 
 
     def test_defaults(self):
@@ -57,7 +57,7 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.keywords[1], 'bar')
 
     def test_set_keywords_with_include(self):
-        meta.settings.INCLUDE_KEYWORDS = ['baz']
+        settings.INCLUDE_KEYWORDS = ['baz']
         m = Meta(keywords = ['foo', 'bar'])
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(m.keywords[1], 'bar')
@@ -69,7 +69,7 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(len(m.keywords), 1)
 
     def test_set_keywords_with_defaults(self):
-        meta.settings.DEFAULT_KEYWORDS = ['foo', 'bar']
+        settings.DEFAULT_KEYWORDS = ['foo', 'bar']
         m = Meta()
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(m.keywords[1], 'bar')
@@ -96,14 +96,14 @@ class MetaObjectTestCase(TestCase):
             m.get_full_url('//foo.com/foo/bar')
 
     def test_get_full_url_without_domain_will_raise(self):
-        meta.settings.SITE_PROTOCOL = 'http'
+        settings.SITE_PROTOCOL = 'http'
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url('foo/bar')
 
     def test_get_full_url_with_domain_and_protocol(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
         m = Meta()
         self.assertEqual(
             m.get_full_url('foo/bar'),
@@ -111,7 +111,7 @@ class MetaObjectTestCase(TestCase):
         )
 
     def test_get_full_url_without_schema(self):
-        meta.settings.SITE_PROTOCOL = 'https'
+        settings.SITE_PROTOCOL = 'https'
         m = Meta()
         self.assertEqual(
             m.get_full_url('//foo.com/foo/bar'),
@@ -119,8 +119,8 @@ class MetaObjectTestCase(TestCase):
         )
 
     def test_get_full_url_with_absolute_path(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
         m = Meta()
         self.assertEqual(
             m.get_full_url('/foo/bar'),
@@ -128,8 +128,8 @@ class MetaObjectTestCase(TestCase):
         )
 
     def test_set_url(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
         m = Meta(url='foo/bar')
         self.assertEqual(m.url, 'https://foo.com/foo/bar')
 
@@ -138,21 +138,21 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.image, 'http://meta.example.com/image.gif')
 
     def test_set_image_with_absolute_path(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
         m = Meta(image='/img/image.gif')
         self.assertEqual(m.image, 'https://foo.com/img/image.gif')
 
     def test_set_image_with_relative_path(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
         m = Meta(image='img/image.gif')
         self.assertEqual(m.image, 'https://foo.com/static/img/image.gif')
 
     def test_set_image_with_image_url(self):
-        meta.settings.SITE_PROTOCOL = 'https'
-        meta.settings.SITE_DOMAIN = 'foo.com'
-        meta.settings.IMAGE_URL = '/thumb/'
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.IMAGE_URL = '/thumb/'
         m = Meta(image='img/image.gif')
         self.assertEqual(m.image, 'https://foo.com/thumb/img/image.gif')
 
