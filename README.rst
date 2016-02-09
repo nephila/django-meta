@@ -369,123 +369,6 @@ like so::
 There are two more methods that you can overload in your view classes, and
 those are ``get_domain`` and ``get_protocol``.
 
-Rendering meta tags
-===================
-
-To render the meta tags, simply add the ``meta`` dictionary/object to the
-template context, and add this inside the ``<head>`` tags::
-
-    {% include 'meta.html' %}
-
-The partial template will not output anything if the context dictionary does
-not contain a ``meta`` object, so you can safely include it in your base
-template.
-
-Additionally, if you want to use facebook or a custom namespace, you should include
-them in the <head> tag, as follow::
-
-    {% load meta %}
-    <head {% meta_namespaces %} >
-
-This will take care of rendering OpenGraph namespaces in the ``<head prefix="...">``.
-
-Configuration
-=============
-
-django-meta has a few configuration options that allow you to customize it. Two
-of them are required. Those are ``META_SITE_PROTOCOL`` and
-``META_SITE_DOMAIN``. By default, if they are unset, an
-``ImproperlyConfigured`` exception will raised when dealing with ``url`` and
-``image`` properties. You can either set them, or overload the ``Meta`` class'
-``get_domain`` and ``get_protocol`` methods (see `Meta objects`_ section).
-
-META_SITE_PROTOCOL
-------------------
-
-Defines the protocol used on your site. This should be set to either ``'http'``
-or ``'https'``. Default is ``None``.
-
-META_SITE_DOMAIN
-----------------
-
-Domain of your site. The ``Meta`` objects can also be made to use the Django's
-Sites framework as well (see `Meta objects`_ and META_USE_SITES_ sections).
-Default is ``None``.
-
-META_SITE_TYPE
---------------
-
-The default ``og:type`` property to use site-wide. You do not need to set this
-if you do not intend to use the OpenGraph properties. Default is ``None``.
-
-META_SITE_NAME
---------------
-
-The site name to use in ``og:site_name`` property. Althoug this can be
-set per view, we recommend you set it globally. Defalt is ``None``.
-
-META_INCLUDE_KEYWORDS
----------------------
-
-Iterable of extra keywords to include in every view. These keywords are
-appended to whatever keywords you specify for the view, but are not used at all
-if no keywords are specified for the view. See META_DEFAULT_KEYWORDS_ if you
-wish to specify keywords to be used when no keywords are supplied. Default is
-``[]``.
-
-META_DEFAULT_KEYWORDS
----------------------
-
-Iterable of default keywords to use when no keywords are specified for the
-view. These keywords are not included if you specify keywords for the view. If
-you need keywords that will always be present, regardless of whether you've
-specified any other keywords for the view or not, you need to combine this
-setting with META_INCLUDE_KEYWORDS_ setting. Default is ``[]``.
-
-META_IMAGE_URL
---------------
-
-This setting is used as the base URL for all image assets that you intend to
-use as ``og:image`` property in your views. This is django-meta's counterpart
-of the Django's ``STATIC_URL`` setting. In fact, Django's ``STATIC_URL``
-setting is a fallback if you do not specify this setting, so make sure either
-one is configured. Default is to use the ``STATIC_URL`` setting.
-
-Note that you must add the trailing slash when specifying the URL. Even if you
-do not intend to use the ``og:image`` property, you need to define either this
-setting or the ``STATIC_URL`` setting or an attribute error will be raised.
-
-META_USE_OG_PROPERTIES
-----------------------
-
-This setting tells django-meta whether to render the OpenGraph properties.
-Default is ``False``.
-
-META_USE_TWITTER_PROPERTIES
----------------------------
-
-This setting tells django-meta whether to render the Twitter properties.
-Default is ``False``.
-
-META_USE_GOOGLEPLUS_PROPERTIES
-------------------------------
-
-This setting tells django-meta whether to render the Google properties.
-Default is ``False``.
-
-META_USE_TITLE_TAG
-------------------
-
-This setting tells django-meta whether to render the ``<title></title>`` tag.
-Default is ``False``.
-
-META_USE_SITES
---------------
-
-This setting tells django-meta to derive the site's domain using the Django's
-sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not
-used at all. Default is ``False``.
-
 Authors and Contributors
 ========================
 
@@ -493,11 +376,7 @@ Authors and Contributors
 
 Current maintainer: `Iacopo Spalletti`_
 
-We thank the contributors to this project:
-
-+ leifdenby_
-+ m-vdb_
-+ DmitryFillo_
+See ``AUTHORS`` file for the complete list of contributors
 
 Reporting bugs
 ==============
@@ -507,9 +386,6 @@ Please report all bugs to our Github `issue tracker`_.
 .. _OpenGraph: http://opengraphprotocol.org/
 .. _issue tracker: https://github.com/nephila/django-meta/issues/
 .. _github: https://github.com/nephila/django-meta/
-.. _leifdenby: https://bitbucket.org/leifdenby
-.. _m-vdb: https://github.com/m-vdb
-.. _DmitryFillo: https://github.com/DmitryFillo
 .. _Iacopo Spalletti: https://github.com/yakky
 .. _Branko Vukelic: https://bitbucket.org/monwara
 
