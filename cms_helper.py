@@ -26,5 +26,10 @@ def run():
     runner.run('meta')
 
 
+def setup():
+    import sys
+    from djangocms_helper import runner
+    runner.setup('meta', sys.modules[__name__])
+
 if __name__ == '__main__':
     run()

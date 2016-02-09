@@ -7,4 +7,5 @@ MANIFEST
 .idea
 .coverage
 *.egg-info
+docs/_build
 *.iml
