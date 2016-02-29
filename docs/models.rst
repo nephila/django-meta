@@ -51,3 +51,52 @@ according to what is an author in the application domain;
 
 ``ModelMeta.build_absolute_uri(url)``: create an absolute URL (i.e.: complete with protocol and
 domain); this is generated from the ``request`` object, if given as argument to ``as_meta``;
+
+
+Usage
+-----
+
+#. Configure ``django-meta`` according to documentation
+
+#. Add meta information to your model::
+
+    from django.db import models
+    from meta.models import ModelMeta
+
+    class MyModel(ModelMeta, models.Model):
+        name = models.CharField(max_length=20)
+        abstract = models.TextField()
+        ...
+
+        _metadata = {
+            'title': 'name',
+            'description': 'abstract',
+            ...
+        }
+
+#. Push metadata in the context using ``as_meta`` method::
+
+    class MyView(DetailView):
+
+        ...
+
+        def get_context_data(self, **kwargs):
+            context = super(MyView, self).get_context_data(self, **kwargs)
+            context['meta'] = self.get_object().as_meta(self.request)
+            return context
+
+#. Include ``meta/meta.html`` template in your templates::
+
+    {% load sekizai_tags %}
+
+    <html {% render_block 'html_extra' %}>
+    <head>
+        {% include "meta/meta.html" %}
+    </head>
+    <body>
+    </body>
+    </html>
+
+Note
+++++
+For Google+ support you must add ``{% render_block 'html_extra' %}`` in your template to add object type definition. See relevant Google+ snippets documentation (https://developers.google.com/+/web/snippet/)
