@@ -77,7 +77,7 @@ Python
 Basic concept
 =============
 
-``django-meta`` provides a **view-method** and **model-method** interface to provide
+``django-meta`` provides a **view-method** and **model-method** interface to provide and handle meta informations
 
 
 Authors and Contributors
