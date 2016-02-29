@@ -200,7 +200,7 @@ When the time comes to render the template, simply include the instance as
 ``'meta'`` context variable.
 
 The ``Meta`` instances have the same properties as the keys listed in the
-`Basic concept`_ section. For convenience, some of the properties are 'smart',
+`Using the view`_ section. For convenience, some of the properties are 'smart',
 and will modify values you set. These properties are:
 
 + keywords
@@ -271,7 +271,7 @@ is very simple::
         ....
 
 
-The mixin sports all properties listed in the `Basic concept`_ section with a
+The mixin sports all properties listed in the `Using the view`_ section with a
 few additional bells and whistles that make working with them easier. The mixin
 will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta``
 context variable. This is, in turn, used in the partial template to render the
