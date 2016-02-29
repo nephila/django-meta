@@ -7,7 +7,7 @@ Model support
 Concepts
 --------
 
-**django-meta* provides a mixin to handle metadata in your models.
+**django-meta** provides a mixin to handle metadata in your models.
 
 Actual data are evaluated at runtime pulling values from model attributes and
 methods.
