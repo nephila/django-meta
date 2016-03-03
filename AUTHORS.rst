@@ -23,6 +23,7 @@ Contributors
 * Ken Cochrane
 * Leif Denby
 * Leonardo Cavallucci
+* Marco Federighi
 * Murat Aydos
 * mvergerdelbove
 * Sergei Maertens

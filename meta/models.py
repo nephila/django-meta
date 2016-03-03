@@ -2,7 +2,6 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import contextlib
-import warnings
 from copy import copy
 
 from django.conf import settings as dj_settings
@@ -44,6 +43,9 @@ class ModelMeta(object):
     }
 
     def get_meta(self, request=None):
+        """
+        Retrieve the meta data configuration
+        """
         metadata = copy(self._metadata_default)
         metadata.update(self._metadata)
         return metadata
@@ -78,11 +80,17 @@ class ModelMeta(object):
 
     @contextlib.contextmanager
     def _set_request(self, request):
+        """
+        Context processor that sets the requst on the current instance
+        """
         self._request = request
         yield
         delattr(self, '_request')
 
     def get_request(self):
+        """
+        Retrieve request from current instance
+        """
         return getattr(self, '_request', None)
 
     def get_author(self):
@@ -100,40 +108,51 @@ class ModelMeta(object):
         return Author()
 
     def get_author_url(self):
+        """
+        Sample method to return the author facebook URL
+        """
         try:
             return self.get_author().fb_url
         except AttributeError:  # pragma: no cover
             return ''
 
     def get_author_name(self):
+        """
+        Sample method to return the author full name
+        """
         try:
             return self.get_author().get_full_name()
         except AttributeError:  # pragma: no cover
             return ''
 
     def get_author_twitter(self):
+        """
+        Sample method to return the author twitter account
+        """
         try:
             return self.get_author().twitter_profile
         except AttributeError:  # pragma: no cover
             return ''
 
     def get_author_gplus(self):
+        """
+        Sample method to return the author google plus URL
+        """
         try:
             return self.get_author().gplus_profile
         except AttributeError:  # pragma: no cover
             return ''
 
     def get_meta_protocol(self):
+        """
+        Current http protocol
+        """
         return dj_settings.META_SITE_PROTOCOL
 
-    def make_full_url(self, url):
-        warnings.warn(
-            'make_full_url is deprecated and it will be removed in 0.3',
-            DeprecationWarning
-        )
-        return self.build_absolute_uri(url)
-
     def build_absolute_uri(self, url):
+        """
+        Return the full url for the provided url argument
+        """
         request = self.get_request()
         if request:
             return request.build_absolute_uri(url)
@@ -142,9 +161,9 @@ class ModelMeta(object):
         if url.startswith('http'):
             return url
         if s.domain.find('http') > -1:
-            return "%s%s" % (s.domain, url)  # pragma: no cover
+            return '{0}{1}'.format(s.domain, url)  # pragma: no cover
         else:
             if url.startswith('/'):
-                return "%s://%s%s" % (meta_protocol, s.domain, url)
+                return '{0}://{1}{2}'.format(meta_protocol, s.domain, url)
             else:
-                return "%s://%s/%s" % (meta_protocol, s.domain, url)
+                return '{0}://{1}/{2}'.format(meta_protocol, s.domain, url)

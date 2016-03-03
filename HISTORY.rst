@@ -9,6 +9,7 @@ History
 
 * Merge with django-meta-mixin
 * Reorganized documentation
+* Remove deprecated ``make_full_url`` method
 
 0.3.2 (2016-02-09)
 ==================

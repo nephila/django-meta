@@ -88,7 +88,7 @@ class Post(ModelMeta, models.Model):
         return self.build_absolute_uri(self.main_image.url)
 
     def get_full_url(self):
-        return self.make_full_url(self.get_absolute_url())
+        return self.build_absolute_uri(self.get_absolute_url())
 
     def get_author(self):
         author = super(Post, self).get_author()

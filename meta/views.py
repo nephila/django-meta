@@ -6,8 +6,9 @@ from . import settings
 
 
 class Meta(object):
-    """ Helper for building context meta object """
-
+    """
+    Helper for building context meta object
+    """
     _keywords = []
     _url = None
     _image = None
@@ -112,8 +113,9 @@ class Meta(object):
 
 
 class MetadataMixin(object):
-    """ Django CBV mixin to prepare metadata for the view context """
-
+    """
+    Django CBV mixin to prepare metadata for the view context
+    """
     meta_class = Meta
     context_meta_name = 'meta'
 
