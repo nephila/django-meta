@@ -12,8 +12,8 @@ Nephila
 *******
 
 django meta is maintained by Iacopo Spalletti at `Nephila <https://www.nephila.it/>`_
-and is released under a GNU GENERAL PUBLIC LICENSE.
+and is released under a BSD License.
 
-Nephila is an active supporter of django CMS and its community. django meta is intended to
-help make it easier for developers in the Django ecosystem to work effectively and create
-high quality applications.
+Nephila is an active supporter of Django, django CMS and its community.
+django meta is intended to help make it easier for developers in the Django ecosystem
+to work effectively and create high quality applications.
