@@ -3,6 +3,7 @@ source = meta
 branch = True
 omit =
     tests/*
+    example/*
 
 [report]
 exclude_lines =

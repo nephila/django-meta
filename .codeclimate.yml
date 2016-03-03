@@ -1,0 +1,7 @@
+languages:
+  Ruby: false
+  JavaScript: false
+  PHP: false
+  Python: true
+exclude_paths:
+ - 'tests/*'

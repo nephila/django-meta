@@ -1,3 +1,4 @@
+build
 *.py[co]
 *.sw[op]
 dist
@@ -6,5 +7,5 @@ MANIFEST
 .idea
 .coverage
 *.egg-info
-
+docs/_build
 *.iml

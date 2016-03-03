@@ -1,3 +1,7 @@
-include README.rst
-include CHANGELOG.rst
+include AUTHORS.rst
+include CONTRIBUTING.rst
+include HISTORY.rst
 include LICENSE
+include README.rst
+recursive-include meta *.html *.png *.gif *js *jpg *jpeg *svg *py
+recursive-include meta_mixin *py

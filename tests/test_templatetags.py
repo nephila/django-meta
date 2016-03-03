@@ -1,18 +1,16 @@
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+from django.test import TestCase
 
-from meta.views import Meta
 from meta.templatetags.meta import (
-    og_prop, meta, meta_list, title_prop, twitter_prop, generic_prop,
-    googleplus_prop, googleplus_html_scope, custom_meta,
-    custom_meta_extras, meta_extras, facebook_prop, meta_namespaces)
+    custom_meta, custom_meta_extras, facebook_prop, generic_prop, googleplus_html_scope, googleplus_prop, meta,
+    meta_extras, meta_list, meta_namespaces, og_prop, title_prop, twitter_prop,
+)
+from meta.views import Meta
 
 
-class OgPropTestCase(unittest.TestCase):
+class OgPropTestCase(TestCase):
     def test_og_prop_basically_works(self):
         self.assertEqual(
             og_prop('type', 'website'),
@@ -32,7 +30,7 @@ class OgPropTestCase(unittest.TestCase):
         )
 
 
-class MetaTestCase(unittest.TestCase):
+class MetaTestCase(TestCase):
     def test_meta_basically_works(self):
         self.assertEqual(
             meta('description', 'Awesome website about ponies'),
@@ -46,7 +44,7 @@ class MetaTestCase(unittest.TestCase):
         )
 
 
-class CustomMetaTestCase(unittest.TestCase):
+class CustomMetaTestCase(TestCase):
     def test_custom_meta_basically_works(self):
         self.assertEqual(
             custom_meta('property', 'foo', 'bar'),
@@ -60,7 +58,7 @@ class CustomMetaTestCase(unittest.TestCase):
         )
 
 
-class TwitterPropTestCase(unittest.TestCase):
+class TwitterPropTestCase(TestCase):
     def test_twitter_basically_works(self):
         self.assertEqual(
             twitter_prop('foo', 'bar'),
@@ -74,7 +72,7 @@ class TwitterPropTestCase(unittest.TestCase):
         )
 
 
-class FacebookPropTestCase(unittest.TestCase):
+class FacebookPropTestCase(TestCase):
     def test_facebook_basically_works(self):
         self.assertEqual(
             facebook_prop('foo', 'bar'),
@@ -82,7 +80,7 @@ class FacebookPropTestCase(unittest.TestCase):
         )
 
 
-class GooglePlusPropTestcase(unittest.TestCase):
+class GooglePlusPropTestcase(TestCase):
     def test_google_plus_basically_works(self):
         self.assertEqual(
             googleplus_prop('foo', 'bar'),
@@ -102,7 +100,7 @@ class GooglePlusPropTestcase(unittest.TestCase):
         )
 
 
-class MetaListTestCase(unittest.TestCase):
+class MetaListTestCase(TestCase):
     def test_meta_list_basically_works(self):
         self.assertEqual(
             meta_list('keywords', ['foo', 'bar', 'baz']),
@@ -122,7 +120,7 @@ class MetaListTestCase(unittest.TestCase):
         )
 
 
-class MetaExtrasTestCase(unittest.TestCase):
+class MetaExtrasTestCase(TestCase):
     def test_meta_extras_basically_works(self):
         result = meta_extras({
             'type': 'foo',
@@ -132,7 +130,7 @@ class MetaExtrasTestCase(unittest.TestCase):
         self.assertTrue('<meta name="image_width" content="bar">' in result)
 
 
-class CustomMetaExtrasTestCase(unittest.TestCase):
+class CustomMetaExtrasTestCase(TestCase):
     def test_custom_meta_extras_basically_works(self):
         result = custom_meta_extras([
                 ('property', 'type', 'foo'),
@@ -142,7 +140,7 @@ class CustomMetaExtrasTestCase(unittest.TestCase):
         self.assertTrue('<meta key="image_width" content="bar">' in result)
 
 
-class MetaNamespaceTestCase(unittest.TestCase):
+class MetaNamespaceTestCase(TestCase):
     def test_meta_namespaces_no_meta_in_context(self):
         context = {}
         result = meta_namespaces(context)
@@ -182,7 +180,7 @@ class MetaNamespaceTestCase(unittest.TestCase):
         self.assertEqual(result, expected)
 
 
-class TitlePropTestCase(unittest.TestCase):
+class TitlePropTestCase(TestCase):
     def test_title_prop_basically_works(self):
         self.assertEqual(
             title_prop('I love django-meta app!'),

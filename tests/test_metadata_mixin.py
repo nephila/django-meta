@@ -1,15 +1,13 @@
-from __future__ import unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
-try:
-    import unittest2 as unittest
-except ImportError:
-    import unittest
+from django.test import TestCase
 
-import meta
-from meta.views import MetadataMixin, Meta
+from meta import settings
+from meta.views import Meta, MetadataMixin
 
 
-class MetadataMixinTestCase(unittest.TestCase):
+class MetadataMixinTestCase(TestCase):
     def test_get_meta_class(self):
         m = MetadataMixin()
         self.assertEqual(
@@ -86,7 +84,7 @@ class MetadataMixinTestCase(unittest.TestCase):
     def test_get_meta_object_type_with_setting(self):
         m = MetadataMixin()
 
-        meta.settings.SITE_TYPE = 'foo'
+        settings.SITE_TYPE = 'foo'
 
         self.assertEqual(
             m.get_meta_object_type(),
@@ -109,7 +107,7 @@ class MetadataMixinTestCase(unittest.TestCase):
     def test_get_meta_site_name_with_setting(self):
         m = MetadataMixin()
 
-        meta.settings.SITE_NAME = 'Foo'
+        settings.SITE_NAME = 'Foo'
 
         self.assertEqual(
             m.get_meta_site_name(),
@@ -233,15 +231,16 @@ class MetadataMixinTestCase(unittest.TestCase):
         )
 
     def test_get_meta(self):
+        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.USE_SITES = False
+
         m = MetadataMixin()
         m.title = 'title'
         m.description = 'description'
         m.keywords = ['foo', 'bar']
         m.url = 'some/path'
         m.image = 'images/foo.gif'
-
-        meta.settings.SITE_PROTOCOL = 'http'
-        meta.settings.SITE_DOMAIN = 'foo.com'
 
         meta_object = m.get_meta()
 
@@ -279,8 +278,9 @@ class MetadataMixinTestCase(unittest.TestCase):
             url = 'some/path'
             image = 'images/foo.gif'
 
-        meta.settings.SITE_PROTOCOL = 'http'
-        meta.settings.SITE_DOMAIN = 'foo.com'
+        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.USE_SITES = False
 
         v = View()
 

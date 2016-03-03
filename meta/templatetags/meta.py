@@ -1,4 +1,5 @@
-from __future__ import absolute_import, unicode_literals
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, print_function, unicode_literals
 
 from django import template
 from django.utils.html import escape
@@ -15,6 +16,7 @@ def title_prop(value):
 def generic_prop(namespace, name, value):
     """
     Generic property setter that allows to create custom namespaced meta
+    e.g.: fb:profile_id.
     """
     return custom_meta('property', '%s:%s' % (namespace, name), value)
 
@@ -49,9 +51,13 @@ def googleplus_html_scope(value):
 
 
 @register.simple_tag
+def googleplus_scope(value):
+    return googleplus_html_scope(value)
+
+
+@register.simple_tag
 def meta(name, value):
     return custom_meta('name', name, value)
-
 
 
 @register.simple_tag
@@ -59,12 +65,11 @@ def custom_meta(key, name, value):
     return '<meta %s="%s" content="%s">' % (escape(key), escape(name), escape(value))
 
 
-
 @register.simple_tag
 def meta_list(name, lst):
     try:
         return custom_meta('name', name, ', '.join(lst))
-    except:
+    except Exception:
         return ''
 
 

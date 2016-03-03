@@ -1,0 +1,12 @@
+{% load sekizai_tags %}
+
+<html {% render_block 'html_extra' %}>
+<head>
+    {{ meta.og_description }}
+	{% include "meta/meta.html" %}
+</head>
+<body>
+{{object.title}}
+{{object.text}}
+</body>
+</html>

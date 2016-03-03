@@ -6,8 +6,9 @@ from . import settings
 
 
 class Meta(object):
-    """ Helper for building context meta object """
-
+    """
+    Helper for building context meta object
+    """
     _keywords = []
     _url = None
     _image = None
@@ -112,8 +113,9 @@ class Meta(object):
 
 
 class MetadataMixin(object):
-    """ Django CBV mixin to prepare metadata for the view context """
-
+    """
+    Django CBV mixin to prepare metadata for the view context
+    """
     meta_class = Meta
     context_meta_name = 'meta'
 
@@ -132,9 +134,14 @@ class MetadataMixin(object):
     twitter_card = None
     facebook_app_id = None
     locale = None
-    use_sites = settings.USE_SITES
-    use_og = settings.USE_OG_PROPERTIES
-    use_title_tag = settings.USE_TITLE_TAG
+    use_sites = False
+    use_og = False
+    use_use_title_tag = False
+
+    def __init__(self, **kwargs):
+        self.use_sites = settings.USE_SITES
+        self.use_og = settings.USE_OG_PROPERTIES
+        self.use_title_tag = settings.USE_TITLE_TAG
 
     def get_meta_class(self):
         return self.meta_class
