@@ -37,6 +37,10 @@ OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 .. note:: django-meta is now maintained by Nephila on `github`_. Old bitbucket
           repository won't be updated anymore.
 
+.. warning:: as of version 1.0 django-meta has included django-meta-mixin 0.2.1;
+             django-meta 1.0 is a drop in replacement for django-meta-mixin:
+             as a result django-meta-mixin is no longer actively developed
+
 .. contents::
 
 Installation
@@ -79,6 +83,7 @@ Basic concept
 
 ``django-meta`` provides a **view-method** and **model-method** interface to provide and handle meta informations
 
+For more details check `documentation`_.
 
 Authors and Contributors
 ========================
@@ -98,5 +103,6 @@ Please report all bugs to our Github `issue tracker`_.
 .. _issue tracker: https://github.com/nephila/django-meta/issues/
 .. _github: https://github.com/nephila/django-meta/
 .. _Iacopo Spalletti: https://github.com/yakky
+.. _documentation: http://django-meta.readthedocs.org/en/latest/
 .. _Branko Vukelic: https://bitbucket.org/monwara
 
