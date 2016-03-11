@@ -39,6 +39,25 @@ following keys/attributes:
 In all cases, if the key is omitted, the matching metadata/property is not
 rendered.
 
+Reference template
+------------------
+
+See below the basic reference template::
+
+    {% load sekizai_tags meta %}
+
+    <html {% render_block 'html_extra' %}>
+    <head {% meta_namespaces %}>
+        {{ meta.og_description }}
+        {% include "meta/meta.html" %}
+    </head>
+    <body>
+    {% block content %}
+    {% endblock content %}
+    </body>
+    </html>
+
+
 use_og
 ------
 

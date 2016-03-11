@@ -99,6 +99,12 @@ This setting tells django-meta to derive the site's domain using the Django's
 sites contrib app. If you enable this setting, the META_SITE_DOMAIN_ is not
 used at all. Default is ``False``.
 
+META_OG_NAMESPACES
+------------------
+
+Use this setting to add a list of additional OpenGraph namespaces to be declared
+in the ``<head>`` tag.
+
 
 Other settings
 --------------

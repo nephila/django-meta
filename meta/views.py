@@ -19,7 +19,7 @@ class Meta(object):
         self.description = kwargs.get('description')
         self.extra_props = kwargs.get('extra_props')
         self.extra_custom_props = kwargs.get('extra_custom_props')
-        self.custom_namespace = kwargs.get('custom_namespace')
+        self.custom_namespace = kwargs.get('custom_namespace', settings.OG_NAMESPACES)
         self.keywords = kwargs.get('keywords')
         self.url = kwargs.get('url')
         self.image = kwargs.get('image')
@@ -180,7 +180,7 @@ class MetadataMixin(object):
         return self.extra_custom_props
 
     def get_meta_custom_namespace(self, context={}):
-        return self.custom_namespace
+        return self.custom_namespace or settings.OG_NAMESPACES
 
     def get_meta_twitter_site(self, context={}):
         return self.twitter_site
