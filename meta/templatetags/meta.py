@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from django import template
 from django.utils.html import escape
+from django.utils.six import string_types
 
 register = template.Library()
 
@@ -104,9 +105,11 @@ def meta_namespaces(context):
     # add custom namespaces
     # needs to be after Facebook
     if meta.custom_namespace:
-        custom_namespace = '%s: http://ogp.me/ns/%s#' % (
-            meta.custom_namespace, meta.custom_namespace
-        )
-        namespaces.append(custom_namespace)
+        custom_namespaces = meta.custom_namespace
+        if isinstance(meta.custom_namespace, string_types):
+            custom_namespaces = [meta.custom_namespace]
+        for ns in custom_namespaces:
+            custom_namespace = '{0}: http://ogp.me/ns/{0}#'.format(ns)
+            namespaces.append(custom_namespace)
 
     return ' prefix="%s"' % " ".join(namespaces)

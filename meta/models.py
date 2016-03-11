@@ -40,6 +40,7 @@ class ModelMeta(object):
         'tag': False,
         'url': False,
         'locale': False,
+        'custom_namespace': settings.OG_NAMESPACES,
     }
 
     def get_meta(self, request=None):

@@ -17,6 +17,7 @@ USE_FACEBOOK_PROPERTIES = getattr(django_settings, 'META_USE_FACEBOOK_PROPERTIES
 USE_GOOGLEPLUS_PROPERTIES = getattr(django_settings, 'META_USE_GOOGLEPLUS_PROPERTIES', False)
 USE_SITES = getattr(django_settings, 'META_USE_SITES', False)
 USE_TITLE_TAG = getattr(django_settings, 'META_USE_TITLE_TAG', False)
+OG_NAMESPACES = getattr(django_settings, 'META_OG_NAMESPACES', None)
 
 OBJECT_TYPES = (
     ('Article', _('Article')),

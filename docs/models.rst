@@ -99,4 +99,24 @@ Usage
 
 Note
 ++++
-For Google+ support you must add ``{% render_block 'html_extra' %}`` in your template to add object type definition. See relevant Google+ snippets documentation (https://developers.google.com/+/web/snippet/)
+
+* For Google+ support you must add ``{% render_block 'html_extra' %}`` in your template to add object type definition. See relevant Google+ snippets documentation (https://developers.google.com/+/web/snippet/)
+* For OpenGraph / Facebook support, edit your ``<head>`` tag to use ``meta_namespaces`` templatetags
+
+Reference template
+------------------
+
+See below the basic reference template::
+
+    {% load sekizai_tags meta %}
+
+    <html {% render_block 'html_extra' %}>
+    <head {% meta_namespaces %}>
+        {{ meta.og_description }}
+        {% include "meta/meta.html" %}
+    </head>
+    <body>
+    {% block content %}
+    {% endblock content %}
+    </body>
+    </html>

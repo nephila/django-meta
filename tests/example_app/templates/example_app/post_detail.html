@@ -1,9 +1,9 @@
-{% load sekizai_tags %}
+{% load sekizai_tags meta %}
 
 <html {% render_block 'html_extra' %}>
-<head>
+<head {% meta_namespaces %}>
     {{ meta.og_description }}
-	{% include "meta/meta.html" %}
+    {% include "meta/meta.html" %}
 </head>
 <body>
 {{object.title}}

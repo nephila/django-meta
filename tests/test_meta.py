@@ -85,6 +85,13 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(m.keywords[1], 'bar')
 
+    def test_set_namespaces(self):
+        settings.OG_NAMESPACES = ['foo', 'bar']
+        m = Meta()
+        self.assertEqual(m.custom_namespace[0], 'foo')
+        self.assertEqual(m.custom_namespace[1], 'bar')
+        settings.OG_NAMESPACES = None
+
     def test_get_full_url_with_None(self):
         m = Meta()
         self.assertEqual(m.get_full_url(None), None)

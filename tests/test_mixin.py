@@ -7,6 +7,7 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase
 
+from meta import settings
 from meta.models import ModelMeta
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
 
@@ -57,7 +58,9 @@ class TestMeta(BaseTestCase):
             'og_type': 'Article',
             'twitter_author': '@FooBar',
             'twitter_site': '@FooBlag',
+            'custom_namespace': ['foo', 'bar'],
         }
+        settings.OG_NAMESPACES = ['foo', 'bar']
         meta = self.post.as_meta()
         self.assertTrue(meta)
         for key in ModelMeta._metadata_default.keys():
@@ -69,6 +72,7 @@ class TestMeta(BaseTestCase):
 
         self.assertEqual(self.post.build_absolute_uri('hi'), 'http://example.com/hi')
         self.assertEqual(self.post.build_absolute_uri('http://example.com/hi'), 'http://example.com/hi')
+        settings.OG_NAMESPACES = None
 
     def test_as_meta_with_request(self):
         # Server is different as it's taken directly from the request object
@@ -97,6 +101,7 @@ class TestMeta(BaseTestCase):
             'og_type': 'Article',
             'twitter_author': '@FooBar',
             'twitter_site': '@FooBlag',
+            'custom_namespace': None,
         }
         request = self.get_request(None, 'en', path='/title/', secure=True)
         meta = self.post.as_meta(request)
@@ -130,6 +135,14 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
         settings.USE_OG_PROPERTIES = True
+
+    def test_templatetag_custom_namespaces(self):
+        from meta import settings
+        settings.OG_NAMESPACES = ['foo', 'bar']
+        response = self.client.get('/title/')
+        for ns in settings.OG_NAMESPACES:
+            self.assertContains(response, '{0}: http://ogp.me/ns/{0}#'.format(ns))
+        settings.OG_NAMESPACES = None
 
     def test_generic_prop_basically_works(self):
         """

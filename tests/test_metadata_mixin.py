@@ -165,6 +165,14 @@ class MetadataMixinTestCase(TestCase):
             'my-website'
         )
 
+        settings.OG_NAMESPACES = ['foo', 'bar']
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_custom_namespace(),
+            ['foo', 'bar']
+        )
+        settings.OG_NAMESPACES = None
+
     def test_get_meta_twitter_site(self):
         m = MetadataMixin()
         self.assertEqual(
