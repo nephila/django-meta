@@ -8,7 +8,7 @@ setup(
                 'properties',
     long_description=open('README.rst').read(),
     version=meta.__version__,
-    packages=['meta', 'meta.templatetags'],
+    packages=['meta', 'meta.templatetags', 'meta_mixin'],
     package_data={
         'meta': ['templates/*.html'],
     },
