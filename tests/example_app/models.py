@@ -34,6 +34,7 @@ class Post(ModelMeta, models.Model):
                                    upload_to='images', null=True)
     text = models.TextField(verbose_name=_(u'Post text'),
                             blank=True, default='')
+    image_url = models.CharField(max_length=200, null=True, blank=True)
 
     _metadata_default = ModelMeta._metadata_default.copy()  # purely for testing purposes
     _metadata_default['locale'] = 'dummy_locale'

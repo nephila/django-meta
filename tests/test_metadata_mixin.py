@@ -265,6 +265,7 @@ class MetadataMixinTestCase(TestCase):
             meta_object.image,
             'http://foo.com/static/images/foo.gif'
         )
+        settings.SITE_DOMAIN = 'example.com'
 
     def test_get_context(self):
         class Super(object):
@@ -300,3 +301,5 @@ class MetadataMixinTestCase(TestCase):
             context['meta'].image,
             'http://foo.com/static/images/foo.gif'
         )
+
+        settings.SITE_DOMAIN = 'example.com'
