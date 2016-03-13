@@ -4,6 +4,8 @@
 View support
 ************
 
+.. _Using the view:
+
 Using the view
 --------------
 
@@ -191,6 +193,8 @@ A list of tuples for rendering custom extra properties::
     <meta name="foo" content="bar">
     <meta property="name" content="value">
 
+.. _meta objects:
+
 Meta objects
 ============
 
@@ -233,10 +237,10 @@ Meta.keywords
 
 When you assign keywords either via the constructor, or by assigning an
 iterable to the ``keywords`` property, it will be cleaned up of all duplicates
-and returned as a ``set``. If you have specified the META_INCLUDE_KEYWORDS_,
+and returned as a ``set``. If you have specified the :ref:`META_INCLUDE_KEYWORDS`,
 the resulting set will also include them. If you omit this argument when
 instantiating the object, or if you assign ``None`` to the ``keywords``
-property, keywords defined by META_DEFAULT_KEYWORDS_ setting will be used
+property, keywords defined by :ref:`META_DEFAULT_KEYWORDS` setting will be used
 instead.
 
 Meta.url
@@ -252,9 +256,9 @@ an example::
     m = Meta(url='/foo/bar')
     m.url  # returns 'http://example.com/foo/bar'
 
-The actual protocol and domain are dependent on the META_SITE_PROTOCOL_ and
-META_SITE_DOMAIN_ settings. If you wish to use the Django's sites contrib app
-to calculate the domain, you can either set the META_USE_SITES_ setting to
+The actual protocol and domain are dependent on the :ref:`META_SITE_PROTOCOL` and
+:ref:`META_SITE_DOMAIN` settings. If you wish to use the Django's sites contrib app
+to calculate the domain, you can either set the :ref:`META_USE_SITES` setting to
 ``True``, or pass the ``use_sites`` argument to the constructor::
 
     m = Meta(url='/foo/bar', use_sites=True)
@@ -267,7 +271,7 @@ Meta.image
 
 The ``image`` property behaves the same way as ``url`` property with one
 notable difference. This property treats absolute and relative paths
-differently. It will place relative paths under the META_IMAGE_URL_.
+differently. It will place relative paths under the :ref:`META_IMAGE_URL`.
 
 View mixin
 ==========
@@ -290,11 +294,11 @@ is very simple::
         ....
 
 
-The mixin sports all properties listed in the `Using the view`_ section with a
+The mixin sports all properties listed in the :ref:`Using the view` section with a
 few additional bells and whistles that make working with them easier. The mixin
-will return an instance of the ``Meta`` class (see `Meta objects`_) as ``meta``
+will return an instance of the ``Meta`` class (see :ref:`Meta objects`) as ``meta``
 context variable. This is, in turn, used in the partial template to render the
-meta tags (see `Rendering meta tags`_).
+meta tags (see :ref:`rendering`).
 
 Each of the properties on the mixin can be calculated dynamically by using the
 ``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
@@ -312,3 +316,5 @@ like so::
 
 There are two more methods that you can overload in your view classes, and
 those are ``get_domain`` and ``get_protocol``.
+
+.. _OpenGraph: http://opengraphprotocol.org/

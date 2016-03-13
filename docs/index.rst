@@ -22,6 +22,7 @@ django meta has two different operating mode:
    views
    settings
    rendering
+   modules
    development
    contributing
    history
