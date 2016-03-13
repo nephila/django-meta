@@ -35,7 +35,7 @@ cms_helper.setup()
 # ones.
 extensions = [
     'sphinx.ext.autodoc',
-    #'sphinx.ext.intersphinx',
+    'sphinx.ext.intersphinx',
     'sphinx.ext.todo',
     'sphinx.ext.coverage',
     'sphinx.ext.ifconfig',
@@ -143,7 +143,7 @@ html_theme_path = [sphinx_rtd_theme.get_html_theme_path()]
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
 # so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
+#html_static_path = ['_static']
 
 # Add any extra paths that contain custom files (such as robots.txt or
 # .htaccess) here, relative to this directory. These files are copied
@@ -242,7 +242,7 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'djangocmshelper', u'Django App Helper Documentation',
+    ('index', 'djangometa', u'Django Meta Documentation',
      [u'Iacopo Spalletti'], 1)
 ]
 
@@ -256,8 +256,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'djangoCMSHelper', u'Django App Helper Documentation',
-   u'Iacopo Spalletti', 'djangoCMSHelper', 'One line description of project.',
+  ('index', 'djangometa', u'Django Meta Documentation',
+   u'Iacopo Spalletti', 'djangometa', 'One line description of project.',
    'Miscellaneous'),
 ]
 
