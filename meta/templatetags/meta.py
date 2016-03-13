@@ -9,7 +9,81 @@ register = template.Library()
 
 
 @register.simple_tag
+def meta(name, content):
+    """
+    Generates a meta tag according to the following markup:
+
+    <meta name="{name}" content="{content}">
+
+    :param name: meta name
+    :param content: content value
+    """
+    return custom_meta('name', name, content)
+
+
+@register.simple_tag
+def custom_meta(attr, name, content):
+    """
+    Generates a custom meta tag:
+
+    <meta {attr}="{name}" content="{content}">
+
+    :param attr: meta attribute name
+    :param name: meta name
+    :param content: content value
+    """
+    return '<meta {attr}="{name}" content="{content}">'.format(
+        attr=escape(attr), name=escape(name), content=escape(content)
+    )
+
+
+@register.simple_tag
+def meta_list(name, lst):
+    """
+    Renders in a single meta a list of values (e.g.: keywords list)
+
+    :param name: meta name
+    :param lst: values
+    """
+    try:
+        return custom_meta('name', name, ', '.join(lst))
+    except Exception:
+        return ''
+
+
+@register.simple_tag
+def meta_extras(extra_props):
+    """
+    Generates the markup for a list of meta tags
+
+    Each key,value paur is passed to :py:func:meta to generate the markup
+
+    :param extra_props: dictionary of additional meta tags
+    """
+    return ' '.join([meta(name, extra_props[name]) if extra_props[name] else ''
+                     for name in extra_props])
+
+
+@register.simple_tag
+def custom_meta_extras(extra_custom_props):
+    """
+    Generates the markup for a list of custom meta tags
+
+    Each tuple is passed to :py:func:custom_meta to generate the markup
+
+    :param extra_custom_props: list of tuple of additional meta tags
+    """
+    return ' '.join([custom_meta(name_key, name_value, content) if content else ''
+                     for name_key, name_value, content in extra_custom_props])
+
+
+@register.simple_tag
 def title_prop(value):
+    """
+    Title tag
+
+    :param value: title value
+    """
     return '<title>%s</title>' % escape(value)
 
 
@@ -24,21 +98,45 @@ def generic_prop(namespace, name, value):
 
 @register.simple_tag
 def og_prop(name, value):
+    """
+    Generic OpenGraph property
+
+    :param name: property name (without 'og:' namespace)
+    :param value: property value
+    """
     return custom_meta('property', 'og:%s' % name, value)
 
 
 @register.simple_tag
+def facebook_prop(name, value):
+    """
+    Generic Facebook property
+
+    :param name: property name (without 'fb:' namespace)
+    :param value: property value
+    """
+    return custom_meta('name', 'fb:%s' % name, value)
+
+
+@register.simple_tag
 def twitter_prop(name, value):
+    """
+    Generic Twitter property
+
+    :param name: property name (without 'twitter:' namespace)
+    :param value: property value
+    """
     return custom_meta('name', 'twitter:%s' % name, value)
 
 
 @register.simple_tag
-def facebook_prop(name, value):
-    return '<meta name="fb:%s" content="%s">' % (name, value)
-
-
-@register.simple_tag
 def googleplus_prop(name, value):
+    """
+    Generic Google+ property
+
+    :param name: property name
+    :param value: property value
+    """
     return custom_meta('itemprop', name, value)
 
 
@@ -47,43 +145,20 @@ def googleplus_html_scope(value):
     """
     This is meant to be used as attribute to html / body or other tags to
     define schema.org type
+
+    :param value: declared scope
     """
     return ' itemscope itemtype="http://schema.org/%s" ' % escape(value)
 
 
 @register.simple_tag
 def googleplus_scope(value):
+    """
+    Alias for googleplus_html_scope
+
+    :param value: declared scope
+    """
     return googleplus_html_scope(value)
-
-
-@register.simple_tag
-def meta(name, value):
-    return custom_meta('name', name, value)
-
-
-@register.simple_tag
-def custom_meta(key, name, value):
-    return '<meta %s="%s" content="%s">' % (escape(key), escape(name), escape(value))
-
-
-@register.simple_tag
-def meta_list(name, lst):
-    try:
-        return custom_meta('name', name, ', '.join(lst))
-    except Exception:
-        return ''
-
-
-@register.simple_tag
-def meta_extras(extra_props):
-    return ' '.join([meta(name, extra_props[name]) if extra_props[name] else ''
-                     for name in extra_props])
-
-
-@register.simple_tag
-def custom_meta_extras(extra_custom_props):
-    return ' '.join([custom_meta(name_key, name_value, content) if content else ''
-                     for name_key, name_value, content in extra_custom_props])
 
 
 @register.simple_tag(takes_context=True)
