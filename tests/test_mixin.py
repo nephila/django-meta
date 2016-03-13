@@ -28,7 +28,8 @@ class TestMeta(BaseTestCase):
             author=self.user,
             date_published_end=timezone.now() + timedelta(days=2),
             text='post text',
-            main_image='/path/to/image'
+            main_image='/path/to/image',
+            image_url='/path/to/image'
         )
 
     @override_settings(META_SITE_PROTOCOL='http')
@@ -125,6 +126,18 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+
+    def test_templatetag_metadatamixin(self):
+        """
+        Test for issue #11
+        """
+        response = self.client.get('/mixin/title/')
+        self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+        self.assertContains(response, '<meta name="twitter:image:src" content="http://example.com/path/to/image">')
 
     def test_templatetag_no_og(self):
         from meta import settings
