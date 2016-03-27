@@ -10,7 +10,7 @@ setup(
     version=meta.__version__,
     packages=['meta', 'meta.templatetags', 'meta_mixin'],
     package_data={
-        'meta': ['templates/*.html'],
+        'meta': ['templates/*.html', 'templates/meta_mixin/*.html', 'templates/meta/*.html'],
     },
     author='Monwara LLC',
     maintainer='Nephila',
