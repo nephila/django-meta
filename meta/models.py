@@ -51,13 +51,10 @@ class ModelMeta(object):
         metadata.update(self._metadata)
         return metadata
 
-    def as_meta(self, request=None):
+    def _retrieve_data(self, request, metadata):
         """
-        Method that generates the Meta object (from django-meta)
+        Build the data according to the metadata configuration
         """
-        from meta.views import Meta
-        metadata = self.get_meta(request)
-        meta = Meta()
         with self._set_request(request):
             for field, value in metadata.items():
                 if value:
@@ -72,7 +69,17 @@ class ModelMeta(object):
                             data = attr
                     else:
                         data = value
-                    setattr(meta, field, data)
+                    yield field, data
+
+    def as_meta(self, request=None):
+        """
+        Method that generates the Meta object (from django-meta)
+        """
+        from meta.views import Meta
+        metadata = self.get_meta(request)
+        meta = Meta()
+        for field, data in self._retrieve_data(request, metadata):
+            setattr(meta, field, data)
         for field in ('og_description', 'twitter_description', 'gplus_description'):
             generaldesc = getattr(meta, 'description', False)
             if not getattr(meta, field, False) and generaldesc:

@@ -10,6 +10,7 @@ History
 * Merge with django-meta-mixin
 * Reorganized documentation
 * Remove deprecated ``make_full_url`` method
+* Add _retrieve_data interface for generic attribute data generation
 
 0.3.2 (2016-02-09)
 ==================
