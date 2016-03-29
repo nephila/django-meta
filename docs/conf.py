@@ -55,7 +55,7 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'Django App Helper'
+project = u'Django Meta'
 copyright = u'2014, Iacopo Spalletti'
 
 # The version info for the project you're documenting, acts as replacement for
