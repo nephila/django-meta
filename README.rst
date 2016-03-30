@@ -50,11 +50,12 @@ Install using pip::
 
     pip install django-meta
 
-Add ``meta`` to ``INSTALLED_APPS``::
+Add ``meta`` and ``sekizai`` to ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         ....
         'meta',
+        'sekizai',
     )
 
 Supported versions
