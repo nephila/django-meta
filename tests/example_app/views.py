@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from meta.views import MetadataMixin
 
@@ -31,3 +31,11 @@ class PostMixinDetailView(MetadataMixin, DetailView):
 
     def get_meta_image(self, context):
         return self.object.image_url
+
+
+class PostListView(MetadataMixin, ListView):
+    model = Post
+    title = 'Some page'
+    description = 'This is an awesome page'
+    image = 'img/some_page_thumb.gif'
+    url = 'some/page/'

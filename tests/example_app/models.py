@@ -15,7 +15,7 @@ class Post(ModelMeta, models.Model):
     Blog post
     """
     title = models.CharField(_('Title'), max_length=255)
-    slug = models.SlugField(_('slug'), blank=True, db_index=True)
+    slug = models.SlugField(_('slug'))
     abstract = models.TextField(_('Abstract'))
     meta_description = models.TextField(
         verbose_name=_(u'Post meta description'),
@@ -86,7 +86,8 @@ class Post(ModelMeta, models.Model):
         return description.strip()
 
     def get_image_full_url(self):
-        return self.build_absolute_uri(self.main_image.url)
+        if self.main_image:
+            return self.build_absolute_uri(self.main_image.url)
 
     def get_full_url(self):
         return self.build_absolute_uri(self.get_absolute_url())
