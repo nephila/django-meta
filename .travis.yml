@@ -13,10 +13,14 @@ python:
 
 env:
   matrix:
-  - DJANGO='django16'
-  - DJANGO='django17'
-  - DJANGO='django18'
-  - DJANGO='django19'
+  - DJANGO='django16-sekizai'
+  - DJANGO='django16-nosekizai'
+  - DJANGO='django17-sekizai'
+  - DJANGO='django17-nosekizai'
+  - DJANGO='django18-sekizai'
+  - DJANGO='django18-nosekizai'
+  - DJANGO='django19-sekizai'
+  - DJANGO='django19-nosekizai'
   - TOXENV='pep8'
   - TOXENV='isort'
   - TOXENV='docs'
@@ -44,19 +48,31 @@ after_success:
 matrix:
   exclude:
   - python: 2.6
-    env: DJANGO='django17'
+    env: DJANGO='django17-sekizai'
   - python: 2.6
-    env: DJANGO='django18'
+    env: DJANGO='django17-nosekizai'
   - python: 2.6
-    env: DJANGO='django19'
+    env: DJANGO='django18-sekizai'
+  - python: 2.6
+    env: DJANGO='django18-nosekizai'
+  - python: 2.6
+    env: DJANGO='django19-sekizai'
+  - python: 2.6
+    env: DJANGO='django19-nosekizai'
 
   - python: 3.3
-    env: DJANGO='django19'
+    env: DJANGO='django19-sekizai'
+  - python: 3.3
+    env: DJANGO='django19-nosekizai'
 
   - python: 3.5
-    env: DJANGO='django16'
+    env: DJANGO='django16-sekizai'
   - python: 3.5
-    env: DJANGO='django17'
+    env: DJANGO='django16-nosekizai'
+  - python: 3.5
+    env: DJANGO='django17-sekizai'
+  - python: 3.5
+    env: DJANGO='django17-nosekizai'
 
   - python: 2.6
     env: TOXENV='pep8'

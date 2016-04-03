@@ -19,6 +19,7 @@ try:
         def addtoblock(*args):
             """stub templatetag"""
             return ''
+
         @register.simple_tag()
         def endaddtoblock(*args):
             """stub templatetag"""
@@ -32,6 +33,7 @@ except ImportError:
         def addtoblock(*args):
             """stub templatetag"""
             return ''
+
         @register.simple_tag()
         def endaddtoblock(*args):
             """stub templatetag"""

@@ -4,7 +4,7 @@
 History
 *******
 
-1.1 (2016-04-03)
+1.1 (unreleased)
 ================
 
 * Sekizai is not required anymore

@@ -5,7 +5,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 HELPER_SETTINGS = dict(
     ROOT_URLCONF='tests.example_app.urls',
     INSTALLED_APPS=[
-        'sekizai',
         'meta',
         'tests.example_app',
     ],
@@ -15,10 +14,17 @@ HELPER_SETTINGS = dict(
     META_USE_TWITTER_PROPERTIES=True,
     META_USE_GOOGLEPLUS_PROPERTIES=True,
     NOSE_ARGS=['-s'],
-    TEMPLATE_CONTEXT_PROCESSORS=[
-        'sekizai.context_processors.sekizai',
-    ],
 )
+
+try:
+    import sekizai  # NOQA
+
+    HELPER_SETTINGS['INSTALLED_APPS'].append('sekizai')
+    HELPER_SETTINGS['TEMPLATE_CONTEXT_PROCESSORS'] = [
+        'sekizai.context_processors.sekizai',
+    ]
+except ImportError:
+    pass
 
 
 def run():
