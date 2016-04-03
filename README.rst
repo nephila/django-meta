@@ -46,16 +46,7 @@ OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 Installation
 ============
 
-Install using pip::
-
-    pip install django-meta
-
-Add ``meta`` to ``INSTALLED_APPS``::
-
-    INSTALLED_APPS = (
-        ....
-        'meta',
-    )
+See https://django-sekizai.readthedocs.org/en/latest/installation.html
 
 Supported versions
 ==================

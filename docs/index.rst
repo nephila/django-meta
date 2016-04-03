@@ -18,6 +18,7 @@ django meta has two different operating mode:
 .. toctree::
    :maxdepth: 2
 
+   installation
    models
    views
    settings
