@@ -19,7 +19,6 @@ setup(
     url='https://github.com/nephila/django-meta',
     license='BSD',
     install_requires=[
-        'django-sekizai',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
