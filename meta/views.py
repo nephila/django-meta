@@ -35,6 +35,7 @@ class Meta(object):
         self.use_facebook = kwargs.get('use_facebook', settings.USE_FACEBOOK_PROPERTIES)
         self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
         self.use_title_tag = kwargs.get('use_title_tag', settings.USE_TITLE_TAG)
+        self.gplus_type = kwargs.get('gplus_type', settings.GPLUS_TYPE)
 
     def get_domain(self):
         if self.use_sites:

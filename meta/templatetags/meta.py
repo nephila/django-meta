@@ -2,10 +2,40 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django import template
+from django.conf import settings
 from django.utils.html import escape
+from django.utils.safestring import mark_safe
 from django.utils.six import string_types
 
 register = template.Library()
+
+try:
+    from django.apps import apps
+    if apps.is_installed('sekizai'):
+        from sekizai.templatetags.sekizai_tags import Addtoblock
+        register.tag('addtoblock', Addtoblock)
+    else:
+        @register.simple_tag()
+        def addtoblock(*args):
+            """stub templatetag"""
+            return ''
+        @register.simple_tag()
+        def endaddtoblock(*args):
+            """stub templatetag"""
+            return ''
+except ImportError:
+    if 'sekizai' in settings.INSTALLED_APPS:
+        from sekizai.templatetags.sekizai_tags import Addtoblock
+        register.tag('addtoblock', Addtoblock)
+    else:
+        @register.simple_tag()
+        def addtoblock(*args):
+            """stub templatetag"""
+            return ''
+        @register.simple_tag()
+        def endaddtoblock(*args):
+            """stub templatetag"""
+            return ''
 
 
 @register.simple_tag
@@ -187,4 +217,17 @@ def meta_namespaces(context):
             custom_namespace = '{0}: http://ogp.me/ns/{0}#'.format(ns)
             namespaces.append(custom_namespace)
 
-    return ' prefix="%s"' % " ".join(namespaces)
+    return mark_safe(' prefix="{0}"'.format(' '.join(namespaces)))
+
+
+@register.simple_tag(takes_context=True)
+def meta_namespaces_gplus(context):
+    """
+    Include google+ attributes. To be used in the <html> or <body> tag.
+    """
+    # do nothing if meta is not in context or if G+ is not enabled
+    if not context.get('meta') or not context['meta'].use_googleplus:
+        return ''
+    return mark_safe(
+        ' itemscope itemtype="http://schema.org/{0}" '.format(context['meta'].gplus_type)
+    )
