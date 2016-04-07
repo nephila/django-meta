@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-import django.views.static
 import django.views.i18n
+import django.views.static
 from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.i18n import i18n_patterns

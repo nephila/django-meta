@@ -4,7 +4,12 @@
 History
 *******
 
-1.0 (unreleased)
+1.1 (unreleased)
+================
+
+* Sekizai is not required anymore
+
+1.0 (2016-03-29)
 ================
 
 * Merge with django-meta-mixin
