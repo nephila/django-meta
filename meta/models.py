@@ -58,18 +58,30 @@ class ModelMeta(object):
         with self._set_request(request):
             for field, value in metadata.items():
                 if value:
-                    attr = getattr(self, value, False)
-                    if attr is not False:
-                        if callable(attr):
-                            try:
-                                data = attr(field)
-                            except TypeError:
-                                data = attr()
-                        else:
-                            data = attr
-                    else:
-                        data = value
+                    data = self._get_meta_value(field, value)
                     yield field, data
+
+    def _get_meta_value(self, field, value):
+        """
+        Build the data according to a
+
+        :param field: metadata field name
+        :param value: provided value
+        :return: data
+        """
+        if value:
+            attr = getattr(self, value, False)
+            if attr is not False:
+                if callable(attr):
+                    try:
+                        data = attr(field)
+                    except TypeError:
+                        data = attr()
+                else:
+                    data = attr
+            else:
+                data = value
+            return data
 
     def as_meta(self, request=None):
         """
