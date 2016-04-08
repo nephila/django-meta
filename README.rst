@@ -46,7 +46,7 @@ OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 Installation
 ============
 
-See https://django-sekizai.readthedocs.org/en/latest/installation.html
+See https://django-meta.readthedocs.org/en/latest/installation.html
 
 Supported versions
 ==================
