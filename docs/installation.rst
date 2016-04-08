@@ -6,7 +6,7 @@ Installation
     pip install django-meta
 
 
-* Add ``meta`` and ``sekizai`` to ``INSTALLED_APPS``::
+* Add ``meta`` to ``INSTALLED_APPS``::
 
     INSTALLED_APPS = (
         ....
@@ -15,3 +15,8 @@ Installation
 
 * Add the :ref:`required namespace tags<rendering>` to your base template
   for compliancy with metadata protocols.
+
+* Optionally you can install and configure `sekizai`_
+
+
+.. _sekizai: https://django-sekizai.readthedocs.org/en/latest/#usage
