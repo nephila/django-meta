@@ -117,7 +117,8 @@ class TestMeta(BaseTestCase):
     def test_templatetag(self):
         meta = self.post.as_meta()
         response = self.client.get('/title/')
-        self.assertContains(response, 'itemscope itemtype="http://schema.org/Article"')
+        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
+        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
         self.assertContains(response, '<meta name="twitter:image:src" content="http://example.com/path/to/image">')
         self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))

@@ -11,33 +11,21 @@ register = template.Library()
 
 try:
     from django.apps import apps
+    # Use sekizai if installed, otherwise define a templatetag stub
     if apps.is_installed('sekizai'):
         from sekizai.templatetags.sekizai_tags import Addtoblock
         register.tag('addtoblock', Addtoblock)
     else:
-        @register.simple_tag()
-        def addtoblock(*args):
-            """stub templatetag"""
-            return ''
+        from meta.compat import addtoblock
+        register.tag('addtoblock', addtoblock)
 
-        @register.simple_tag()
-        def endaddtoblock(*args):
-            """stub templatetag"""
-            return ''
 except ImportError:
     if 'sekizai' in settings.INSTALLED_APPS:
         from sekizai.templatetags.sekizai_tags import Addtoblock
         register.tag('addtoblock', Addtoblock)
     else:
-        @register.simple_tag()
-        def addtoblock(*args):
-            """stub templatetag"""
-            return ''
-
-        @register.simple_tag()
-        def endaddtoblock(*args):
-            """stub templatetag"""
-            return ''
+        from meta.compat import addtoblock
+        register.tag('addtoblock', addtoblock)
 
 
 @register.simple_tag
