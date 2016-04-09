@@ -4,7 +4,7 @@
 History
 *******
 
-1.1.1 (2016-04-08)
+1.2 (2016-04-09)
 ==================
 
 * Fix issue when emulating sekizai
