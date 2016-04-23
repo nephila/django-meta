@@ -134,7 +134,7 @@ in the ``<head>`` tag.
 Other settings
 --------------
 
-* image: ``META_DEFAULT_IMAGE`` (must be an absolute URL)
+* image: ``META_DEFAULT_IMAGE`` (must be an absolute URL, ignores `META_IMAGE_URL`_)
 * object_type: ``META_SITE_TYPE`` (default: first ``META_OBJECT_TYPES``)
 * og_type: ``META_FB_TYPE`` (default: first ``META_FB_TYPES``)
 * og_app_id: ``META_FB_APPID`` (default: blank)

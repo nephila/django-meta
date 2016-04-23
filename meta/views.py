@@ -105,12 +105,16 @@ class Meta(object):
 
     @image.setter
     def image(self, image):
-        if image is None:
+        if image is None and settings.DEFAULT_IMAGE:
+            self._image = self.get_full_url(settings.DEFAULT_IMAGE)
+            return
+        elif image is None:
             self._image = None
             return
-        if not image.startswith('http') and not image.startswith('/'):
-            image = '%s%s' % (settings.IMAGE_URL, image)
-        self._image = self.get_full_url(image)
+        else:
+            if not image.startswith('http') and not image.startswith('/'):
+                image = '%s%s' % (settings.IMAGE_URL, image)
+            self._image = self.get_full_url(image)
 
 
 class MetadataMixin(object):
