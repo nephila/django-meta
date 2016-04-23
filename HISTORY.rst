@@ -4,8 +4,14 @@
 History
 *******
 
+1.3 (unreleased)
+================
+
+* Add support for fb_pages attribute
+* Properly implement META_DEFAULT_IMAGE for view-based mixins
+
 1.2 (2016-04-09)
-==================
+================
 
 * Fix issue when emulating sekizai
 

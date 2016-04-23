@@ -139,6 +139,7 @@ Other settings
 * og_type: ``META_FB_TYPE`` (default: first ``META_FB_TYPES``)
 * og_app_id: ``META_FB_APPID`` (default: blank)
 * og_profile_id: ``META_FB_PROFILE_ID`` (default: blank)
+* fb_pages: ``META_FB_PAGES`` (default: blank)
 * og_publisher: ``META_FB_PUBLISHER`` (default: blank)
 * og_author_url: ``META_FB_AUTHOR_URL`` (default: blank)
 * twitter_type: ``META_TWITTER_TYPE`` (default: first ``META_TWITTER_TYPES``)

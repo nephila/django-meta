@@ -61,6 +61,8 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.use_twitter, False)
         self.assertEqual(m.use_facebook, False)
         self.assertEqual(m.use_googleplus, False)
+        self.assertEqual(m.fb_pages, '')
+        self.assertEqual(m.og_app_id, '')
         self.assertEqual(m.use_title_tag, False)
 
     def test_set_keywords(self):
@@ -79,6 +81,20 @@ class MetaObjectTestCase(TestCase):
         m = Meta(keywords=['foo', 'foo', 'foo'])
         self.assertEqual(m.keywords[0], 'foo')
         self.assertEqual(len(m.keywords), 1)
+
+    def test_pages_appid(self):
+        settings.FB_APPID = 'appid'
+        m = Meta(fb_pages='fbpages')
+        self.assertEqual(m.fb_pages, 'fbpages')
+        self.assertEqual(m.og_app_id, 'appid')
+
+        settings.FB_PAGES = 'fbpages'
+        m = Meta()
+        self.assertEqual(m.fb_pages, 'fbpages')
+        self.assertEqual(m.og_app_id, 'appid')
+
+        settings.FB_PAGES = ''
+        settings.FB_APPID = ''
 
     def test_set_keywords_with_defaults(self):
         settings.DEFAULT_KEYWORDS = ['foo', 'bar']

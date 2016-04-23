@@ -29,6 +29,7 @@ class ModelMeta(object):
         'og_profile_id': settings.FB_PROFILE_ID,
         'og_publisher': settings.FB_PUBLISHER,
         'og_author_url': settings.FB_AUTHOR_URL,
+        'fb_pages': settings.FB_PAGES,
         'twitter_type': settings.TWITTER_TYPE,
         'twitter_site': settings.TWITTER_SITE,
         'twitter_author': settings.TWITTER_AUTHOR,
