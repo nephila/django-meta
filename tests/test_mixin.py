@@ -51,7 +51,8 @@ class TestMeta(BaseTestCase):
             'twitter_type': 'Summary',
             'modified_time': self.post.date_modified,
             'og_author_url': 'https://facebook.com/foo.bar',
-            'og_app_id': False,
+            'og_app_id': 'appid',
+            'fb_pages': 'fbpages',
             'gplus_author': '+FooBar',
             'published_time': self.post.date_published,
             'url': 'http://example.com/title/',
@@ -62,6 +63,8 @@ class TestMeta(BaseTestCase):
             'custom_namespace': ['foo', 'bar'],
         }
         settings.OG_NAMESPACES = ['foo', 'bar']
+        settings.FB_PAGES = 'fbpages'
+        settings.FB_APPID = 'appid'
         meta = self.post.as_meta()
         self.assertTrue(meta)
         for key in ModelMeta._metadata_default.keys():
@@ -74,9 +77,14 @@ class TestMeta(BaseTestCase):
         self.assertEqual(self.post.build_absolute_uri('hi'), 'http://example.com/hi')
         self.assertEqual(self.post.build_absolute_uri('http://example.com/hi'), 'http://example.com/hi')
         settings.OG_NAMESPACES = None
+        settings.FB_PAGES = ''
+        settings.FB_APPID = ''
 
+    @override_settings(META_SITE_PROTOCOL='http')
     def test_as_meta_with_request(self):
         # Server is different as it's taken directly from the request object
+        settings.FB_PAGES = 'fbpages'
+        settings.FB_APPID = 'appid'
         expected = {
             'locale': 'dummy_locale',
             'image': 'https://testserver/path/to/image',
@@ -94,7 +102,8 @@ class TestMeta(BaseTestCase):
             'twitter_type': 'Summary',
             'modified_time': self.post.date_modified,
             'og_author_url': 'https://facebook.com/foo.bar',
-            'og_app_id': False,
+            'og_app_id': 'appid',
+            'fb_pages': 'fbpages',
             'gplus_author': '+FooBar',
             'published_time': self.post.date_published,
             'url': 'https://testserver/title/',
@@ -113,6 +122,8 @@ class TestMeta(BaseTestCase):
                 self.assertEqual(value, getattr(meta, key))
             else:
                 self.assertFalse(hasattr(meta, key))
+        settings.FB_PAGES = ''
+        settings.FB_APPID = ''
 
     def test_templatetag(self):
         meta = self.post.as_meta()

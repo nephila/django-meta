@@ -242,6 +242,8 @@ class MetadataMixinTestCase(TestCase):
         settings.SITE_PROTOCOL = 'http'
         settings.SITE_DOMAIN = 'foo.com'
         settings.USE_SITES = False
+        settings.FB_PAGES = 'fbpages'
+        settings.FB_APPID = 'appid'
 
         m = MetadataMixin()
         m.title = 'title'

@@ -26,7 +26,10 @@ OBJECT_TYPES = (
 TWITTER_TYPES = (
     ('summary', _('Summary Card')),
     ('summary_large_image', _('Summary Card with Large Image')),
-    ('app', _('App Card')),
+    ('product', _('Product')),
+    ('photo', _('Photo')),
+    ('player', _('Player')),
+    ('app', _('App')),
 )
 FB_TYPES = OBJECT_TYPES
 GPLUS_TYPES = (
@@ -38,6 +41,10 @@ GPLUS_TYPES = (
     ('Product', _('Product')),
     ('Place', _('Place')),
     ('Person', _('Person')),
+    ('Book', _('Book')),
+    ('LocalBusiness', _('LocalBusiness')),
+    ('Organization', _('Organization')),
+    ('Review', _('Review')),
 )
 
 
@@ -49,6 +56,7 @@ FB_APPID = getattr(django_settings, 'META_FB_APPID', '')
 FB_PROFILE_ID = getattr(django_settings, 'META_FB_PROFILE_ID', '')
 FB_PUBLISHER = getattr(django_settings, 'META_FB_PUBLISHER', '')
 FB_AUTHOR_URL = getattr(django_settings, 'META_FB_AUTHOR_URL', '')
+FB_PAGES = getattr(django_settings, 'META_FB_PAGES', '')
 TWITTER_TYPE = getattr(django_settings, 'META_TWITTER_TYPE', TWITTER_TYPES[0][0])
 TWITTER_TYPES = getattr(django_settings, 'META_TWITTER_TYPES', TWITTER_TYPES)
 TWITTER_SITE = getattr(django_settings, 'META_TWITTER_SITE', '')
