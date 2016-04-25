@@ -3,6 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from datetime import timedelta
 
+from django.conf import settings as dj_settings
 from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase
@@ -191,3 +192,11 @@ class TestMeta(BaseTestCase):
     def test_image_protocol(self):
         meta = self.post.as_meta()
         self.assertEqual('https://example.com/path/to/image', getattr(meta, 'image'))
+
+    def test_not_use_sites(self):
+        with override_settings(META_USE_SITES=False):
+            with self.assertRaises(RuntimeError):
+                self.post.as_meta()
+        with override_settings(META_USE_SITES=True):
+            meta = self.post.as_meta()
+            self.assertEqual(meta.url, 'http://example.com/title/')
