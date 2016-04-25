@@ -9,8 +9,7 @@ from django.conf import settings as dj_settings
 from . import settings
 
 NEED_REQUEST_OBJECT_ERR_MSG = """
-Meta models needs request objects when initializing if sites framework is not
-used.
+Meta models needs request objects when initializing if sites framework is not used.
 """.strip()
 
 
@@ -182,8 +181,8 @@ class ModelMeta(object):
         if request:
             return request.build_absolute_uri(url)
 
-        if not settings.USE_SITES:
-            raise RunTimeError(NEED_REQUEST_OBJECT_ERR_MSG)
+        if not dj_settings.META_USE_SITES:
+            raise RuntimeError(NEED_REQUEST_OBJECT_ERR_MSG)
 
         from django.contrib.sites.models import Site
         s = Site.objects.get_current()
