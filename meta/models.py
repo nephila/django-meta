@@ -5,9 +5,13 @@ import contextlib
 from copy import copy
 
 from django.conf import settings as dj_settings
-from django.contrib.sites.models import Site
 
 from . import settings
+
+NEED_REQUEST_OBJECT_ERR_MSG = """
+Meta models needs request objects when initializing if sites framework is not
+used.
+""".strip()
 
 
 class ModelMeta(object):
@@ -177,6 +181,11 @@ class ModelMeta(object):
         request = self.get_request()
         if request:
             return request.build_absolute_uri(url)
+
+        if not settings.USE_SITES:
+            raise RunTimeError(NEED_REQUEST_OBJECT_ERR_MSG)
+
+        from django.contrib.sites.models import Site
         s = Site.objects.get_current()
         meta_protocol = self.get_meta_protocol()
         if url.startswith('http'):
