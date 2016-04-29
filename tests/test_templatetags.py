@@ -76,7 +76,7 @@ class FacebookPropTestCase(TestCase):
     def test_facebook_basically_works(self):
         self.assertEqual(
             facebook_prop('foo', 'bar'),
-            '<meta name="fb:foo" content="bar">'
+            '<meta property="fb:foo" content="bar">'
         )
 
 

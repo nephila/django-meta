@@ -135,7 +135,7 @@ def facebook_prop(name, value):
     :param name: property name (without 'fb:' namespace)
     :param value: property value
     """
-    return custom_meta('name', 'fb:%s' % name, value)
+    return custom_meta('property', 'fb:%s' % name, value)
 
 
 @register.simple_tag
