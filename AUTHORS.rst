@@ -24,6 +24,7 @@ Contributors
 * Leif Denby
 * Leonardo Cavallucci
 * Marco Federighi
+* Mirat Can Bayrak
 * Murat Aydos
 * mvergerdelbove
 * Sergei Maertens
