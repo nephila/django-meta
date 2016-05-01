@@ -98,3 +98,8 @@ matrix:
     env: TOXENV='isort'
   - python: 3.4
     env: TOXENV='docs'
+
+cache:
+   directories:
+     - $HOME/.pip-accel
+     - $HOME/.cache/pip
