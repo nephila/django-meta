@@ -11,7 +11,7 @@ of them are required: ``META_SITE_PROTOCOL`` and
 By default, if they are unset, an ``ImproperlyConfigured`` exception will be
 raised when dealing with ``url`` and ``image`` properties.
 You can either set them, or overload the ``Meta`` class' ``get_domain`` and
-``get_protocol`` methods (see :ref:`Meta objects` section).
+``get_protocol`` methods (see :ref:`Meta object` section).
 
 .. _META_SITE_PROTOCOL:
 
@@ -27,7 +27,7 @@ META_SITE_DOMAIN
 ----------------
 
 Domain of your site. The ``Meta`` objects can also be made to use the Django's
-Sites framework as well (see :ref:`Meta objects` and :ref:`META_USE_SITES` sections).
+Sites framework as well (see :ref:`Meta object` and :ref:`META_USE_SITES` sections).
 Default is ``None``.
 
 .. _META_SITE_TYPE:
