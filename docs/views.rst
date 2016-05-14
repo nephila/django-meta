@@ -14,9 +14,8 @@ view templates. This template will only render meta tags if it can find a
 ``meta`` object in the context, so you can safely include it in your base
 template to have it render on all your pages.
 
-The ``meta.html`` template expects to find a dict or object called ``meta`` in
-the template context. In that dict or object, it will expect to find any of the
-following keys/attributes:
+The ``meta.html`` template expects to find an object called ``meta`` in
+the template context which contains any of the following attributes:
 
 + use_og
 + use_twitter
@@ -38,11 +37,135 @@ following keys/attributes:
 + extra_props
 + extra_custom_props
 
-In all cases, if the key is omitted, the matching metadata/property is not
+In all cases, if the attribute is not set/empty, the matching metadata/property is not
 rendered.
 
+.. _meta object:
+
+Meta object
+===========
+
+The core of django-meta is the ``Meta`` class. Although you can prepare the
+metadata for the template yourself, this class can make things somewhat
+easier.
+
+To set up a meta object for use in templates, simply instantiate it with the
+properties you want to use::
+
+    from meta.views import Meta
+
+    meta = Meta(
+        title="Sam's awesome ponies",
+        description='Awesome page about ponies',
+        keywords=['pony', 'ponies', 'awesome'],
+        extra_props = {
+            'viewport': 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
+        }
+        'extra_custom_props': [
+            ('http-equiv', 'Content-Type', 'text/html; charset=UTF-8'),
+        ]
+    )
+
+When the time comes to render the template, simply include the instance as
+``'meta'`` context variable.
+
+The ``Meta`` instances have the same properties as the keys listed in the
+`Using the view`_ section. For convenience, some of the properties are 'smart',
+and will modify values you set. These properties are:
+
++ keywords
++ url
++ image
+
+For brevity, we will only discuss those here.
+
+Meta.keywords
+-------------
+
+When you assign keywords either via the constructor, or by assigning an
+iterable to the ``keywords`` property, it will be cleaned up of all duplicates
+and returned as a ``set``. If you have specified the :ref:`META_INCLUDE_KEYWORDS`,
+the resulting set will also include them. If you omit this argument when
+instantiating the object, or if you assign ``None`` to the ``keywords``
+property, keywords defined by :ref:`META_DEFAULT_KEYWORDS` setting will be used
+instead.
+
+Meta.url
+--------
+
+Setting the url behaves differently depending on whether you are passsing a
+path or a full URL. If your URL starts with ``'http'``, it will be used
+verbatim (not that the actual validity of the url is not checked so
+``'httpfoo'`` will be considered a valid URL). If you use an absolute or
+relative path, domain and protocol parts would be prepended to the URL. Here's
+an example::
+
+    m = Meta(url='/foo/bar')
+    m.url  # returns 'http://example.com/foo/bar'
+
+The actual protocol and domain are dependent on the :ref:`META_SITE_PROTOCOL` and
+:ref:`META_SITE_DOMAIN` settings. If you wish to use the Django's sites contrib app
+to calculate the domain, you can either set the :ref:`META_USE_SITES` setting to
+``True``, or pass the ``use_sites`` argument to the constructor::
+
+    m = Meta(url='/foo/bar', use_sites=True)
+
+Note that using the sites app will trigger database queries and/or cache hits,
+and it is therefore disabled by default.
+
+Meta.image
+----------
+
+The ``image`` property behaves the same way as ``url`` property with one
+notable difference. This property treats absolute and relative paths
+differently. It will place relative paths under the :ref:`META_IMAGE_URL`.
+
+View mixin
+==========
+
+As a convenience to those who embrace the Django's class-based views,
+django-meta includes a mixin that can be used with your views. Using the mixin
+is very simple::
+
+    from django.views.generic import View
+
+    from meta.views import MetadataMixin
+
+
+    class MyView(MetadataMixin, View):
+        title = 'Some page'
+        description = 'This is an awesome page'
+        image = 'img/some_page_thumb.gif'
+        url = 'some/page/'
+
+        ....
+
+
+The mixin sports all properties listed in the :ref:`Using the view` section with a
+few additional bells and whistles that make working with them easier. The mixin
+will return an instance of the ``Meta`` class (see :ref:`Meta object`) as ``meta``
+context variable. This is, in turn, used in the partial template to render the
+meta tags (see :ref:`rendering`).
+
+Each of the properties on the mixin can be calculated dynamically by using the
+``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
+name of the property you wish the calculate at runtime. Each method will
+receive a ``context`` keyword argument containig the request context.
+
+For example, to calculate the description dynamically, you may use the mixin
+like so::
+
+    class MyView(MetadataMixin, SingleObjectMixin, View):
+        ...
+
+        def get_meta_description(self, context):
+            return self.get_object().description
+
+There are two more methods that you can overload in your view classes, and
+those are ``get_domain`` and ``get_protocol``.
+
 Reference template
-------------------
+==================
 
 See below the basic reference template::
 
@@ -59,6 +182,9 @@ See below the basic reference template::
     </body>
     </html>
 
+
+Properties
+==========
 
 use_og
 ------
@@ -192,129 +318,5 @@ A list of tuples for rendering custom extra properties::
 
     <meta name="foo" content="bar">
     <meta property="name" content="value">
-
-.. _meta objects:
-
-Meta objects
-============
-
-The core of django-meta is the ``Meta`` class. Although you can prepare the
-metadata for the template yourself, this class can make things somewhat
-easier.
-
-To set up a meta object for use in templates, simply instantiate it with the
-properties you want to use::
-
-    from meta.views import Meta
-
-    meta = Meta(
-        title="Sam's awesome ponies",
-        description='Awesome page about ponies',
-        keywords=['pony', 'ponies', 'awesome'],
-        extra_props = {
-            'viewport': 'width=device-width, initial-scale=1.0, minimum-scale=1.0'
-        }
-        'extra_custom_props': [
-            ('http-equiv', 'Content-Type', 'text/html; charset=UTF-8'),
-        ]
-    )
-
-When the time comes to render the template, simply include the instance as
-``'meta'`` context variable.
-
-The ``Meta`` instances have the same properties as the keys listed in the
-`Using the view`_ section. For convenience, some of the properties are 'smart',
-and will modify values you set. These properties are:
-
-+ keywords
-+ url
-+ image
-
-For brevity, we will only discuss those here.
-
-Meta.keywords
--------------
-
-When you assign keywords either via the constructor, or by assigning an
-iterable to the ``keywords`` property, it will be cleaned up of all duplicates
-and returned as a ``set``. If you have specified the :ref:`META_INCLUDE_KEYWORDS`,
-the resulting set will also include them. If you omit this argument when
-instantiating the object, or if you assign ``None`` to the ``keywords``
-property, keywords defined by :ref:`META_DEFAULT_KEYWORDS` setting will be used
-instead.
-
-Meta.url
---------
-
-Setting the url behaves differently depending on whether you are passsing a
-path or a full URL. If your URL starts with ``'http'``, it will be used
-verbatim (not that the actual validity of the url is not checked so
-``'httpfoo'`` will be considered a valid URL). If you use an absolute or
-relative path, domain and protocol parts would be prepended to the URL. Here's
-an example::
-
-    m = Meta(url='/foo/bar')
-    m.url  # returns 'http://example.com/foo/bar'
-
-The actual protocol and domain are dependent on the :ref:`META_SITE_PROTOCOL` and
-:ref:`META_SITE_DOMAIN` settings. If you wish to use the Django's sites contrib app
-to calculate the domain, you can either set the :ref:`META_USE_SITES` setting to
-``True``, or pass the ``use_sites`` argument to the constructor::
-
-    m = Meta(url='/foo/bar', use_sites=True)
-
-Note that using the sites app will trigger database queries and/or cache hits,
-and it is therefore disabled by default.
-
-Meta.image
-----------
-
-The ``image`` property behaves the same way as ``url`` property with one
-notable difference. This property treats absolute and relative paths
-differently. It will place relative paths under the :ref:`META_IMAGE_URL`.
-
-View mixin
-==========
-
-As a convenience to those who embrace the Django's class-based views,
-django-meta includes a mixin that can be used with your views. Using the mixin
-is very simple::
-
-    from django.views.generic import View
-
-    from meta.views import MetadataMixin
-
-
-    class MyView(MetadataMixin, View):
-        title = 'Some page'
-        description = 'This is an awesome page'
-        image = 'img/some_page_thumb.gif'
-        url = 'some/page/'
-
-        ....
-
-
-The mixin sports all properties listed in the :ref:`Using the view` section with a
-few additional bells and whistles that make working with them easier. The mixin
-will return an instance of the ``Meta`` class (see :ref:`Meta objects`) as ``meta``
-context variable. This is, in turn, used in the partial template to render the
-meta tags (see :ref:`rendering`).
-
-Each of the properties on the mixin can be calculated dynamically by using the
-``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
-name of the property you wish the calculate at runtime. Each method will
-receive a ``context`` keyword argument containig the request context.
-
-For example, to calculate the description dynamically, you may use the mixin
-like so::
-
-    class MyView(MetadataMixin, SingleObjectMixin, View):
-        ...
-
-        def get_meta_description(self, context):
-            return self.get_object().description
-
-There are two more methods that you can overload in your view classes, and
-those are ``get_domain`` and ``get_protocol``.
 
 .. _OpenGraph: http://opengraphprotocol.org/
