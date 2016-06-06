@@ -4,7 +4,7 @@
 History
 *******
 
-1.3 (unreleased)
+1.3 (2016-06-06)
 ================
 
 * Added support for fb_pages attribute
