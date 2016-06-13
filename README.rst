@@ -46,7 +46,7 @@ OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
 Installation
 ============
 
-See https://django-meta.readthedocs.org/en/latest/installation.html
+See https://django-meta.readthedocs.io/en/latest/installation.html
 
 Supported versions
 ==================
@@ -94,6 +94,6 @@ Please report all bugs to our Github `issue tracker`_.
 .. _issue tracker: https://github.com/nephila/django-meta/issues/
 .. _github: https://github.com/nephila/django-meta/
 .. _Iacopo Spalletti: https://github.com/yakky
-.. _documentation: http://django-meta.readthedocs.org/en/latest/
+.. _documentation: https://django-meta.readthedocs.io/en/latest/
 .. _Branko Vukelic: https://bitbucket.org/monwara
 

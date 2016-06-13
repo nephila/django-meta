@@ -19,4 +19,4 @@ Installation
 * Optionally you can install and configure `sekizai`_
 
 
-.. _sekizai: https://django-sekizai.readthedocs.org/en/latest/#usage
+.. _sekizai: https://django-sekizai.readthedocs.io/en/latest/#usage
