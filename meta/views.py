@@ -164,61 +164,61 @@ class MetadataMixin(object):
     def get_domain(self):
         return settings.SITE_DOMAIN
 
-    def get_meta_title(self, context={}):
+    def get_meta_title(self, context=None):
         return self.title
 
-    def get_meta_description(self, context={}):
+    def get_meta_description(self, context=None):
         return self.description
 
-    def get_meta_keywords(self, context={}):
+    def get_meta_keywords(self, context=None):
         return self.keywords
 
-    def get_meta_url(self, context={}):
+    def get_meta_url(self, context=None):
         return self.url
 
-    def get_meta_image(self, context={}):
+    def get_meta_image(self, context=None):
         return self.image
 
-    def get_meta_object_type(self, context={}):
+    def get_meta_object_type(self, context=None):
         return self.object_type or settings.SITE_TYPE
 
-    def get_meta_site_name(self, context={}):
+    def get_meta_site_name(self, context=None):
         return self.site_name or settings.SITE_NAME
 
-    def get_meta_extra_props(self, context={}):
+    def get_meta_extra_props(self, context=None):
         return self.extra_props
 
-    def get_meta_extra_custom_props(self, context={}):
+    def get_meta_extra_custom_props(self, context=None):
         return self.extra_custom_props
 
-    def get_meta_custom_namespace(self, context={}):
+    def get_meta_custom_namespace(self, context=None):
         return self.custom_namespace or settings.OG_NAMESPACES
 
-    def get_meta_twitter_site(self, context={}):
+    def get_meta_twitter_site(self, context=None):
         return self.twitter_site
 
-    def get_meta_twitter_creator(self, context={}):
+    def get_meta_twitter_creator(self, context=None):
         return self.twitter_creator
 
-    def get_meta_twitter_card(self, context={}):
+    def get_meta_twitter_card(self, context=None):
         return self.twitter_card
 
-    def get_meta_facebook_app_id(self, context={}):
+    def get_meta_facebook_app_id(self, context=None):
         return self.facebook_app_id
 
-    def get_meta_gplus_type(self, context={}):
+    def get_meta_gplus_type(self, context=None):
         return self.gplus_type
 
-    def get_meta_gplus_author(self, context={}):
+    def get_meta_gplus_author(self, context=None):
         return self.gplus_author
 
-    def get_meta_gplus_publisher(self, context={}):
+    def get_meta_gplus_publisher(self, context=None):
         return self.gplus_publisher
 
-    def get_meta_locale(self, context={}):
+    def get_meta_locale(self, context=None):
         return self.locale
 
-    def get_meta(self, context={}):
+    def get_meta(self, context=None):
         return self.get_meta_class()(
             use_og=self.use_og,
             use_title_tag=self.use_title_tag,
