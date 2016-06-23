@@ -134,6 +134,9 @@ in the ``<head>`` tag.
 Other settings
 --------------
 
+The following settings are available to set a default value to the corresponding
+attribute for both :ref:`views` and :ref:`models`
+
 * image: ``META_DEFAULT_IMAGE`` (must be an absolute URL, ignores `META_IMAGE_URL`_)
 * object_type: ``META_SITE_TYPE`` (default: first ``META_OBJECT_TYPES``)
 * og_type: ``META_FB_TYPE`` (default: first ``META_FB_TYPES``)
@@ -147,3 +150,4 @@ Other settings
 * twitter_author: ``META_TWITTER_AUTHOR`` (default: blank)
 * gplus_type: ``META_GPLUS_TYPE`` (default: first ``META_GPLUS_TYPES``)
 * gplus_author: ``META_GPLUS_AUTHOR`` (default: blank)
+* gplus_publisher: ``META_GPLUS_PUBLISHER`` (default: blank)

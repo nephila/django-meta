@@ -55,6 +55,7 @@ class TestMeta(BaseTestCase):
             'og_app_id': 'appid',
             'fb_pages': 'fbpages',
             'gplus_author': '+FooBar',
+            'gplus_publisher': '+FooPub',
             'published_time': self.post.date_published,
             'url': 'http://example.com/title/',
             'og_publisher': 'https://facebook.com/foo.blag',
@@ -106,6 +107,7 @@ class TestMeta(BaseTestCase):
             'og_app_id': 'appid',
             'fb_pages': 'fbpages',
             'gplus_author': '+FooBar',
+            'gplus_publisher': '+FooPub',
             'published_time': self.post.date_published,
             'url': 'https://testserver/title/',
             'og_publisher': 'https://facebook.com/foo.blag',
@@ -139,6 +141,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
 
     def test_templatetag_metadatamixin(self):
         """
@@ -151,6 +154,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
         self.assertContains(response, '<meta name="twitter:image:src" content="http://example.com/path/to/image">')
+        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
 
     def test_templatetag_no_og(self):
         from meta import settings

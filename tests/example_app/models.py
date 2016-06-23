@@ -55,6 +55,7 @@ class Post(ModelMeta, models.Model):
         'twitter_author': 'get_author_twitter',
         'gplus_type': 'Article',
         'gplus_author': 'get_author_gplus',
+        'gplus_publisher': '+FooPub',
         'published_time': 'date_published',
         'modified_time': 'get_date',
         'expiration_time': 'get_date',
