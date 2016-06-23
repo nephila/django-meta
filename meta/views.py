@@ -36,6 +36,8 @@ class Meta(object):
         self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
         self.use_title_tag = kwargs.get('use_title_tag', settings.USE_TITLE_TAG)
         self.gplus_type = kwargs.get('gplus_type', settings.GPLUS_TYPE)
+        self.gplus_publisher = kwargs.get('gplus_publisher', settings.GPLUS_PUBLISHER)
+        self.gplus_author = kwargs.get('gplus_author', settings.GPLUS_AUTHOR)
         self.fb_pages = kwargs.get('fb_pages', settings.FB_PAGES)
         self.og_app_id = kwargs.get('og_app_id', settings.FB_APPID)
 
@@ -144,6 +146,9 @@ class MetadataMixin(object):
     use_sites = False
     use_og = False
     use_use_title_tag = False
+    gplus_type = None
+    gplus_author = None
+    gplus_publisher = None
 
     def __init__(self, **kwargs):
         self.use_sites = settings.USE_SITES
@@ -201,6 +206,15 @@ class MetadataMixin(object):
     def get_meta_facebook_app_id(self, context={}):
         return self.facebook_app_id
 
+    def get_meta_gplus_type(self, context={}):
+        return self.gplus_type
+
+    def get_meta_gplus_author(self, context={}):
+        return self.gplus_author
+
+    def get_meta_gplus_publisher(self, context={}):
+        return self.gplus_publisher
+
     def get_meta_locale(self, context={}):
         return self.locale
 
@@ -224,6 +238,9 @@ class MetadataMixin(object):
             twitter_card=self.get_meta_twitter_card(context=context),
             locale=self.get_meta_locale(context=context),
             facebook_app_id=self.get_meta_facebook_app_id(context=context),
+            gplus_type=self.get_meta_gplus_type(context=context),
+            gplus_author=self.get_meta_gplus_author(context=context),
+            gplus_publisher=self.get_meta_gplus_publisher(context=context),
         )
 
     def get_context_data(self, **kwargs):

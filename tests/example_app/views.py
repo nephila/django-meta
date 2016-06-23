@@ -29,6 +29,9 @@ class PostMixinDetailView(MetadataMixin, DetailView):
     def get_meta_description(self, context):
         return self.object.meta_description
 
+    def get_meta_gplus_publisher(self, context):
+        return '+FooPub'
+
     def get_meta_image(self, context):
         return self.object.image_url
 

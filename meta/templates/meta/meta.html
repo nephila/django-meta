@@ -44,6 +44,7 @@
     {% endif %}
     {% if meta.use_googleplus %}
         {% if meta.gplus_author %}<link rel="author" href="https://plus.google.com/{{ meta.gplus_author }}"/>{% endif %}
+        {% if meta.gplus_publisher %}<link rel="publisher" href="https://plus.google.com/{{ meta.gplus_publisher }}"/>{% endif %}
         {% addtoblock 'html_extra' %}{% googleplus_html_scope meta.gplus_type %}{% endaddtoblock %}
         {% if meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
         {% if meta.published_time %}{% googleplus_prop 'datePublished' meta.published_time %}{% endif %}

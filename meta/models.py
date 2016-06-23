@@ -38,6 +38,7 @@ class ModelMeta(object):
         'twitter_author': settings.TWITTER_AUTHOR,
         'gplus_type': settings.GPLUS_TYPE,
         'gplus_author': settings.GPLUS_AUTHOR,
+        'gplus_publisher': settings.GPLUS_PUBLISHER,
         'published_time': False,
         'modified_time': False,
         'expiration_time': False,
