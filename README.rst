@@ -54,20 +54,13 @@ Supported versions
 Django
 ------
 
-* Django 1.6
-* Django 1.7
-* Django 1.8
-* Django 1.9
+1.6 to 1.9 (newer versions might work but are not tested yet)
 
 
 Python
 ------
 
-* Python 2.6
-* Python 2.7
-* Python 3.3
-* Python 3.4
-* Python 3.5
+Python 2.6 to 3.5
 
 Basic concept
 =============
