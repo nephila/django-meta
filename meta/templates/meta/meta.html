@@ -38,8 +38,8 @@
         {% if meta.url %}{% twitter_prop 'url' meta.url %}{% endif %}
         {% if meta.twitter_description %}{% twitter_prop 'description' meta.twitter_description %}
         {% elif meta.description %}{% twitter_prop 'description' meta.description %}{% endif %}
-        {% if meta.image %}{% twitter_prop 'image:src' meta.image %}{% endif %}
-        {% if meta.twitter_author %}{% twitter_prop 'creator' meta.twitter_author %}{% endif %}
+        {% if meta.image %}{% twitter_prop 'image' meta.image %}{% endif %}
+        {% if meta.twitter_creator %}{% twitter_prop 'creator' meta.twitter_creator %}{% endif %}
         {% if meta.twitter_site %}{% twitter_prop 'site' meta.twitter_site %}{% endif %}
     {% endif %}
     {% if meta.use_googleplus %}
