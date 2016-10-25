@@ -134,7 +134,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
         self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
-        self.assertContains(response, '<meta name="twitter:image:src" content="http://example.com/path/to/image">')
+        self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
         self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))
         self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
@@ -153,7 +153,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
-        self.assertContains(response, '<meta name="twitter:image:src" content="http://example.com/path/to/image">')
+        self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
         self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
 
     def test_templatetag_no_og(self):
