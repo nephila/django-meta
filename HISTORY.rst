@@ -9,6 +9,7 @@ History
 ==================
 
 * Fix error if custom_meta_extras is empty
+* Fix twitter properties
 
 1.3.1 (2016-08-01)
 ==================
