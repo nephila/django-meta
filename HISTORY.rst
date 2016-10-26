@@ -5,7 +5,7 @@ History
 *******
 
 
-1.3.2 (unreleased)
+1.3.2 (2016-10-26)
 ==================
 
 * Fix error if custom_meta_extras is empty

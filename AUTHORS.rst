@@ -16,6 +16,8 @@ Past core developers
 Contributors
 ------------
 
+* Adam Chainz
+* Branko Vukelic
 * Cansin Yildiz
 * Dmitry Fillo
 * ellmetha
@@ -23,6 +25,7 @@ Contributors
 * Ken Cochrane
 * Leif Denby
 * Leonardo Cavallucci
+* m-vdb
 * Marco Federighi
 * Mirat Can Bayrak
 * Murat Aydos
