@@ -197,4 +197,11 @@ class MetaObjectTestCase(TestCase):
         settings.IMAGE_URL = '/thumb/'
         settings.DEFAULT_IMAGE = 'img/image.gif'
         m = Meta()
-        self.assertEqual(m.image, 'https://foo.com/img/image.gif')
+        self.assertEqual(m.image, 'https://foo.com/thumb/img/image.gif')
+
+    def test_set_image_with_defaults(self):
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
+        settings.DEFAULT_IMAGE = 'img/image.gif'
+        m = Meta()
+        self.assertEqual(m.image, 'https://foo.com/static/img/image.gif')
