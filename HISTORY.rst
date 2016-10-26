@@ -10,6 +10,7 @@ History
 
 * Fix error if custom_meta_extras is empty
 * Fix twitter properties
+* Fix error with META_DEFAULT_IMAGE path
 
 1.3.1 (2016-08-01)
 ==================
