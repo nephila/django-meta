@@ -122,6 +122,8 @@ class MetaListTestCase(TestCase):
 
 class MetaExtrasTestCase(TestCase):
     def test_meta_extras_basically_works(self):
+        result = meta_extras(None)
+        self.assertEqual(result, '')
         result = meta_extras({
             'type': 'foo',
             'image_width': 'bar'
@@ -132,6 +134,8 @@ class MetaExtrasTestCase(TestCase):
 
 class CustomMetaExtrasTestCase(TestCase):
     def test_custom_meta_extras_basically_works(self):
+        result = custom_meta_extras(None)
+        self.assertEqual(result, '')
         result = custom_meta_extras([
                 ('property', 'type', 'foo'),
                 ('key', 'image_width', 'bar')

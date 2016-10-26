@@ -80,6 +80,8 @@ def meta_extras(extra_props):
 
     :param extra_props: dictionary of additional meta tags
     """
+    if not extra_props:
+        return ''
     return ' '.join([meta(name, extra_props[name]) if extra_props[name] else ''
                      for name in extra_props])
 
@@ -93,6 +95,8 @@ def custom_meta_extras(extra_custom_props):
 
     :param extra_custom_props: list of tuple of additional meta tags
     """
+    if not extra_custom_props:
+        return ''
     return ' '.join([custom_meta(name_key, name_value, content) if content else ''
                      for name_key, name_value, content in extra_custom_props])
 
