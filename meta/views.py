@@ -150,6 +150,7 @@ class MetadataMixin(object):
         self.use_sites = settings.USE_SITES
         self.use_og = settings.USE_OG_PROPERTIES
         self.use_title_tag = settings.USE_TITLE_TAG
+        super(MetadataMixin, self).__init__(**kwargs)
 
     def get_meta_class(self):
         return self.meta_class
