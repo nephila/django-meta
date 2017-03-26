@@ -41,6 +41,8 @@ OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
              django-meta 1.0 is a drop in replacement for django-meta-mixin:
              as a result django-meta-mixin is no longer actively developed
 
+.. warning:: As of version 1.4, the support for Python 2.6 and Django<1.8 has been dropped
+
 .. contents::
 
 Installation
@@ -54,13 +56,13 @@ Supported versions
 Django
 ------
 
-1.6 to 1.9 (newer versions might work but are not tested yet)
+1.8 to 1.11 (newer versions might work but are not tested yet)
 
 
 Python
 ------
 
-Python 2.6 to 3.5
+Python 2.7 to 3.6
 
 Basic concept
 =============

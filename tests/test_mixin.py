@@ -29,15 +29,17 @@ class TestMeta(BaseTestCase):
             author=self.user,
             date_published_end=timezone.now() + timedelta(days=2),
             text='post text',
-            main_image='/path/to/image',
             image_url='/path/to/image'
         )
+        self.post.main_image = self.create_django_image_object()
+        self.post.save()
+        self.image_url = self.post.main_image.url
 
     @override_settings(META_SITE_PROTOCOL='http')
     def test_as_meta(self):
         expected = {
             'locale': 'dummy_locale',
-            'image': 'http://example.com/path/to/image',
+            'image': 'http://example.com{}'.format(self.image_url),
             'object_type': 'Article',
             'tag': False,
             'keywords': ['post keyword1', 'post keyword 2'],
@@ -89,7 +91,7 @@ class TestMeta(BaseTestCase):
         settings.FB_APPID = 'appid'
         expected = {
             'locale': 'dummy_locale',
-            'image': 'https://testserver/path/to/image',
+            'image': 'https://testserver{}'.format(self.image_url),
             'object_type': 'Article',
             'tag': False,
             'keywords': ['post keyword1', 'post keyword 2'],
@@ -134,7 +136,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
         self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
-        self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
+        self.assertContains(response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url))
         self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))
         self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
@@ -195,7 +197,7 @@ class TestMeta(BaseTestCase):
     @override_settings(META_SITE_PROTOCOL='https')
     def test_image_protocol(self):
         meta = self.post.as_meta()
-        self.assertEqual('https://example.com/path/to/image', getattr(meta, 'image'))
+        self.assertEqual('https://example.com{}'.format(self.image_url), getattr(meta, 'image'))
 
     def test_not_use_sites(self):
         with override_settings(META_USE_SITES=False):

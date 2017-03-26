@@ -16,11 +16,9 @@ admin.autodiscover()
 urlpatterns = [
     url(r'^media/(?P<path>.*)$', django.views.static.serve,  # NOQA
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
+    url(r'^admin/', include(admin.site.urls)),  # NOQA
     url(r'^jsi18n/(?P<packages>\S+?)/$', django.views.i18n.javascript_catalog),  # NOQA
     url(r'^mixin/(?P<slug>\w[-\w]*)/$', PostMixinDetailView.as_view(), name='post-detail-mixinx'),
     url(r'^(?P<slug>\w[-\w]*)/$', PostDetailView.as_view(), name='post-detail'),
     url(r'^$', PostListView.as_view(), name='post-list'),
 ]
-urlpatterns += i18n_patterns('',
-    url(r'^admin/', include(admin.site.urls)),  # NOQA
-)

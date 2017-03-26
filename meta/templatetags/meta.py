@@ -2,30 +2,20 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 from django import template
-from django.conf import settings
+from django.apps import apps
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.six import string_types
 
 register = template.Library()
 
-try:
-    from django.apps import apps
-    # Use sekizai if installed, otherwise define a templatetag stub
-    if apps.is_installed('sekizai'):
-        from sekizai.templatetags.sekizai_tags import Addtoblock
-        register.tag('addtoblock', Addtoblock)
-    else:
-        from meta.compat import addtoblock
-        register.tag('addtoblock', addtoblock)
-
-except ImportError:
-    if 'sekizai' in settings.INSTALLED_APPS:
-        from sekizai.templatetags.sekizai_tags import Addtoblock
-        register.tag('addtoblock', Addtoblock)
-    else:
-        from meta.compat import addtoblock
-        register.tag('addtoblock', addtoblock)
+# Use sekizai if installed, otherwise define a templatetag stub
+if apps.is_installed('sekizai'):
+    from sekizai.templatetags.sekizai_tags import Addtoblock
+    register.tag('addtoblock', Addtoblock)
+else:
+    from meta.compat import addtoblock
+    register.tag('addtoblock', addtoblock)
 
 
 @register.simple_tag
