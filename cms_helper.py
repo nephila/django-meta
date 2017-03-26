@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from tempfile import mkdtemp
+
 HELPER_SETTINGS = dict(
     ROOT_URLCONF='tests.example_app.urls',
     INSTALLED_APPS=[
@@ -13,6 +15,7 @@ HELPER_SETTINGS = dict(
     META_USE_OG_PROPERTIES=True,
     META_USE_TWITTER_PROPERTIES=True,
     META_USE_GOOGLEPLUS_PROPERTIES=True,
+    FILE_UPLOAD_TEMP_DIR=mkdtemp()
 )
 
 try:
@@ -35,6 +38,7 @@ def setup():
     import sys
     from djangocms_helper import runner
     runner.setup('meta', sys.modules[__name__])
+
 
 if __name__ == '__main__':
     run()
