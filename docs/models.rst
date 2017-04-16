@@ -90,7 +90,7 @@ Usage
             context['meta'] = self.get_object().as_meta(self.request)
             return context
             
-#. Fro Function Based View can just use ``as_meta()`` method for pass "meta" context variable::
+#. For Function Based View can just use ``as_meta()`` method for pass "meta" context variable::
 
     def post(request, id):
         template = 'single_post.html'
