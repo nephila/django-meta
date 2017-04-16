@@ -28,6 +28,16 @@ django meta has two different operating mode:
    contributing
    history
 
+Apps using django-meta / extensions
+-----------------------------------
+
+* djangocms-blog: https://github.com/nephila/djangocms-blog
+* djangocms-page-meta: https://github.com/nephila/djangocms-page-meta
+* django-knocker: https://github.com/nephila/django-knocker
+* wagtail-metadata-mixin: https://github.com/bashu/wagtail-metadata-mixin
+
+Open a pull request to add yours here
+
 Indices and tables
 ==================
 
