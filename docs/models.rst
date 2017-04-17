@@ -66,13 +66,18 @@ Usage
     class MyModel(ModelMeta, models.Model):
         name = models.CharField(max_length=20)
         abstract = models.TextField()
+        image = models.ImageField()
         ...
 
         _metadata = {
             'title': 'name',
             'description': 'abstract',
+            'image': 'get_meta_image',
             ...
         }
+        def get_meta_image(self):
+            if self.image:
+                return self.image.url
 
 #. Push metadata in the context using ``as_meta`` method::
 
@@ -84,13 +89,23 @@ Usage
             context = super(MyView, self).get_context_data(self, **kwargs)
             context['meta'] = self.get_object().as_meta(self.request)
             return context
+            
+#. For Function Based View can just use ``as_meta()`` method for pass "meta" context variable::
+
+    def post(request, id):
+        template = 'single_post.html'
+        post = Post.objects.get(pk=id)
+        context = {}
+        context['post'] = post
+        context['meta'] = post.as_meta()
+        return render(request, template, context)
 
 #. Include ``meta/meta.html`` template in your templates::
 
-    {% load sekizai_tags %}
+    {% load meta %}
 
-    <html {% render_block 'html_extra' %}>
-    <head>
+    <html>
+    <head {% meta_namespaces %}>
         {% include "meta/meta.html" %}
     </head>
     <body>
@@ -108,11 +123,10 @@ Reference template
 
 See below the basic reference template::
 
-    {% load sekizai_tags meta %}
+    {% load meta %}
 
-    <html {% render_block 'html_extra' %}>
+    <html>
     <head {% meta_namespaces %}>
-        {{ meta.og_description }}
         {% include "meta/meta.html" %}
     </head>
     <body>
