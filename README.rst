@@ -80,6 +80,11 @@ Current maintainer: `Iacopo Spalletti`_
 
 See ``AUTHORS`` file for the complete list of contributors
 
+Apps using django-meta / extensions
+===================================
+
+See `third_party_apps`_
+
 Reporting bugs
 ==============
 
@@ -90,5 +95,6 @@ Please report all bugs to our Github `issue tracker`_.
 .. _github: https://github.com/nephila/django-meta/
 .. _Iacopo Spalletti: https://github.com/yakky
 .. _documentation: https://django-meta.readthedocs.io/en/latest/
+.. _third_party_apps: https://django-meta.readthedocs.io/en/latest/#apps-using-django-meta-extensions
 .. _Branko Vukelic: https://bitbucket.org/monwara
 
