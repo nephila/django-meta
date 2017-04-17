@@ -8,6 +8,7 @@ History
 ==================
 
 * Drop python 2.6/ Django<1.8
+* Wrap meta.html content in spaceless templatetag to suppress redundant newlines
 
 1.3.2 (2016-10-26)
 ==================

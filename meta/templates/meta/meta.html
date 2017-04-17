@@ -1,4 +1,5 @@
 {% load meta %}
+{% spaceless %}
 {% autoescape off %}
 {% if meta %}
 	{% if meta.description %}{% meta 'description' meta.description %}{% endif %}
@@ -56,3 +57,4 @@
     {% endif %}
 {% endif %}
 {% endautoescape %}
+{% endspaceless %}
