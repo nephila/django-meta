@@ -7,8 +7,10 @@ History
 1.4.0 (unreleased)
 ==================
 
+* Add Django 1.11 support
 * Drop python 2.6/ Django<1.8
 * Wrap meta.html content in spaceless templatetag to suppress redundant newlines
+* Fix issue in Django 1.10
 
 1.3.2 (2016-10-26)
 ==================
