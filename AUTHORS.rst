@@ -27,6 +27,7 @@ Contributors
 * Leonardo Cavallucci
 * m-vdb
 * Marco Federighi
+* Maxim Filipenko
 * Mirat Can Bayrak
 * Murat Aydos
 * mvergerdelbove
