@@ -10,7 +10,6 @@ from django.contrib import admin
 
 from .views import PostDetailView, PostListView, PostMixinDetailView
 
-
 admin.autodiscover()
 
 urlpatterns = [
