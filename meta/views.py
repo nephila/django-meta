@@ -141,7 +141,7 @@ class MetadataMixin(object):
     locale = None
     use_sites = False
     use_og = False
-    use_use_title_tag = False
+    use_title_tag = False
     gplus_type = None
     gplus_author = None
     gplus_publisher = None
