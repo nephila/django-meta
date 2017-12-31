@@ -3,7 +3,6 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 from datetime import timedelta
 
-from django.conf import settings as dj_settings
 from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase

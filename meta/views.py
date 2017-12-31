@@ -40,11 +40,12 @@ class Meta(object):
         self.gplus_author = kwargs.get('gplus_author', settings.GPLUS_AUTHOR)
         self.fb_pages = kwargs.get('fb_pages', settings.FB_PAGES)
         self.og_app_id = kwargs.get('og_app_id', settings.FB_APPID)
+        self.request = kwargs.get('request', None)
 
     def get_domain(self):
         if self.use_sites:
             from django.contrib.sites.models import Site
-            return Site.objects.get_current().domain
+            return Site.objects.get_current(self.request).domain
         if not settings.SITE_DOMAIN:
             raise ImproperlyConfigured('META_SITE_DOMAIN is not set')
         return settings.SITE_DOMAIN
