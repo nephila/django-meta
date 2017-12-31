@@ -12,6 +12,7 @@ class Meta(object):
     _keywords = []
     _url = None
     _image = None
+    request = None
 
     def __init__(self, **kwargs):
         self.use_sites = kwargs.get('use_sites', settings.USE_SITES)
@@ -142,7 +143,7 @@ class MetadataMixin(object):
     locale = None
     use_sites = False
     use_og = False
-    use_use_title_tag = False
+    use_title_tag = False
     gplus_type = None
     gplus_author = None
     gplus_publisher = None

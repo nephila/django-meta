@@ -313,3 +313,5 @@ class MetadataMixinTestCase(TestCase):
         )
 
         settings.SITE_DOMAIN = 'example.com'
+        settings.FB_PAGES = ''
+        settings.FB_APPID = ''
