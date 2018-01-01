@@ -37,7 +37,8 @@ coverage:
 	coverage html
 
 release: clean
-	python setup.py clean --all sdist bdist_wheel upload
+	python setup.py sdist bdist_wheel
+	twine upload dist/*
 
 sdist: clean
 	python setup.py sdist
