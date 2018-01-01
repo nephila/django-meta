@@ -9,3 +9,5 @@ MANIFEST
 *.egg-info
 docs/_build
 *.iml
+/*.sqlite
+/*.db

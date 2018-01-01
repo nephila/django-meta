@@ -4,6 +4,14 @@
 History
 *******
 
+1.4.1 (unreleased)
+==================
+
+* Added Django 2.0 support
+* Fixed RTD builds
+* Fixed MetadataMixin.use_use_title_tag typo
+* Add request to Meta arguments
+
 1.4.0 (2017-08-12)
 ==================
 
