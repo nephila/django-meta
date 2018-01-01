@@ -3,65 +3,89 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
-# Rustam Mirzaev <mirus@2x2.pw>, 2015
+# Rustam Mirzaev <mirus@2x2.pw>, 2015,2017
 msgid ""
 msgstr ""
-"Project-Id-Version: django-meta-mixin\n"
+"Project-Id-Version: django-meta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 12:40+0200\n"
-"PO-Revision-Date: 2015-11-21 20:04+0000\n"
+"POT-Creation-Date: 2016-05-07 18:55+0200\n"
+"PO-Revision-Date: 2017-09-23 22:30+0000\n"
 "Last-Translator: Rustam Mirzaev <mirus@2x2.pw>\n"
-"Language-Team: Russian (http://www.transifex.com/nephila/django-meta-mixin/language/ru/)\n"
+"Language-Team: Russian (http://www.transifex.com/nephila/django-meta/language/ru/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: settings.py:9 settings.py:19
+#: settings.py:23 settings.py:36
 msgid "Article"
 msgstr "Статья"
 
-#: settings.py:10
+#: settings.py:24
 msgid "Website"
 msgstr "Вебсайт"
 
-#: settings.py:13
+#: settings.py:27
 msgid "Summary Card"
 msgstr "Итоговая карточка"
 
-#: settings.py:14
+#: settings.py:28
 msgid "Summary Card with Large Image"
-msgstr "Итоговая карточка с изображением"
+msgstr "Итоговая карточка с большим изображением"
 
-#: settings.py:15
-msgid "App Card"
-msgstr "Карточка приложения"
-
-#: settings.py:20
-msgid "Blog"
-msgstr "Блог"
-
-#: settings.py:21
-msgid "Page"
-msgstr "Страница"
-
-#: settings.py:22
-msgid "WebSite"
-msgstr "Вебсайт"
-
-#: settings.py:23
-msgid "Event"
-msgstr "Событие"
-
-#: settings.py:24
+#: settings.py:29 settings.py:41
 msgid "Product"
 msgstr "Продукт"
 
-#: settings.py:25
+#: settings.py:30
+msgid "Photo"
+msgstr "Изображение"
+
+#: settings.py:31
+msgid "Player"
+msgstr "Проигрыватель"
+
+#: settings.py:32
+msgid "App"
+msgstr "Приложение"
+
+#: settings.py:37
+msgid "Blog"
+msgstr "Блог"
+
+#: settings.py:38
+msgid "Page"
+msgstr "Страница"
+
+#: settings.py:39
+msgid "WebSite"
+msgstr "Вебсайт"
+
+#: settings.py:40
+msgid "Event"
+msgstr "Событие"
+
+#: settings.py:42
 msgid "Place"
 msgstr "Место"
 
-#: settings.py:26
+#: settings.py:43
 msgid "Person"
-msgstr "Персона (личность)"
+msgstr "Личность"
+
+#: settings.py:44
+msgid "Book"
+msgstr "Книга"
+
+#: settings.py:45
+msgid "LocalBusiness"
+msgstr "Локальный бизнес"
+
+#: settings.py:46
+msgid "Organization"
+msgstr "Организация"
+
+#: settings.py:47
+msgid "Review"
+msgstr "Рецензия"

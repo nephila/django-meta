@@ -3,64 +3,89 @@
 # This file is distributed under the same license as the PACKAGE package.
 # 
 # Translators:
+# Bashar Al-Abdulhadi, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: django-meta-mixin\n"
+"Project-Id-Version: django-meta\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-10-17 12:40+0200\n"
-"PO-Revision-Date: 2015-10-17 10:43+0000\n"
-"Last-Translator: yakky <i.spalletti@nephila.it>\n"
-"Language-Team: Arabic (http://www.transifex.com/nephila/django-meta-mixin/language/ar/)\n"
+"POT-Creation-Date: 2016-05-07 18:55+0200\n"
+"PO-Revision-Date: 2017-09-22 23:14+0000\n"
+"Last-Translator: Bashar Al-Abdulhadi\n"
+"Language-Team: Arabic (http://www.transifex.com/nephila/django-meta/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
-#: settings.py:9 settings.py:19
+#: settings.py:23 settings.py:36
 msgid "Article"
-msgstr ""
-
-#: settings.py:10
-msgid "Website"
-msgstr ""
-
-#: settings.py:13
-msgid "Summary Card"
-msgstr ""
-
-#: settings.py:14
-msgid "Summary Card with Large Image"
-msgstr ""
-
-#: settings.py:15
-msgid "App Card"
-msgstr ""
-
-#: settings.py:20
-msgid "Blog"
-msgstr ""
-
-#: settings.py:21
-msgid "Page"
-msgstr ""
-
-#: settings.py:22
-msgid "WebSite"
-msgstr ""
-
-#: settings.py:23
-msgid "Event"
-msgstr ""
+msgstr "مقالة"
 
 #: settings.py:24
+msgid "Website"
+msgstr "الموقع"
+
+#: settings.py:27
+msgid "Summary Card"
+msgstr "بطاقة الموجز"
+
+#: settings.py:28
+msgid "Summary Card with Large Image"
+msgstr "بطاقة الموجز مع صورة كبيرة"
+
+#: settings.py:29 settings.py:41
 msgid "Product"
-msgstr ""
+msgstr "المنتج"
 
-#: settings.py:25
+#: settings.py:30
+msgid "Photo"
+msgstr "الصورة"
+
+#: settings.py:31
+msgid "Player"
+msgstr "اللاعب"
+
+#: settings.py:32
+msgid "App"
+msgstr "التطبيق"
+
+#: settings.py:37
+msgid "Blog"
+msgstr "المدونة"
+
+#: settings.py:38
+msgid "Page"
+msgstr "الصفحة"
+
+#: settings.py:39
+msgid "WebSite"
+msgstr "الموقع"
+
+#: settings.py:40
+msgid "Event"
+msgstr "الحدث"
+
+#: settings.py:42
 msgid "Place"
-msgstr ""
+msgstr "المكان"
 
-#: settings.py:26
+#: settings.py:43
 msgid "Person"
-msgstr ""
+msgstr "الشخص"
+
+#: settings.py:44
+msgid "Book"
+msgstr "الكتاب"
+
+#: settings.py:45
+msgid "LocalBusiness"
+msgstr "الأعمال التجارية المحلية"
+
+#: settings.py:46
+msgid "Organization"
+msgstr "المنظمة"
+
+#: settings.py:47
+msgid "Review"
+msgstr "المراجعة"
