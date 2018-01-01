@@ -1,0 +1,3 @@
+-r requirements-test.txt
+Django<2.0
+django-sekizai
