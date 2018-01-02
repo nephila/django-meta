@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
-from django.test import TestCase
+from django.test import RequestFactory, TestCase, override_settings
 
 from meta import settings
 from meta.views import Meta
@@ -124,6 +125,27 @@ class MetaObjectTestCase(TestCase):
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url('foo/bar')
+
+    @override_settings(SITE_ID=None)
+    def test_get_full_url_without_site_id_will_raise(self):
+        settings.USE_SITES = True
+        settings.SITE_PROTOCOL = 'http'
+        m = Meta()
+        with self.assertRaises(ImproperlyConfigured):
+            m.get_full_url('foo/bar')
+
+    @override_settings(SITE_ID=None)
+    def test_get_full_url_without_site_id_with_request_will_not_raise(self):
+        settings.USE_SITES = True
+        settings.SITE_PROTOCOL = 'http'
+        factory = RequestFactory()
+        request = factory.get('/')
+        Site.objects.create(domain=request.get_host())
+        m = Meta(request=request)
+        self.assertEqual(
+            m.get_full_url('foo/bar'),
+            'http://testserver/foo/bar'
+        )
 
     def test_get_full_url_without_protocol_without_schema_will_raise(self):
         m = Meta()

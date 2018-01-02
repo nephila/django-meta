@@ -69,6 +69,9 @@ properties you want to use::
 When the time comes to render the template, simply include the instance as
 ``'meta'`` context variable.
 
+``Meta`` also accept an (optional) ``request`` argument to pass the current
+request, which is used to retrieve the ``SITE_ID`` if it's not in the settings.
+
 The ``Meta`` instances have the same properties as the keys listed in the
 `Using the view`_ section. For convenience, some of the properties are 'smart',
 and will modify values you set. These properties are:

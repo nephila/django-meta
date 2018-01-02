@@ -95,7 +95,7 @@ class ModelMeta(object):
         """
         from meta.views import Meta
         metadata = self.get_meta(request)
-        meta = Meta()
+        meta = Meta(request=request)
         for field, data in self._retrieve_data(request, metadata):
             setattr(meta, field, data)
         for field in ('og_description', 'twitter_description', 'gplus_description'):
