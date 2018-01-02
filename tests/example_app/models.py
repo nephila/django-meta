@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
-import os.path
-
-from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 from meta.models import ModelMeta
+
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 
 class Post(ModelMeta, models.Model):
@@ -26,7 +27,7 @@ class Post(ModelMeta, models.Model):
     meta_keywords = models.TextField(verbose_name=_(u'Post meta keywords'),
                                      blank=True, default='')
     author = models.ForeignKey(User, verbose_name=_('Author'), null=True,
-                               blank=True)
+                               blank=True, on_delete=models.CASCADE)
     date_created = models.DateTimeField(auto_now_add=True)
     date_modified = models.DateTimeField(auto_now=True)
     date_published = models.DateTimeField(_('Published Since'),

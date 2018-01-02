@@ -7,5 +7,5 @@ flake8>=2.1.0
 tox>=2.0
 pillow
 wheel
-https://github.com/nephila/djangocms-helper/archive/develop.zip
+https://github.com/nephila/djangocms-helper/archive/574c3d3eb2299865522e833e3d533a4a02f9570a.zip
 -rrequirements.txt
