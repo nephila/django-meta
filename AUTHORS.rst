@@ -21,6 +21,7 @@ Contributors
 * Cansin Yildiz
 * Dmitry Fillo
 * ellmetha
+* EmiM
 * John Carter
 * Ken Cochrane
 * Leif Denby

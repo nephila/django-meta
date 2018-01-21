@@ -4,7 +4,7 @@
 History
 *******
 
-1.4.1 (unreleased)
+1.4.1 (2018-01-21)
 ==================
 
 * Added Django 2.0 support
