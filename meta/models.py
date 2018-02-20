@@ -8,7 +8,6 @@ from django.conf import settings as dj_settings
 
 from . import settings
 
-
 NEED_REQUEST_OBJECT_ERR_MSG = """
 Meta models needs request objects when initializing if sites framework is not used.
 """.strip()
