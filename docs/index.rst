@@ -25,6 +25,7 @@ django meta has two different operating mode:
    upgrading
    models
    views
+   schema
    settings
    rendering
    extra_tags

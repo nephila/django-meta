@@ -4,11 +4,56 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 from meta.models import ModelMeta
+from meta.views import Meta
 
 try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
+
+
+class Publisher(ModelMeta, models.Model):
+    name = models.CharField(_('name'), max_length=255)
+
+    _schema = {
+        '@type': 'Organization',
+        'name': 'name',
+        'logo': 'static_logo',
+    }
+
+    class Meta:
+        verbose_name = _('publisher')
+        verbose_name_plural = _('publishers')
+
+    def __str__(self):
+        return self.name
+
+    @property
+    def static_logo(self):
+        return Meta(schema={
+            '@type': 'ImageObject',
+            'url': self.build_absolute_uri('/some/logo.png')
+        })
+
+
+class Comment(ModelMeta, models.Model):
+    body = models.CharField(_('comment'), max_length=255)
+    post = models.ForeignKey(
+        'example_app.Post', on_delete=models.CASCADE, verbose_name=_('post'), related_name='comments'
+    )
+
+    _schema = {
+        '@type': 'Comment',
+        'parentItem': 'post',
+        'text': 'body'
+    }
+
+    class Meta:
+        verbose_name = _('comment')
+        verbose_name_plural = _('comments')
+
+    def __str__(self):
+        return self.body[:10]
 
 
 class Post(ModelMeta, models.Model):
@@ -33,6 +78,11 @@ class Post(ModelMeta, models.Model):
     main_image = models.ImageField(verbose_name=_("Main image"), blank=True, upload_to="images", null=True)
     text = models.TextField(verbose_name=_("Post text"), blank=True, default="")
     image_url = models.CharField(max_length=200, null=True, blank=True)
+    publisher = models.ForeignKey(
+        'example_app.Publisher', on_delete=models.CASCADE, verbose_name=_('publisher'), related_name='posts',
+        null=True
+    )
+    related_posts = models.ManyToManyField('example_app.Post', verbose_name=_('related posts'), blank=True)
 
     _metadata_default = ModelMeta._metadata_default.copy()  # purely for testing purposes
     _metadata_default["locale"] = "dummy_locale"
@@ -70,22 +120,61 @@ class Post(ModelMeta, models.Model):
         "extra_custom_props": "get_custom_props",
     }
 
+    _schema = {
+        'image': 'get_image_full_url',
+        'articleBody': 'text',
+        'articleSection': 'get_categories',
+        'author': 'get_schema_author',
+        'copyrightYear': 'copyright_year',
+        'dateCreated': 'get_date',
+        'dateModified': 'get_date',
+        'datePublished': 'date_published',
+        'expires': 'get_date',
+        'headline': 'headline',
+        'keywords': 'get_keywords',
+        'description': 'get_description',
+        'name': 'title',
+        'url': 'get_full_url',
+        'mainEntityOfPage': 'mainEntityOfPage',
+        'publisher': 'publisher',
+        'comment': 'comments',
+        'commentCount': 'comments_count',
+        'citation': 'related_posts',
+    }
+
     class Meta:
         verbose_name = _("blog article")
         verbose_name_plural = _("blog articles")
         ordering = ("-date_published", "-date_created")
         get_latest_by = "date_published"
 
+    def __str__(self):
+        return self.title
+
     def get_date(self, param):
-        if param == "published_time":
+        if param in ("published_time", "datePublished"):
             return self.date_published
-        elif param == "modified_time":
+        elif param in ("modified_time", "dateModified"):
             return self.date_modified
-        elif param == "expiration_time":
+        elif param in ("expiration_time", "expires"):
             return self.date_published_end
+        elif param == "dateCreated":
+            return self.date_created
+
+    @property
+    def copyright_year(self):
+        return self.date_published.year
+
+    @property
+    def headline(self):
+        return self.abstract[:110]
+
+    @property
+    def comments_count(self):
+        return self.comments.count()
 
     def get_keywords(self):
-        return self.meta_keywords.strip().split(",")
+        return self.meta_keywords.strip().split(',')
 
     def get_description(self):
         description = self.meta_description
@@ -136,3 +225,13 @@ class Post(ModelMeta, models.Model):
 
     def get_custom_props(self):
         return [("custom1", "custom_name1", "custom_val1"), ("custom2", "custom_name2", "custom_val2")]
+    
+    def get_categories(self):
+        return ['category 1', 'category 2']
+
+    def get_schema_author(self):
+        author = self.get_author()
+        return {
+            '@type': 'Person',
+            'name': author.get_full_name(),
+        }
