@@ -4,6 +4,11 @@
 History
 *******
 
+1.5.0 (unreleased)
+==================
+
+* Fix minor documentation error
+
 1.4.1 (2018-01-21)
 ==================
 
