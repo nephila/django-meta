@@ -1,18 +1,114 @@
 from __future__ import unicode_literals
 
+import json
+from datetime import date
+
 from django.core.exceptions import ImproperlyConfigured
 
 from . import settings
 
+# This global variable is used to cache schemas for visited models to avoid recursion errors when traversing
+# when parent and its children has a reference to each other
+# When one objects if visited, its schema is put there, in a key generated from its pk
+# By adding here visited items, it can be used as a local cache, to stop recursion
+visited = {}
 
-class Meta(object):
+
+class FullUrlMixin(object):
+    """
+    Provides a few convenience methods to retrieve the full URL (which includes protocol and domain) of an object.
+
+    If possible, :py:meth:`django.http.request.HttpRequest.build_absolute_uri` is used
+    """
+
+    def get_domain(self):
+        """
+        Discover the current website domain
+
+        :py:class:`django.contrib.sites.models.Site`
+        and :ref:`META_SITE_DOMAIN`
+        (in this order) are used
+
+        :return: domain URL
+        """
+        from django.contrib.sites.models import Site
+        try:
+            if self.use_sites:
+                return Site.objects.get_current(self.request).domain
+        except AttributeError:
+            if settings.USE_SITES:
+                try:
+                    return Site.objects.get_current(self.request).domain
+                except AttributeError:
+                    return Site.objects.get_current().domain
+        if not settings.SITE_DOMAIN:
+            raise ImproperlyConfigured('META_SITE_DOMAIN is not set')
+        return settings.SITE_DOMAIN
+
+    def get_protocol(self):
+        """
+        Discover the current website protocol from  :ref:`META_SITE_PROTOCOL`
+
+        :return: domain URL
+        """
+        if not settings.SITE_PROTOCOL:
+            raise ImproperlyConfigured('META_SITE_PROTOCOL is not set')
+        return settings.SITE_PROTOCOL
+
+    def _get_full_url(self, url):
+        """
+        Build the full URL (protocol and domain included) for the URL given as argument
+
+        :param url: absolute (domain-less) URL
+        :return: full url
+        """
+        try:
+            return self.request.build_absolute_uri(url)
+        except AttributeError:
+            pass
+        if not url:
+            return None
+        if url.startswith('http'):
+            return url
+        meta_protocol = self.get_protocol()
+        domain = self.get_domain()
+        separator = '://'
+        if url.startswith('//'):
+            separator = ':'
+            domain = ''
+        elif not url.startswith('/'):
+            url = '/%s' % url
+        if domain.startswith('http'):
+            meta_protocol = ''
+            separator = ''
+        return '{meta_protocol}{separator}{domain}{url}'.format(
+            meta_protocol=meta_protocol,
+            separator=separator,
+            domain=domain,
+            url=url
+        )
+
+
+class Meta(FullUrlMixin):
     """
     Helper for building context meta object
     """
     _keywords = []
     _url = None
     _image = None
+    _schema = {}
+    """
+    Base schema.org types definition.
+
+    It's a dictionary containing all the schema.org properties for the described objects.
+
+    See :ref:`a sample implementation <schema._schema>`.
+    """
     request = None
+    _obj = None
+    """
+    Linked :py:class:`~meta.models.ModelMeta` instance (if Meta is generated from a ModelMeta object)
+    """
 
     def __init__(self, **kwargs):
         self.use_sites = kwargs.get('use_sites', settings.USE_SITES)
@@ -40,6 +136,7 @@ class Meta(object):
         self.use_twitter = kwargs.get('use_twitter', settings.USE_TWITTER_PROPERTIES)
         self.use_facebook = kwargs.get('use_facebook', settings.USE_FACEBOOK_PROPERTIES)
         self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
+        self.use_json_ld = kwargs.get('use_json_ld', settings.USE_JSON_LD_SCHEMA)
         self.use_title_tag = kwargs.get('use_title_tag', settings.USE_TITLE_TAG)
         self.gplus_type = kwargs.get('gplus_type', settings.GPLUS_TYPE)
         self.gplus_publisher = kwargs.get('gplus_publisher', settings.GPLUS_PUBLISHER)
@@ -47,41 +144,8 @@ class Meta(object):
         self.fb_pages = kwargs.get('fb_pages', settings.FB_PAGES)
         self.og_app_id = kwargs.get('og_app_id', settings.FB_APPID)
         self.request = kwargs.get('request', None)
-
-    def get_domain(self):
-        if self.use_sites:
-            from django.contrib.sites.models import Site
-            return Site.objects.get_current(self.request).domain
-        if not settings.SITE_DOMAIN:
-            raise ImproperlyConfigured('META_SITE_DOMAIN is not set')
-        return settings.SITE_DOMAIN
-
-    def get_protocol(self):
-        if not settings.SITE_PROTOCOL:
-            raise ImproperlyConfigured('META_SITE_PROTOCOL is not set')
-        return settings.SITE_PROTOCOL
-
-    def get_full_url(self, url):
-        if not url:
-            return None
-        if url.startswith('http'):
-            return url
-        if url.startswith('//'):
-            return '%s:%s' % (
-                self.get_protocol(),
-                url
-            )
-        if url.startswith('/'):
-            return '%s://%s%s' % (
-                self.get_protocol(),
-                self.get_domain(),
-                url
-            )
-        return '%s://%s/%s' % (
-            self.get_protocol(),
-            self.get_domain(),
-            url
-        )
+        self._schema = kwargs.get('schema', {})
+        self._obj = kwargs.get('obj', {})
 
     @property
     def keywords(self):
@@ -94,7 +158,7 @@ class Meta(object):
         else:
             if not hasattr(keywords, '__iter__'):
                 # Not iterable
-                raise ValueError('Keywords must be an intrable')
+                raise ValueError('Keywords must be an iterable')
             kws = [k for k in keywords]
             if settings.INCLUDE_KEYWORDS:
                 kws += settings.INCLUDE_KEYWORDS
@@ -102,13 +166,16 @@ class Meta(object):
         seen_add = seen.add
         self._keywords = [k for k in kws if k not in seen and not seen_add(k)]
 
+    def get_full_url(self, url):
+        return self._get_full_url(url)
+
     @property
     def url(self):
         return self._url
 
     @url.setter
     def url(self, url):
-        self._url = self.get_full_url(url)
+        self._url = self._get_full_url(url)
 
     @property
     def image(self):
@@ -123,8 +190,71 @@ class Meta(object):
                 image = '%s%s' % (settings.IMAGE_URL, image)
             self._image = self.get_full_url(image)
 
+    @property
+    def schema(self):
+        """
+        Schema.org object description.
 
-class MetadataMixin(object):
+        Items in the schema are converted in a format suitable of json encoding at this stage:
+
+        * instances of :py:class:`~meta.views.Meta` as their schema
+        * dates as isoformat
+        * iterables and dicts are processed depth-first to process their items
+
+        If no type is set :py:attr:`~meta.views.Meta.gplus_type` is used
+
+        :return: dict
+        """
+        from meta.models import ModelMeta
+
+        def process_item(item):
+            if isinstance(item, Meta):
+                return item.schema
+            if isinstance(item, ModelMeta):
+                # if not cached, object schema is generated and put into local cache
+                if item._local_key not in visited:
+                    visited[item._local_key] = item.as_meta(self.request).schema
+                return visited[item._local_key]
+            elif isinstance(item, date):
+                return item.isoformat()
+            elif isinstance(item, list) or isinstance(item, tuple):
+                return [process_item(value) for value in item]
+            elif isinstance(item, dict):
+                return {itemkey: process_item(itemvalue) for itemkey, itemvalue in item.items()}
+            else:
+                return item
+
+        schema = {}
+        # object is immediately set here to recursion
+        # if we are visiting parent -> child relation, we don't need the pointer
+        # back up
+        if isinstance(self._obj, ModelMeta):
+            visited[self._obj._local_key] = None
+        for key, val in self._schema.items():
+            schema[key] = process_item(val)
+        if '@type' not in schema:
+            schema['@type'] = self.gplus_type
+        # after generating the full schema, we can save it in the local cache for future uses
+        if isinstance(self._obj, ModelMeta):
+            visited[self._obj._local_key] = schema
+        return schema
+
+    @schema.setter
+    def schema(self, schema):
+        self._schema = schema
+
+    def as_json_ld(self):
+        """
+        Convert the schema to json-ld
+
+        :return: json
+        """
+        data = self.schema
+        data['@context'] = 'http://schema.org'
+        return json.dumps(data)
+
+
+class MetadataMixin(FullUrlMixin):
     """
     Django CBV mixin to prepare metadata for the view context
     """
@@ -155,6 +285,7 @@ class MetadataMixin(object):
     gplus_type = None
     gplus_author = None
     gplus_publisher = None
+    schema = {}
 
     def __init__(self, **kwargs):
         self.use_sites = settings.USE_SITES
@@ -234,6 +365,31 @@ class MetadataMixin(object):
     def get_meta_locale(self, context=None):
         return self.locale
 
+    def get_schema(self, context=None):
+        """
+        The generic API to retrieve the full schema.org structure for the view.
+
+        By default it returns the :py:attr:`schema`. You can reimplement this method
+        to build the schema.org structure at runtime. See :ref:`a sample implementation <schema.get_schema>`.
+
+        :param context: view context
+        :return: dictionary
+        """
+        return self.schema
+
+    def get_schema_property(self, schema_type, property, context=None):
+        """
+        The generic API to retrieve the attribute value for a generic schema type
+
+        This is just a stub that **must** be implemented
+
+        :param schema_type: name of the schema type
+        :param property: name of the property
+        :param context: view context
+        :return: property value
+        """
+        raise NotImplementedError
+
     def get_meta(self, context=None):
         return self.get_meta_class()(
             use_og=self.use_og,
@@ -260,6 +416,7 @@ class MetadataMixin(object):
             gplus_type=self.get_meta_gplus_type(context=context),
             gplus_author=self.get_meta_gplus_author(context=context),
             gplus_publisher=self.get_meta_gplus_publisher(context=context),
+            schema=self.get_schema(context=context),
         )
 
     def get_context_data(self, **kwargs):

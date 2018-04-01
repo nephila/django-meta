@@ -1,17 +1,17 @@
 Package documentation
 =====================
 
-.. automodule:: meta.models
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 .. automodule:: meta.views
     :members:
     :undoc-members:
-    :show-inheritance:
+    :private-members:
+
+.. automodule:: meta.models
+    :members:
+    :undoc-members:
+    :private-members: _metadata,_schema
 
 .. automodule:: meta.templatetags.meta
     :members:
     :undoc-members:
-    :show-inheritance:
+    :private-members:

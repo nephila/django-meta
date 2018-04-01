@@ -7,9 +7,9 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from djangocms_helper.base_test import BaseTestCase
 
-from meta import settings
 from meta.models import ModelMeta
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
+from meta.views import settings
 
 from .example_app.models import Post
 
@@ -51,7 +51,7 @@ class TestMeta(BaseTestCase):
             'keywords': ['post keyword1', 'post keyword 2'],
             'og_profile_id': '1111111111111',
             'twitter_description': 'post meta',
-            'gplus_type': 'Article',
+            'gplus_type': 'BlogPosting',
             'title': 'a title',
             'og_title': 'og title',
             'twitter_title': 'twitter title',
@@ -110,7 +110,7 @@ class TestMeta(BaseTestCase):
             'keywords': ['post keyword1', 'post keyword 2'],
             'og_profile_id': '1111111111111',
             'twitter_description': 'post meta',
-            'gplus_type': 'Article',
+            'gplus_type': 'BlogPosting',
             'title': 'a title',
             'og_title': 'og title',
             'twitter_title': 'twitter title',
@@ -149,8 +149,8 @@ class TestMeta(BaseTestCase):
     def test_templatetag(self):
         meta = self.post.as_meta()
         response = self.client.get('/title/')
-        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
-        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
+        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/BlogPosting" >')
+        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/BlogPosting"')
         self.assertContains(response, 'article:published_time"')
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url))
         self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))
@@ -222,10 +222,12 @@ class TestMeta(BaseTestCase):
             ' itemscope itemtype="http://schema.org/bar" '
         )
 
-    @override_settings(META_SITE_PROTOCOL='https')
     def test_image_protocol(self):
+        proto = settings.SITE_PROTOCOL
+        settings.SITE_PROTOCOL = 'https'
         meta = self.post.as_meta()
         self.assertEqual('https://example.com{}'.format(self.image_url), getattr(meta, 'image'))
+        settings.SITE_PROTOCOL = proto
 
     def test_not_use_sites(self):
         with override_settings(META_USE_SITES=False):

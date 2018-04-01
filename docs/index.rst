@@ -21,6 +21,7 @@ django meta has two different operating mode:
    installation
    models
    views
+   schema
    settings
    rendering
    modules

@@ -89,7 +89,7 @@ Usage
             context = super(MyView, self).get_context_data(self, **kwargs)
             context['meta'] = self.get_object().as_meta(self.request)
             return context
-            
+
 #. For Function Based View can just use ``as_meta()`` method for pass "meta" context variable::
 
     def post(request, id):

@@ -314,7 +314,11 @@ class MetadataMixinTestCase(TestCase):
             meta_object.image,
             'http://foo.com/static/images/foo.gif'
         )
+        settings.SITE_PROTOCOL = 'http'
+        settings.USE_SITES = True
         settings.SITE_DOMAIN = 'example.com'
+        settings.FB_PAGES = ''
+        settings.FB_APPID = ''
 
     def test_get_context(self):
         class Super(object):
@@ -351,6 +355,27 @@ class MetadataMixinTestCase(TestCase):
             'http://foo.com/static/images/foo.gif'
         )
 
+        settings.SITE_DOMAIN = 'https://foo.com'
+
+        v = View()
+
+        context = v.get_context_data()
+
+        self.assertTrue('meta' in context)
+        self.assertTrue(type(context['meta']), Meta)
+        self.assertEqual(
+            context['meta'].url,
+            'https://foo.com/some/path'
+        )
+        self.assertEqual(
+            context['meta'].keywords,
+            ['foo', 'bar']
+        )
+        self.assertEqual(
+            context['meta'].image,
+            'https://foo.com/static/images/foo.gif'
+        )
+
         settings.SITE_DOMAIN = 'example.com'
-        settings.FB_PAGES = ''
-        settings.FB_APPID = ''
+        settings.SITE_PROTOCOL = 'http'
+        settings.USE_SITES = False

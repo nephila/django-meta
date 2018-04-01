@@ -4,6 +4,11 @@
 History
 *******
 
+1.6.0 (unreleased)
+==================
+
+* Add explicit Schema.org support
+
 1.5.2 (2019-07-02)
 ==================
 
