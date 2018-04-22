@@ -19,6 +19,9 @@ class Post(ModelMeta, models.Model):
     Blog post
     """
     title = models.CharField(_('Title'), max_length=255)
+    og_title = models.CharField(_('Opengraph title', blank=True), max_length=255)
+    twitter_title = models.CharField(_('Twitter title', blank=True), max_length=255)
+    gplus_title = models.CharField(_('Gplus title', blank=True), max_length=255)
     slug = models.SlugField(_('slug'))
     abstract = models.TextField(_('Abstract'))
     meta_description = models.TextField(
@@ -45,6 +48,9 @@ class Post(ModelMeta, models.Model):
 
     _metadata = {
         'title': 'title',
+        'og_title': 'og title',
+        'twitter_title': 'twitter title',
+        'gplus_title': 'gplus title',
         'description': 'get_description',
         'og_description': 'get_description',
         'keywords': 'get_keywords',
