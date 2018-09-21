@@ -219,7 +219,6 @@ class MetadataMixinTestCase(TestCase):
             'summary'
         )
 
-
     def test_get_meta_facebook_app_id(self):
         m = MetadataMixin()
         self.assertEqual(
