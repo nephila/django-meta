@@ -200,7 +200,7 @@ class MetadataMixin(object):
         return self.twitter_creator
 
     def get_meta_twitter_card(self, context=None):
-        return self.twitter_card
+        return self.twitter_card or settings.TWITTER_CARD
 
     def get_meta_facebook_app_id(self, context=None):
         return self.facebook_app_id
