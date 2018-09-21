@@ -212,6 +212,14 @@ class MetadataMixinTestCase(TestCase):
             'summary'
         )
 
+        settings.TWITTER_CARD = 'summary'
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_twitter_card(),
+            'summary'
+        )
+
+
     def test_get_meta_facebook_app_id(self):
         m = MetadataMixin()
         self.assertEqual(
