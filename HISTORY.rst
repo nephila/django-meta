@@ -7,7 +7,11 @@ History
 1.5.0 (unreleased)
 ==================
 
-* Fix minor documentation error
+* Added support for Django 2.1 and 2.2
+* Added support for Python 3.7
+* Dropped support for Django < 1.11
+* Dropped  support for Python 3.4
+* Fixed minor documentation error
 
 1.4.1 (2018-01-21)
 ==================
