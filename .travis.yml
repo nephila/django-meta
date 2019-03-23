@@ -1,27 +1,23 @@
 # Config file for automatic testing at travis-ci.org
-
+dist: xenial
 language: python
 
 sudo: false
 
 python:
+  - 3.7
   - 3.6
   - 3.5
-  - 3.4
   - 2.7
 
 env:
   matrix:
-  - DJANGO='django18-sekizai'
-  - DJANGO='django18-nosekizai'
-  - DJANGO='django19-sekizai'
-  - DJANGO='django19-nosekizai'
-  - DJANGO='django110-sekizai'
-  - DJANGO='django110-nosekizai'
   - DJANGO='django111-sekizai'
   - DJANGO='django111-nosekizai'
   - DJANGO='django20-sekizai'
   - DJANGO='django20-nosekizai'
+  - DJANGO='django21-sekizai'
+  - DJANGO='django22-nosekizai'
   - TOXENV='pep8'
   - TOXENV='isort'
   - TOXENV='docs'
@@ -29,11 +25,11 @@ env:
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
 install:
-  - pip install -U setuptools tox>=1.8 coveralls
+  - pip install -U setuptools 'tox>=1.8' coveralls
   - "if [[ $TRAVIS_PYTHON_VERSION == '2.7' ]]; then export PYVER=py27; fi"
-  - "if [[ $TRAVIS_PYTHON_VERSION == '3.4' ]]; then export PYVER=py34; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.5' ]]; then export PYVER=py35; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then export PYVER=py36; fi"
+  - "if [[ $TRAVIS_PYTHON_VERSION == '3.7' ]]; then export PYVER=py37; fi"
   - "if [[ ${DJANGO}z != 'z' ]]; then export TOXENV=$PYVER-$DJANGO; fi"
 
 # command to run tests, e.g. python setup.py test
@@ -57,49 +53,33 @@ matrix:
     env: DJANGO='django20-sekizai'
   - python: 2.7
     env: DJANGO='django20-nosekizai'
-  - python: 3.4
+  - python: 2.7
+    env: DJANGO='django21-sekizai'
+  - python: 2.7
+    env: DJANGO='django21-nosekizai'
+  - python: 2.7
+    env: DJANGO='django22-sekizai'
+  - python: 2.7
+    env: DJANGO='django22-nosekizai'
+  - python: 3.5
     env: TOXENV='pep8'
-  - python: 3.4
+  - python: 3.5
     env: TOXENV='isort'
-  - python: 3.4
+  - python: 3.5
     env: TOXENV='docs'
-  - python: 3.4
-    env: DJANGO='django18-sekizai'
-  - python: 3.4
-    env: DJANGO='django18-nosekizai'
-  - python: 3.4
-    env: DJANGO='django19-sekizai'
-  - python: 3.4
-    env: DJANGO='django19-nosekizai'
-  - python: 3.4
-    env: DJANGO='django110-sekizai'
-  - python: 3.4
-    env: DJANGO='django110-nosekizai'
-  - python: 3.4
+  - python: 3.5
     env: DJANGO='django111-sekizai'
-  - python: 3.4
+  - python: 3.5
     env: DJANGO='django111-nosekizai'
-  - python: 3.5
+  - python: 3.6
     env: TOXENV='pep8'
-  - python: 3.5
+  - python: 3.6
     env: TOXENV='isort'
-  - python: 3.5
+  - python: 3.6
     env: TOXENV='docs'
-  - python: 3.5
-    env: DJANGO='django18-sekizai'
-  - python: 3.5
-    env: DJANGO='django18-nosekizai'
-  - python: 3.5
-    env: DJANGO='django19-sekizai'
-  - python: 3.5
-    env: DJANGO='django19-nosekizai'
-  - python: 3.5
-    env: DJANGO='django110-sekizai'
-  - python: 3.5
-    env: DJANGO='django110-nosekizai'
-  - python: 3.5
+  - python: 3.6
     env: DJANGO='django111-sekizai'
-  - python: 3.5
+  - python: 3.6
     env: DJANGO='django111-nosekizai'
 
 cache:
