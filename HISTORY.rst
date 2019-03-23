@@ -11,6 +11,7 @@ History
 * Added support for Python 3.7
 * Dropped support for Django < 1.11
 * Dropped  support for Python 3.4
+* Fixed support for og:image:secure_url
 * Fixed minor documentation error
 
 1.4.1 (2018-01-21)

@@ -166,6 +166,18 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
         self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
 
+    def test_templatetag_secure_image(self):
+        """
+        Test for issue #79
+        """
+        settings.SITE_PROTOCOL = 'http'
+        response = self.client.get('/mixin/title/')
+        self.assertContains(response, '<meta property="og:image" content="http://example.com/path/to/image">')
+        settings.SITE_PROTOCOL = 'https'
+        response = self.client.get('/mixin/title/')
+        self.assertContains(response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">')
+        settings.SITE_PROTOCOL = 'http'
+
     def test_templatetag_no_og(self):
         from meta import settings
         settings.USE_OG_PROPERTIES = False

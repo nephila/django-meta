@@ -47,7 +47,7 @@ GPLUS_TYPES = (
     ('Review', _('Review')),
 )
 
-
+OG_SECURE_URL_ITEMS = getattr(django_settings, 'META_OG_SECURE_URL_ITEMS', ('image', 'audio', 'video'))
 DEFAULT_IMAGE = getattr(django_settings, 'META_DEFAULT_IMAGE', '')
 DEFAULT_TYPE = getattr(django_settings, 'META_SITE_TYPE', OBJECT_TYPES[0][0])
 FB_TYPE = getattr(django_settings, 'META_FB_TYPE', OBJECT_TYPES[0][0])

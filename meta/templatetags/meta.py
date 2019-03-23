@@ -7,6 +7,8 @@ from django.utils.html import escape
 from django.utils.safestring import mark_safe
 from django.utils.six import string_types
 
+from .. import settings
+
 register = template.Library()
 
 # Use sekizai if installed, otherwise define a templatetag stub
@@ -118,6 +120,8 @@ def og_prop(name, value):
     :param name: property name (without 'og:' namespace)
     :param value: property value
     """
+    if name in settings.OG_SECURE_URL_ITEMS and value.startswith('https'):
+        name = '%s:secure_url' % name
     return custom_meta('property', 'og:%s' % name, value)
 
 

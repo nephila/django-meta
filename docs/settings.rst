@@ -131,6 +131,12 @@ Use this setting to add a list of additional OpenGraph namespaces to be declared
 in the ``<head>`` tag.
 
 
+META_OG_SECURE_URL_ITEMS
+------------------------
+
+Use this setting to customize the list of additional OpenGraph properties for which the ``:secure_url`` suffix is added if the URL value is a ``https`` URL.
+
+
 Other settings
 --------------
 
