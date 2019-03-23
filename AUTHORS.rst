@@ -29,6 +29,7 @@ Contributors
 * m-vdb
 * Marco Federighi
 * Mirat Can Bayrak
+* Miroslav Bendík
 * Murat Aydos
 * mvergerdelbove
 * Sergei Maertens

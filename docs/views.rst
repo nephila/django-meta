@@ -23,6 +23,9 @@ the template context which contains any of the following attributes:
 + use_googleplus
 + use_title_tag
 + title
++ og_title
++ twitter_title
++ gplus_title
 + description
 + keywords
 + url
@@ -232,6 +235,15 @@ This key is used in the ``og:title`` OpenGraph property if ``use_og`` is
 ``True``, ``twitter:title`` if ``use_twitter`` is ``True``,
 ``itemprop="title"`` if ``use_googleplus`` is ``True`` or ``<title></title>`` tag
 if ``use_title_tag`` is ``True``.
+
+The service-specific variants are also supported:
+
+* ``og_title``
+* ``twitter_title``
+* ``gplus_title``
+
+If set on the ``Meta`` object, they will be used insteaf of the generic title
+which will be used as a fallback.
 
 description
 -----------

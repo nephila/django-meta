@@ -13,6 +13,7 @@ History
 * Dropped  support for Python 3.4
 * Fixed support for og:image:secure_url
 * Fixed minor documentation error
+* Added support for service-specific titles
 
 1.4.1 (2018-01-21)
 ==================
