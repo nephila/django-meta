@@ -17,6 +17,25 @@ class OgPropTestCase(TestCase):
             '<meta property="og:type" content="website">'
         )
 
+    def test_og_prop_secure_url(self):
+        for content in ('image', 'video', 'audio'):
+            self.assertEqual(
+                og_prop(content, 'https://some/{}'.format(content)),
+                '<meta property="og:{0}:secure_url" content="https://some/{0}">'.format(content),
+            )
+            self.assertEqual(
+                og_prop(content, 'http://some/{}'.format(content)),
+                '<meta property="og:{0}" content="http://some/{0}">'.format(content),
+            )
+        self.assertEqual(
+            og_prop('random_type', 'https://some/random_type'),
+            '<meta property="og:random_type" content="https://some/random_type">',
+        )
+        self.assertEqual(
+            og_prop('random_type', 'http://some/random_type'),
+            '<meta property="og:random_type" content="http://some/random_type">',
+        )
+
     def test_generic_prop_basically_works(self):
         self.assertEqual(
             generic_prop('og', 'type', 'website'),
