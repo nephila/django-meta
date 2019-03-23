@@ -28,6 +28,45 @@ class MetadataMixinTestCase(TestCase):
             'Foo'
         )
 
+    def test_get_meta_og_title(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_og_title(),
+            None
+        )
+
+        m.og_title = 'Foo'
+        self.assertEqual(
+            m.get_meta_og_title(),
+            'Foo'
+        )
+
+    def test_get_meta_twitter_title(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_twitter_title(),
+            None
+        )
+
+        m.twitter_title = 'Foo'
+        self.assertEqual(
+            m.get_meta_twitter_title(),
+            'Foo'
+        )
+
+    def test_get_meta_gplus_title(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_gplus_title(),
+            None
+        )
+
+        m.gplus_title = 'Foo'
+        self.assertEqual(
+            m.get_meta_gplus_title(),
+            'Foo'
+        )
+
     def test_get_meta_description(self):
         m = MetadataMixin()
         self.assertEqual(

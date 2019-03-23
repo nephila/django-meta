@@ -17,6 +17,9 @@ class Meta(object):
     def __init__(self, **kwargs):
         self.use_sites = kwargs.get('use_sites', settings.USE_SITES)
         self.title = kwargs.get('title')
+        self.og_title = kwargs.get('og_title')
+        self.twitter_title = kwargs.get('twitter_title')
+        self.gplus_title = kwargs.get('gplus_title')
         self.description = kwargs.get('description')
         self.extra_props = kwargs.get('extra_props')
         self.extra_custom_props = kwargs.get('extra_custom_props')
@@ -127,6 +130,9 @@ class MetadataMixin(object):
     context_meta_name = 'meta'
 
     title = None
+    og_title = None
+    twitter_title = None
+    gplus_title = None
     description = None
     extra_props = None
     extra_custom_props = None
@@ -165,6 +171,15 @@ class MetadataMixin(object):
 
     def get_meta_title(self, context=None):
         return self.title
+
+    def get_meta_og_title(self, context=None):
+        return self.og_title
+
+    def get_meta_twitter_title(self, context=None):
+        return self.twitter_title
+
+    def get_meta_gplus_title(self, context=None):
+        return self.gplus_title
 
     def get_meta_description(self, context=None):
         return self.description
@@ -223,6 +238,9 @@ class MetadataMixin(object):
             use_title_tag=self.use_title_tag,
             use_sites=self.use_sites,
             title=self.get_meta_title(context=context),
+            og_title=self.get_meta_og_title(context=context),
+            twitter_title=self.get_meta_twitter_title(context=context),
+            gplus_title=self.get_meta_gplus_title(context=context),
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),

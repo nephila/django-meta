@@ -20,6 +20,9 @@ class ModelMeta(object):
     _metadata = {}
     _metadata_default = {
         'title': False,
+        'og_title': False,
+        'twitter_title': False,
+        'gplus_title': False,
         'description': False,
         'og_description': False,
         'twitter_description': False,
@@ -97,6 +100,10 @@ class ModelMeta(object):
         meta = Meta(request=request)
         for field, data in self._retrieve_data(request, metadata):
             setattr(meta, field, data)
+        for field in ('og_title', 'twitter_title', 'gplus_title'):
+            generaltitle = getattr(meta, 'title', False)
+            if not getattr(meta, field, False) and generaltitle:
+                setattr(meta, field, generaltitle)
         for field in ('og_description', 'twitter_description', 'gplus_description'):
             generaldesc = getattr(meta, 'description', False)
             if not getattr(meta, field, False) and generaldesc:

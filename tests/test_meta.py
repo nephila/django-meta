@@ -43,6 +43,9 @@ class MetaObjectTestCase(TestCase):
     def test_defaults(self):
         m = Meta()
         self.assertEqual(m.title, None)
+        self.assertEqual(m.og_title, None)
+        self.assertEqual(m.gplus_title, None)
+        self.assertEqual(m.twitter_title, None)
         self.assertEqual(m.description, None)
         self.assertEqual(m.extra_props, None)
         self.assertEqual(m.extra_custom_props, None)
