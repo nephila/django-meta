@@ -5,7 +5,7 @@ django-meta
 |Gitter| |PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
 
 This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
+OpenGraph_ and Twitter properties to their HTML responses.
 
 
 .. note:: django-meta is now maintained by Nephila on `github`_. Old bitbucket

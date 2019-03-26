@@ -54,19 +54,6 @@ class MetadataMixinTestCase(TestCase):
             'Foo'
         )
 
-    def test_get_meta_gplus_title(self):
-        m = MetadataMixin()
-        self.assertEqual(
-            m.get_meta_gplus_title(),
-            None
-        )
-
-        m.gplus_title = 'Foo'
-        self.assertEqual(
-            m.get_meta_gplus_title(),
-            'Foo'
-        )
-
     def test_get_meta_description(self):
         m = MetadataMixin()
         self.assertEqual(

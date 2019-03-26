@@ -22,11 +22,9 @@ class ModelMeta(object):
         'title': False,
         'og_title': False,
         'twitter_title': False,
-        'gplus_title': False,
         'description': False,
         'og_description': False,
         'twitter_description': False,
-        'gplus_description': False,
         'keywords': False,
         'image': settings.DEFAULT_IMAGE,
         'object_type': settings.DEFAULT_TYPE,
@@ -39,9 +37,6 @@ class ModelMeta(object):
         'twitter_type': settings.TWITTER_TYPE,
         'twitter_site': settings.TWITTER_SITE,
         'twitter_author': settings.TWITTER_AUTHOR,
-        'gplus_type': settings.GPLUS_TYPE,
-        'gplus_author': settings.GPLUS_AUTHOR,
-        'gplus_publisher': settings.GPLUS_PUBLISHER,
         'published_time': False,
         'modified_time': False,
         'expiration_time': False,
@@ -100,11 +95,11 @@ class ModelMeta(object):
         meta = Meta(request=request)
         for field, data in self._retrieve_data(request, metadata):
             setattr(meta, field, data)
-        for field in ('og_title', 'twitter_title', 'gplus_title'):
+        for field in ('og_title', 'twitter_title'):
             generaltitle = getattr(meta, 'title', False)
             if not getattr(meta, field, False) and generaltitle:
                 setattr(meta, field, generaltitle)
-        for field in ('og_description', 'twitter_description', 'gplus_description'):
+        for field in ('og_description', 'twitter_description'):
             generaldesc = getattr(meta, 'description', False)
             if not getattr(meta, field, False) and generaldesc:
                 setattr(meta, field, generaldesc)
@@ -133,7 +128,6 @@ class ModelMeta(object):
         class Author(object):
             fb_url = None
             twitter_profile = None
-            gplus_profile = None
 
             def get_full_name(self):  # pragma: no cover
                 return None
@@ -163,15 +157,6 @@ class ModelMeta(object):
         """
         try:
             return self.get_author().twitter_profile
-        except AttributeError:  # pragma: no cover
-            return ''
-
-    def get_author_gplus(self):
-        """
-        Sample method to return the author google plus URL
-        """
-        try:
-            return self.get_author().gplus_profile
         except AttributeError:  # pragma: no cover
             return ''
 

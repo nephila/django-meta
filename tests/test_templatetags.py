@@ -4,8 +4,8 @@ from __future__ import absolute_import, print_function, unicode_literals
 from django.test import TestCase
 
 from meta.templatetags.meta import (
-    custom_meta, custom_meta_extras, facebook_prop, generic_prop, googleplus_html_scope, googleplus_prop, meta,
-    meta_extras, meta_list, meta_namespaces, og_prop, title_prop, twitter_prop,
+    custom_meta, custom_meta_extras, facebook_prop, generic_prop, meta, meta_extras, meta_list, meta_namespaces,
+    og_prop, title_prop, twitter_prop,
 )
 from meta.views import Meta
 
@@ -96,26 +96,6 @@ class FacebookPropTestCase(TestCase):
         self.assertEqual(
             facebook_prop('foo', 'bar'),
             '<meta property="fb:foo" content="bar">'
-        )
-
-
-class GooglePlusPropTestcase(TestCase):
-    def test_google_plus_basically_works(self):
-        self.assertEqual(
-            googleplus_prop('foo', 'bar'),
-            '<meta itemprop="foo" content="bar">'
-        )
-
-    def test_google_plus_scope_works(self):
-        self.assertEqual(
-            googleplus_html_scope('bar'),
-            ' itemscope itemtype="http://schema.org/bar" '
-        )
-
-    def test_google_plus_escapes_xss(self):
-        self.assertEqual(
-            googleplus_prop('fo"o', 'b<ar'),
-            '<meta itemprop="fo&quot;o" content="b&lt;ar">'
         )
 
 

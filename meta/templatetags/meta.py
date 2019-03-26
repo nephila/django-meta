@@ -147,38 +147,6 @@ def twitter_prop(name, value):
     return custom_meta('name', 'twitter:%s' % name, value)
 
 
-@register.simple_tag
-def googleplus_prop(name, value):
-    """
-    Generic Google+ property
-
-    :param name: property name
-    :param value: property value
-    """
-    return custom_meta('itemprop', name, value)
-
-
-@register.simple_tag
-def googleplus_html_scope(value):
-    """
-    This is meant to be used as attribute to html / body or other tags to
-    define schema.org type
-
-    :param value: declared scope
-    """
-    return ' itemscope itemtype="http://schema.org/%s" ' % escape(value)
-
-
-@register.simple_tag
-def googleplus_scope(value):
-    """
-    Alias for googleplus_html_scope
-
-    :param value: declared scope
-    """
-    return googleplus_html_scope(value)
-
-
 @register.simple_tag(takes_context=True)
 def meta_namespaces(context):
     """
@@ -206,16 +174,3 @@ def meta_namespaces(context):
             namespaces.append(custom_namespace)
 
     return mark_safe(' prefix="{0}"'.format(' '.join(namespaces)))
-
-
-@register.simple_tag(takes_context=True)
-def meta_namespaces_gplus(context):
-    """
-    Include google+ attributes. To be used in the <html> or <body> tag.
-    """
-    # do nothing if meta is not in context or if G+ is not enabled
-    if not context.get('meta') or not context['meta'].use_googleplus:
-        return ''
-    return mark_safe(
-        ' itemscope itemtype="http://schema.org/{0}" '.format(context['meta'].gplus_type)
-    )

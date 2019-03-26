@@ -99,14 +99,6 @@ META_USE_TWITTER_PROPERTIES
 This setting tells django-meta whether to render the Twitter properties.
 Default is ``False``.
 
-.. _META_USE_GOOGLEPLUS_PROPERTIES:
-
-META_USE_GOOGLEPLUS_PROPERTIES
-------------------------------
-
-This setting tells django-meta whether to render the Google properties.
-Default is ``False``.
-
 .. _META_USE_TITLE_TAG:
 
 META_USE_TITLE_TAG
@@ -154,6 +146,3 @@ attribute for both :ref:`views` and :ref:`models`
 * twitter_type: ``META_TWITTER_TYPE`` (default: first ``META_TWITTER_TYPES``)
 * twitter_site: ``META_TWITTER_SITE`` (default: blank)
 * twitter_author: ``META_TWITTER_AUTHOR`` (default: blank)
-* gplus_type: ``META_GPLUS_TYPE`` (default: first ``META_GPLUS_TYPES``)
-* gplus_author: ``META_GPLUS_AUTHOR`` (default: blank)
-* gplus_publisher: ``META_GPLUS_PUBLISHER`` (default: blank)
