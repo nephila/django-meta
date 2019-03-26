@@ -71,6 +71,8 @@ class Post(ModelMeta, models.Model):
         'expiration_time': 'get_date',
         'url': 'get_full_url',
         'author': 'get_author_name',
+        'other_prop': 'get_other_prop',
+        'false_prop': 'get_false_prop',
     }
 
     class Meta:
@@ -116,3 +118,7 @@ class Post(ModelMeta, models.Model):
 
     def get_absolute_url(self):
         return reverse('post-detail', kwargs={'slug': self.slug})
+
+    @property
+    def get_false_prop(self):
+        return False

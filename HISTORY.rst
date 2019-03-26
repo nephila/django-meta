@@ -4,6 +4,11 @@
 History
 *******
 
+1.5.1 (2019-03-26)
+==================
+
+* Fixed error if the property referenced in _metadata returns False
+
 1.5.0 (2019-03-23)
 ==================
 

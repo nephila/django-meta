@@ -78,18 +78,17 @@ class ModelMeta(object):
         :return: data
         """
         if value:
-            attr = getattr(self, value, False)
-            if attr is not False:
+            try:
+                attr = getattr(self, value)
                 if callable(attr):
                     try:
-                        data = attr(field)
+                        return attr(field)
                     except TypeError:
-                        data = attr()
+                        return attr()
                 else:
-                    data = attr
-            else:
-                data = value
-            return data
+                    return attr
+            except AttributeError:
+                return value
 
     def as_meta(self, request=None):
         """
