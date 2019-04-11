@@ -17,6 +17,7 @@ Contributors
 ------------
 
 * Adam Chainz
+* Basil Shubin
 * Branko Vukelic
 * Cansin Yildiz
 * Dmitry Fillo

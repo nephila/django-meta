@@ -43,7 +43,7 @@ class TestMeta(BaseTestCase):
             'locale': 'dummy_locale',
             'image': 'http://example.com{}'.format(self.image_url),
             'object_type': 'Article',
-            'tag': False,
+            'tag': None,
             'keywords': ['post keyword1', 'post keyword 2'],
             'og_profile_id': '1111111111111',
             'twitter_description': 'post meta',
@@ -69,6 +69,8 @@ class TestMeta(BaseTestCase):
             'og_type': 'Article',
             'twitter_author': '@FooBar',
             'twitter_site': '@FooBlag',
+            'false_prop': False,
+            'other_prop': 'get_other_prop',
             'custom_namespace': ['foo', 'bar'],
         }
         settings.OG_NAMESPACES = ['foo', 'bar']
@@ -76,9 +78,9 @@ class TestMeta(BaseTestCase):
         settings.FB_APPID = 'appid'
         meta = self.post.as_meta()
         self.assertTrue(meta)
-        for key in ModelMeta._metadata_default.keys():
+        for key in expected.keys():
             value = expected[key]
-            if value is not False:
+            if value is not None:
                 self.assertEqual(value, getattr(meta, key))
             else:
                 self.assertFalse(hasattr(meta, key))
