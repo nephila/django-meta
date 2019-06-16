@@ -16,6 +16,8 @@
         {% if meta.og_description %}{% og_prop 'description' meta.og_description %}
         {% elif meta.description %}{% og_prop 'description' meta.description %}{% endif %}
         {% if meta.image %}{% og_prop 'image' meta.image %}{% endif %}
+        {% if meta.image_width %}{% og_prop 'image:width' meta.image_width %}{% endif %}
+        {% if meta.image_height %}{% og_prop 'image:height' meta.image_height %}{% endif %}
         {% if meta.og_type %}{% og_prop 'type' meta.og_type %}
         {% elif meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}
         {% if meta.site_name %}{% og_prop 'site_name' meta.site_name %}{% endif %}

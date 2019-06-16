@@ -19,9 +19,9 @@ class Post(ModelMeta, models.Model):
     Blog post
     """
     title = models.CharField(_('Title'), max_length=255)
-    og_title = models.CharField(_('Opengraph title', blank=True), max_length=255)
-    twitter_title = models.CharField(_('Twitter title', blank=True), max_length=255)
-    gplus_title = models.CharField(_('Gplus title', blank=True), max_length=255)
+    og_title = models.CharField(_('Opengraph title'), blank=True, max_length=255)
+    twitter_title = models.CharField(_('Twitter title'), blank=True, max_length=255)
+    gplus_title = models.CharField(_('Gplus title'), blank=True, max_length=255)
     slug = models.SlugField(_('slug'))
     abstract = models.TextField(_('Abstract'))
     meta_description = models.TextField(
@@ -55,6 +55,8 @@ class Post(ModelMeta, models.Model):
         'og_description': 'get_description',
         'keywords': 'get_keywords',
         'image': 'get_image_full_url',
+        'image_width': 'get_image_width',
+        'image_height': 'get_image_height',
         'object_type': 'Article',
         'og_type': 'Article',
         'og_profile_id': '1111111111111',
@@ -101,6 +103,14 @@ class Post(ModelMeta, models.Model):
     def get_image_full_url(self):
         if self.main_image:
             return self.build_absolute_uri(self.main_image.url)
+
+    def get_image_width(self):
+        if self.main_image:
+            return self.main_image.width
+
+    def get_image_height(self):
+        if self.main_image:
+            return self.main_image.height
 
     def get_full_url(self):
         return self.build_absolute_uri(self.get_absolute_url())

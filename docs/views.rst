@@ -30,6 +30,8 @@ the template context which contains any of the following attributes:
 + keywords
 + url
 + image
++ image_width
++ image_height
 + object_type
 + site_name
 + twitter_site
@@ -268,6 +270,16 @@ image
 
 This key should be the *full* URL of an image to be used with the ``og:image``,
 ``twitter:image``, ``itemprop=mage`` property.
+
+image_width
+-----------
+
+This key should be the width of image. It is used to render ``og:image:width`` value
+
+image_height
+------------
+
+This key should be the height of image. It is used to render ``og:image:height`` value
 
 object_type
 -----------

@@ -36,12 +36,16 @@ class TestMeta(BaseTestCase):
         self.post.main_image = self.create_django_image_object()
         self.post.save()
         self.image_url = self.post.main_image.url
+        self.image_width = self.post.main_image.width
+        self.image_height = self.post.main_image.height
 
     @override_settings(META_SITE_PROTOCOL='http')
     def test_as_meta(self):
         expected = {
             'locale': 'dummy_locale',
             'image': 'http://example.com{}'.format(self.image_url),
+            'image_width': self.image_width,
+            'image_height': self.image_height,
             'object_type': 'Article',
             'tag': None,
             'keywords': ['post keyword1', 'post keyword 2'],
@@ -99,6 +103,8 @@ class TestMeta(BaseTestCase):
         expected = {
             'locale': 'dummy_locale',
             'image': 'https://testserver{}'.format(self.image_url),
+            'image_width': self.image_width,
+            'image_height': self.image_height,
             'object_type': 'Article',
             'tag': False,
             'keywords': ['post keyword1', 'post keyword 2'],
