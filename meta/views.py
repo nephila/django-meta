@@ -27,6 +27,8 @@ class Meta(object):
         self.keywords = kwargs.get('keywords')
         self.url = kwargs.get('url')
         self.image = kwargs.get('image')
+        self.image_width = kwargs.get('image_width')
+        self.image_height = kwargs.get('image_height')
         self.object_type = kwargs.get('object_type', settings.SITE_TYPE)
         self.site_name = kwargs.get('site_name', settings.SITE_NAME)
         self.twitter_site = kwargs.get('twitter_site')

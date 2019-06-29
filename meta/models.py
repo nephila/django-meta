@@ -29,6 +29,8 @@ class ModelMeta(object):
         'gplus_description': False,
         'keywords': False,
         'image': settings.DEFAULT_IMAGE,
+        'image_width': False,
+        'image_height': False,
         'object_type': settings.DEFAULT_TYPE,
         'og_type': settings.FB_TYPE,
         'og_app_id': settings.FB_APPID,
