@@ -4,7 +4,7 @@
 History
 *******
 
-1.5.2 (unreleased)
+1.5.2 (2019-07-02)
 ==================
 
 * Added image size for facebook sharing
