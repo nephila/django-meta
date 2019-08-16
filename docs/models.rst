@@ -27,6 +27,8 @@ If **value** is ``False`` or it is evaluated as ``False`` at runtime the tag is 
 To use this mixin you must invoke ``as_meta()`` on the model instance
 for example in the get_context_data().
 
+You can also add custom tags / properties. See :ref:`Adding custom tags / properties <extra_tags_views>` for details.
+
 Request
 +++++++
 
@@ -52,6 +54,8 @@ according to what is an author in the application domain;
 ``ModelMeta.build_absolute_uri(url)``: create an absolute URL (i.e.: complete with protocol and
 domain); this is generated from the ``request`` object, if given as argument to ``as_meta``;
 
+
+.. _model_metadata:
 
 Usage
 -----
@@ -89,7 +93,7 @@ Usage
             context = super(MyView, self).get_context_data(self, **kwargs)
             context['meta'] = self.get_object().as_meta(self.request)
             return context
-            
+
 #. For Function Based View can just use ``as_meta()`` method for pass "meta" context variable::
 
     def post(request, id):

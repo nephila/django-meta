@@ -76,6 +76,11 @@ class TestMeta(BaseTestCase):
             'false_prop': False,
             'other_prop': 'get_other_prop',
             'custom_namespace': ['foo', 'bar'],
+            'extra_props': {'key': 'val'},
+            'extra_custom_props': [
+                ('custom1', 'custom_name1', 'custom_val1'),
+                ('custom2', 'custom_name2', 'custom_val2')
+            ],
         }
         settings.OG_NAMESPACES = ['foo', 'bar']
         settings.FB_PAGES = 'fbpages'
@@ -133,6 +138,11 @@ class TestMeta(BaseTestCase):
             'twitter_author': '@FooBar',
             'twitter_site': '@FooBlag',
             'custom_namespace': None,
+            'extra_props': {'key': 'val'},
+            'extra_custom_props': [
+                ('custom1', 'custom_name1', 'custom_val1'),
+                ('custom2', 'custom_name2', 'custom_val2')
+            ],
         }
         request = self.get_request(None, 'en', path='/title/', secure=True)
         meta = self.post.as_meta(request)
@@ -160,6 +170,9 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
         self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
+        self.assertContains(response, '<meta name="key" content="val">')
+        self.assertContains(response, '<meta custom1="custom_name1" content="custom_val1">')
+        self.assertContains(response, '<meta custom2="custom_name2" content="custom_val2">')
 
     def test_templatetag_metadatamixin(self):
         """

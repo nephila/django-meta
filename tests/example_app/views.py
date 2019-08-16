@@ -42,3 +42,11 @@ class PostListView(MetadataMixin, ListView):
     description = 'This is an awesome page'
     image = 'img/some_page_thumb.gif'
     url = 'some/page/'
+    extra_props = {
+        'foo': 'bar',
+        'key': 'value'
+    }
+    extra_custom_props = [
+        ('key', 'foo', 'bar'),
+        ('property', 'name', 'value')
+    ]

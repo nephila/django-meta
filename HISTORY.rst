@@ -4,6 +4,11 @@
 History
 *******
 
+1.5.3 (unreleased)
+==================
+
+* Improve documentation regarding extra / custom props
+
 1.5.2 (2019-07-02)
 ==================
 
