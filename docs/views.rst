@@ -7,7 +7,7 @@ View support
 .. _Using the view:
 
 Using the view
---------------
+-----------------
 
 You render the meta tags by including a ``meta.html`` partial template in your
 view templates. This template will only render meta tags if it can find a
@@ -88,7 +88,7 @@ and will modify values you set. These properties are:
 For brevity, we will only discuss those here.
 
 Meta.keywords
--------------
+~~~~~~~~~~~~~
 
 When you assign keywords either via the constructor, or by assigning an
 iterable to the ``keywords`` property, it will be cleaned up of all duplicates
@@ -99,7 +99,7 @@ property, keywords defined by :ref:`META_DEFAULT_KEYWORDS` setting will be used
 instead.
 
 Meta.url
---------
+~~~~~~~~~~~~~
 
 Setting the url behaves differently depending on whether you are passsing a
 path or a full URL. If your URL starts with ``'http'``, it will be used
@@ -122,11 +122,13 @@ Note that using the sites app will trigger database queries and/or cache hits,
 and it is therefore disabled by default.
 
 Meta.image
-----------
+~~~~~~~~~~~~~
 
 The ``image`` property behaves the same way as ``url`` property with one
 notable difference. This property treats absolute and relative paths
 differently. It will place relative paths under the :ref:`META_IMAGE_URL`.
+
+.. _view mixin:
 
 View mixin
 ==========
@@ -195,35 +197,35 @@ Properties
 ==========
 
 use_og
-------
+~~~~~~~~~~~~~
 
 This key contains a boolean value, and instructs the template to render the
 OpenGraph_ properties. These are usually used by FaceBook to get more
 information about your site's pages.
 
 use_twitter
------------
+~~~~~~~~~~~~~
 
 This key contains a boolean value, and instructs the template to render the
 Twitter properties. These are usually used by Twitter to get more
 information about your site's pages.
 
 use_facebook
-------------
+~~~~~~~~~~~~~
 
 This key contains a boolean value, and instructs the template to render the
 Facebook properties. These are usually used by Facebook to get more
 information about your site's pages.
 
 use_googleplus
---------------
+~~~~~~~~~~~~~~~~~~~
 
 This key contains a boolean value, and instructs the template to render the
 Google+. These are usually used by Google to get more information about your
 site's pages.
 
 use_title_tag
--------------
+~~~~~~~~~~~~~
 
 This key contains a boolean value, and instructs the template to render the
 ``<title></title>`` tag. In the simple case, you use ``<title></title>`` tag
@@ -231,7 +233,7 @@ in the templates where you can override it, but if you want to generate it
 dynamically in the views, you can set this property to ``True``.
 
 title
------
+~~~~~~~~~~~~~
 
 This key is used in the ``og:title`` OpenGraph property if ``use_og`` is
 ``True``, ``twitter:title`` if ``use_twitter`` is ``True``,
@@ -248,76 +250,76 @@ If set on the ``Meta`` object, they will be used insteaf of the generic title
 which will be used as a fallback.
 
 description
------------
+~~~~~~~~~~~~~
 
 This key is used to render the ``description`` meta tag as well as the
 ``og:description`` and ``twitter:description`` property.
 
 keywords
---------
+~~~~~~~~~~~~~
 
 This key should be an iterable containing the keywords for the page. It is used
 to render the ``keywords`` meta tag.
 
 url
----
+~~~~~~~~~~~~~
 
 This key should be the *full* URL of the page. It is used to render the
 ``og:url``, ``twitter:url``, ``itemprop=url`` property.
 
 image
------
+~~~~~~~~~~~~~
 
 This key should be the *full* URL of an image to be used with the ``og:image``,
 ``twitter:image``, ``itemprop=mage`` property.
 
 image_width
------------
+~~~~~~~~~~~~~
 
 This key should be the width of image. It is used to render ``og:image:width`` value
 
 image_height
-------------
+~~~~~~~~~~~~~
 
 This key should be the height of image. It is used to render ``og:image:height`` value
 
 object_type
------------
+~~~~~~~~~~~~~
 
 This key is used to render the ``og:type`` property.
 
 site_name
----------
+~~~~~~~~~~~~~
 
 This key is used to render the ``og:site_name`` property.
 
 twitter_site
-------------
+~~~~~~~~~~~~~
 
 This key is used to render the ``twitter:site`` property.
 
 twitter_creator
----------------
+~~~~~~~~~~~~~~~~~~~
 
 This key is used to render the ``twitter:creator`` property.
 
 twitter_card
-------------
+~~~~~~~~~~~~~
 
 This key is used to render the ``twitter:card`` property.
 
 facebook_app_id
----------------
+~~~~~~~~~~~~~~~~~~~
 
 This key is used to render the ``fb:app_id`` property.
 
 locale
-------
+~~~~~~~~~~~~~
 
 This key is used to render the ``og:locale`` property.
 
 extra_props
------------
+~~~~~~~~~~~~~
 
 A dictionary of extra optional properties::
 
@@ -331,8 +333,10 @@ A dictionary of extra optional properties::
     <meta name="foo" content="bar">
     <meta name="key" content="value">
 
+See :ref:`Adding custom tags / properties <extra_tags_views>` for details.
+
 extra_custom_props
-------------------
+~~~~~~~~~~~~~~~~~~~
 
 A list of tuples for rendering custom extra properties::
 

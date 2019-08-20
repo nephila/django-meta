@@ -12,15 +12,15 @@ python:
 
 env:
   matrix:
-  - DJANGO='django111-sekizai'
-  - DJANGO='django111-nosekizai'
-  - DJANGO='django20-sekizai'
-  - DJANGO='django20-nosekizai'
-  - DJANGO='django21-sekizai'
-  - DJANGO='django22-nosekizai'
   - TOXENV='pep8'
   - TOXENV='isort'
   - TOXENV='docs'
+  - DJANGO='django22-sekizai'
+  - DJANGO='django22-nosekizai'
+  - DJANGO='django21-sekizai'
+  - DJANGO='django21-nosekizai'
+  - DJANGO='django111-sekizai'
+  - DJANGO='django111-nosekizai'
 
 
 # command to install dependencies, e.g. pip install -r requirements.txt --use-mirrors
@@ -82,7 +82,4 @@ matrix:
   - python: 3.6
     env: DJANGO='django111-nosekizai'
 
-cache:
-   directories:
-     - $HOME/.pip-accel
-     - $HOME/.cache/pip
+cache: pip

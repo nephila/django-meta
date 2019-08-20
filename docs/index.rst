@@ -23,6 +23,7 @@ django meta has two different operating mode:
    views
    settings
    rendering
+   extra_tags
    modules
    development
    contributing

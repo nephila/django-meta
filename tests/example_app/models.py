@@ -75,6 +75,10 @@ class Post(ModelMeta, models.Model):
         'author': 'get_author_name',
         'other_prop': 'get_other_prop',
         'false_prop': 'get_false_prop',
+        'extra_props': {
+            'key': 'val'
+        },
+        'extra_custom_props': 'get_custom_props'
     }
 
     class Meta:
@@ -132,3 +136,9 @@ class Post(ModelMeta, models.Model):
     @property
     def get_false_prop(self):
         return False
+
+    def get_custom_props(self):
+        return [
+            ('custom1', 'custom_name1', 'custom_val1'),
+            ('custom2', 'custom_name2', 'custom_val2')
+        ]

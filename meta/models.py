@@ -89,7 +89,7 @@ class ModelMeta(object):
                         return attr()
                 else:
                     return attr
-            except AttributeError:
+            except (AttributeError, TypeError):
                 return value
 
     def as_meta(self, request=None):
