@@ -30,13 +30,13 @@ except ImportError:
 
 
 def run():
-    from djangocms_helper import runner
+    from app_helper import runner
     runner.run('meta')
 
 
 def setup():
     import sys
-    from djangocms_helper import runner
+    from app_helper import runner
     runner.setup('meta', sys.modules[__name__])
 
 
