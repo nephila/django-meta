@@ -4,10 +4,12 @@
 History
 *******
 
-1.5.3 (unreleased)
+1.6.0 (2019-12-22)
 ==================
 
-* Improve documentation regarding extra / custom props
+* Added Django 3.0 support
+* Moved to django-app-helper
+* Improved documentation regarding extra / custom props
 
 1.5.2 (2019-07-02)
 ==================
