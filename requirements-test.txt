@@ -5,5 +5,5 @@ flake8>=2.1.0
 tox>=2.0
 pillow
 wheel
-djangocms-helper
+django-app-helper>=2.0.1
 -rrequirements.txt
