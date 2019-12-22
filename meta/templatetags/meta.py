@@ -5,7 +5,7 @@ from django import template
 from django.apps import apps
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
-from django.utils.six import string_types
+from six import string_types
 
 from .. import settings
 
