@@ -1,10 +1,8 @@
-# Config file for automatic testing at travis-ci.org
 dist: xenial
 language: python
 
-sudo: false
-
 python:
+  - 3.8
   - 3.7
   - 3.6
   - 3.5
@@ -30,6 +28,7 @@ install:
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.5' ]]; then export PYVER=py35; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then export PYVER=py36; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.7' ]]; then export PYVER=py37; fi"
+  - "if [[ $TRAVIS_PYTHON_VERSION == '3.8' ]]; then export PYVER=py37; fi"
   - "if [[ ${DJANGO}z != 'z' ]]; then export TOXENV=$PYVER-$DJANGO; fi"
 
 # command to run tests, e.g. python setup.py test
@@ -80,6 +79,16 @@ matrix:
   - python: 3.6
     env: DJANGO='django111-sekizai'
   - python: 3.6
+    env: DJANGO='django111-nosekizai'
+  - python: 3.7
+    env: TOXENV='pep8'
+  - python: 3.7
+    env: TOXENV='isort'
+  - python: 3.7
+    env: TOXENV='docs'
+  - python: 3.7
+    env: DJANGO='django111-sekizai'
+  - python: 3.7
     env: DJANGO='django111-nosekizai'
 
 cache: pip

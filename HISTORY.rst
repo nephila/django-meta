@@ -13,6 +13,7 @@ Unreleased
 ==================
 
 * Added explicit dependency on six
+* Added python 3.8
 
 1.6.0 (2019-12-22)
 ==================
