@@ -20,6 +20,7 @@ setup(
     url='https://github.com/nephila/django-meta',
     license='BSD',
     install_requires=[
+        'six',
     ],
     classifiers=[
         'Development Status :: 5 - Production/Stable',
