@@ -9,7 +9,7 @@ Unreleased
 
 * Nothing yet
 
-1.6.1 (unreleased)
+1.6.1 (2020-01-16)
 ==================
 
 * Added explicit dependency on six
