@@ -114,7 +114,7 @@ class ModelMeta(object):
     @contextlib.contextmanager
     def _set_request(self, request):
         """
-        Context processor that sets the requst on the current instance
+        Context processor that sets the request on the current instance
         """
         self._request = request
         yield
