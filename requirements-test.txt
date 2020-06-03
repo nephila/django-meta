@@ -4,6 +4,6 @@ mock>=1.0.1
 flake8>=2.1.0
 tox>=2.0
 pillow==7.1.2
-wheel
+wheel==0.34.2
 django-app-helper>=2.0.1
 -rrequirements.txt
