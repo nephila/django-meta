@@ -1,5 +1,5 @@
 coverage>=5
-coveralls
+coveralls==2.0.0
 mock>=1.0.1
 flake8>=2.1.0
 tox>=2.0
