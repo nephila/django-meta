@@ -1,2 +1,2 @@
 -r requirements-test.txt
-django-sekizai
+django-sekizai==1.1.0
