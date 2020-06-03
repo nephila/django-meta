@@ -3,7 +3,7 @@ coveralls==2.0.0
 mock>=1.0.1
 flake8>=2.1.0
 tox>=2.0
-pillow
+pillow==7.1.2
 wheel
 django-app-helper>=2.0.1
 -rrequirements.txt
