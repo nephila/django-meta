@@ -13,6 +13,9 @@ raised when dealing with ``url`` and ``image`` properties.
 You can either set them, or overload the ``Meta`` class' ``get_domain`` and
 ``get_protocol`` methods (see :ref:`Meta object` section).
 
+.. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
+             longer supports Google+, basic Schema.org support has been introduced.
+
 .. _META_SITE_PROTOCOL:
 
 META_SITE_PROTOCOL
@@ -101,10 +104,10 @@ Default is ``False``.
 
 .. _META_USE_GOOGLEPLUS_PROPERTIES:
 
-META_USE_GOOGLEPLUS_PROPERTIES
+META_USE_SCHEMAORG_PROPERTIES
 ------------------------------
 
-This setting tells django-meta whether to render the Google properties.
+This setting tells django-meta whether to render the Schema.org properties.
 Default is ``False``.
 
 .. _META_USE_TITLE_TAG:
@@ -154,6 +157,4 @@ attribute for both :ref:`views` and :ref:`models`
 * twitter_type: ``META_TWITTER_TYPE`` (default: first ``META_TWITTER_TYPES``)
 * twitter_site: ``META_TWITTER_SITE`` (default: blank)
 * twitter_author: ``META_TWITTER_AUTHOR`` (default: blank)
-* gplus_type: ``META_GPLUS_TYPE`` (default: first ``META_GPLUS_TYPES``)
-* gplus_author: ``META_GPLUS_AUTHOR`` (default: blank)
-* gplus_publisher: ``META_GPLUS_PUBLISHER`` (default: blank)
+* schemaorg_type: ``META_SCHEMAORG_TYPE`` (default: first ``META_SCHEMAORG_TYPE``)

@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+import warnings
+
 from django import template
 from django.apps import apps
 from django.utils.html import escape
@@ -148,9 +150,9 @@ def twitter_prop(name, value):
 
 
 @register.simple_tag
-def googleplus_prop(name, value):
+def schemaorg_prop(name, value):
     """
-    Generic Google+ property
+    Generic Schema.org property
 
     :param name: property name
     :param value: property value
@@ -159,7 +161,7 @@ def googleplus_prop(name, value):
 
 
 @register.simple_tag
-def googleplus_html_scope(value):
+def schemaorg_html_scope(value):
     """
     This is meant to be used as attribute to html / body or other tags to
     define schema.org type
@@ -170,13 +172,49 @@ def googleplus_html_scope(value):
 
 
 @register.simple_tag
-def googleplus_scope(value):
+def schemaorg_scope(value):
     """
     Alias for googleplus_html_scope
 
     :param value: declared scope
     """
-    return googleplus_html_scope(value)
+    return schemaorg_html_scope(value)
+
+
+@register.simple_tag
+def googleplus_prop(name, value):
+    """
+    Legacy Google+ property
+    """
+    warnings.warn(
+        "googleplus_prop will be removed in version 3.0",
+        PendingDeprecationWarning
+    )
+    return schemaorg_prop(name, value)
+
+
+@register.simple_tag
+def googleplus_html_scope(value):
+    """
+    Legacy Google+ scope
+    """
+    warnings.warn(
+        "googleplus_html_scope will be removed in version 3.0",
+        PendingDeprecationWarning
+    )
+    return schemaorg_html_scope(value)
+
+
+@register.simple_tag
+def googleplus_scope(value):
+    """
+    Legacy Google+ scope
+    """
+    warnings.warn(
+        "googleplus_scope will be removed in version 3.0",
+        PendingDeprecationWarning
+    )
+    return schemaorg_html_scope(value)
 
 
 @register.simple_tag(takes_context=True)
@@ -209,13 +247,25 @@ def meta_namespaces(context):
 
 
 @register.simple_tag(takes_context=True)
-def meta_namespaces_gplus(context):
+def meta_namespaces_schemaorg(context):
     """
-    Include google+ attributes. To be used in the <html> or <body> tag.
+    Include Schema.org attributes. To be used in the <html> or <body> tag.
     """
     # do nothing if meta is not in context or if G+ is not enabled
-    if not context.get('meta') or not context['meta'].use_googleplus:
+    if not context.get('meta') or not context['meta'].use_schemaorg:
         return ''
     return mark_safe(
-        ' itemscope itemtype="http://schema.org/{0}" '.format(context['meta'].gplus_type)
+        ' itemscope itemtype="http://schema.org/{0}" '.format(context['meta'].schemaorg_type)
     )
+
+
+@register.simple_tag(takes_context=True)
+def meta_namespaces_gplus(context):
+    """
+    Legacy Google+ attributes.
+    """
+    warnings.warn(
+        "meta_namespaces_gplus will be removed in version 3.0",
+        PendingDeprecationWarning
+    )
+    return meta_namespaces_schemaorg(context)

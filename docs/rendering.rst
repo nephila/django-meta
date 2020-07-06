@@ -22,11 +22,11 @@ them in the <head> tag, as follow::
 
 This will take care of rendering OpenGraph namespaces in the ``<head prefix="...">``.
 
-If you enabled Google+ Support you have to add the following templatetag to the ``<html>`` tag::
+If you enabled Schema.org support and you want to mark the whole page as Schema.org object, add the following templatetag to the ``<html>`` tag::
 
     {% load meta %}
     ...
-    <html {% meta_namespaces_gplus %}>
+    <html {% meta_namespaces_schemaorg %}>
 
 For compatibility with 1.0 and previous version you can keep the sekizai version of the above::
 

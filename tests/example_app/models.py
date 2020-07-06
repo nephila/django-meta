@@ -21,7 +21,7 @@ class Post(ModelMeta, models.Model):
     title = models.CharField(_('Title'), max_length=255)
     og_title = models.CharField(_('Opengraph title'), blank=True, max_length=255)
     twitter_title = models.CharField(_('Twitter title'), blank=True, max_length=255)
-    gplus_title = models.CharField(_('Gplus title'), blank=True, max_length=255)
+    schemaorg_title = models.CharField(_('Schema.org title'), blank=True, max_length=255)
     slug = models.SlugField(_('slug'))
     abstract = models.TextField(_('Abstract'))
     meta_description = models.TextField(
@@ -50,7 +50,7 @@ class Post(ModelMeta, models.Model):
         'title': 'title',
         'og_title': 'og title',
         'twitter_title': 'twitter title',
-        'gplus_title': 'gplus title',
+        'schemaorg_title': 'schemaorg title',
         'description': 'get_description',
         'og_description': 'get_description',
         'keywords': 'get_keywords',
@@ -65,9 +65,7 @@ class Post(ModelMeta, models.Model):
         'twitter_type': 'Summary',
         'twitter_site': '@FooBlag',
         'twitter_author': 'get_author_twitter',
-        'gplus_type': 'Article',
-        'gplus_author': 'get_author_gplus',
-        'gplus_publisher': '+FooPub',
+        'schemaorg_type': 'Article',
         'published_time': 'date_published',
         'modified_time': 'get_date',
         'expiration_time': 'get_date',
@@ -123,7 +121,6 @@ class Post(ModelMeta, models.Model):
         author = super(Post, self).get_author()
         author.fb_url = 'https://facebook.com/foo.bar'
         author.twitter_profile = '@FooBar'
-        author.gplus_profile = '+FooBar'
         author.get_full_name = self.author.get_full_name
         return author
 

@@ -25,7 +25,7 @@ class MetaObjectTestCase(TestCase):
             IMAGE_URL='/static/',
             USE_TWITTER_PROPERTIES=False,
             USE_FACEBOOK_PROPERTIES=False,
-            USE_GOOGLEPLUS_PROPERTIES=False,
+            USE_SCHEMAORG_PROPERTIES=False,
             USE_TITLE_TAG=False,
             USE_SITES=False,
             DEFAULT_IMAGE=None,
@@ -44,7 +44,7 @@ class MetaObjectTestCase(TestCase):
         m = Meta()
         self.assertEqual(m.title, None)
         self.assertEqual(m.og_title, None)
-        self.assertEqual(m.gplus_title, None)
+        self.assertEqual(m.schemaorg_title, None)
         self.assertEqual(m.twitter_title, None)
         self.assertEqual(m.description, None)
         self.assertEqual(m.extra_props, None)
@@ -64,7 +64,7 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.use_sites, False)
         self.assertEqual(m.use_twitter, False)
         self.assertEqual(m.use_facebook, False)
-        self.assertEqual(m.use_googleplus, False)
+        self.assertEqual(m.use_schemaorg, False)
         self.assertEqual(m.fb_pages, '')
         self.assertEqual(m.og_app_id, '')
         self.assertEqual(m.use_title_tag, False)
