@@ -3,7 +3,10 @@ django meta
 ###########
 
 A pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
+OpenGraph_, Twitter, and Schema.org properties to their HTML responses.
+
+.. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
+             longer supports Google+, basic Schema.org support has been introduced.
 
 Usage
 -----
@@ -19,6 +22,7 @@ django meta has two different operating mode:
    :maxdepth: 2
 
    installation
+   upgrading
    models
    views
    settings

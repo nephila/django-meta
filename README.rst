@@ -5,17 +5,10 @@ django-meta
 |Gitter| |PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
 
 This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
+OpenGraph_, Twitter, and Schema.org properties to their HTML responses.
 
-
-.. note:: django-meta is now maintained by Nephila on `github`_. Old bitbucket
-          repository won't be updated anymore.
-
-.. warning:: as of version 1.0 django-meta has included django-meta-mixin 0.2.1;
-             django-meta 1.0 is a drop in replacement for django-meta-mixin:
-             as a result django-meta-mixin is no longer actively developed
-
-.. warning:: As of version 1.4, the support for Python 2.6 and Django<1.8 has been dropped
+.. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
+             longer supports Google+, basic Schema.org support has been introduced.
 
 .. contents::
 

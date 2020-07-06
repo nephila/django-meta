@@ -23,7 +23,7 @@ class TestMeta(BaseTestCase):
             title='a title',
             og_title='og title',
             twitter_title='twitter title',
-            gplus_title='gplus title',
+            schemaorg_title='schemaorg title',
             slug='title',
             abstract='post abstract',
             meta_description='post meta',
@@ -51,12 +51,12 @@ class TestMeta(BaseTestCase):
             'keywords': ['post keyword1', 'post keyword 2'],
             'og_profile_id': '1111111111111',
             'twitter_description': 'post meta',
-            'gplus_type': 'Article',
+            'schemaorg_type': 'Article',
             'title': 'a title',
             'og_title': 'og title',
             'twitter_title': 'twitter title',
-            'gplus_title': 'gplus title',
-            'gplus_description': 'post meta',
+            'schemaorg_title': 'schemaorg title',
+            'schemaorg_description': 'post meta',
             'expiration_time': self.post.date_published_end,
             'og_description': 'post meta',
             'description': 'post meta',
@@ -65,8 +65,6 @@ class TestMeta(BaseTestCase):
             'og_author_url': 'https://facebook.com/foo.bar',
             'og_app_id': 'appid',
             'fb_pages': 'fbpages',
-            'gplus_author': '+FooBar',
-            'gplus_publisher': '+FooPub',
             'published_time': self.post.date_published,
             'url': 'http://example.com/title/',
             'og_publisher': 'https://facebook.com/foo.blag',
@@ -115,12 +113,12 @@ class TestMeta(BaseTestCase):
             'keywords': ['post keyword1', 'post keyword 2'],
             'og_profile_id': '1111111111111',
             'twitter_description': 'post meta',
-            'gplus_type': 'Article',
+            'schemaorg_type': 'Article',
             'title': 'a title',
             'og_title': 'og title',
             'twitter_title': 'twitter title',
-            'gplus_title': 'gplus title',
-            'gplus_description': 'post meta',
+            'schemaorg_title': 'schemaorg title',
+            'schemaorg_description': 'post meta',
             'expiration_time': self.post.date_published_end,
             'og_description': 'post meta',
             'description': 'post meta',
@@ -129,8 +127,6 @@ class TestMeta(BaseTestCase):
             'og_author_url': 'https://facebook.com/foo.bar',
             'og_app_id': 'appid',
             'fb_pages': 'fbpages',
-            'gplus_author': '+FooBar',
-            'gplus_publisher': '+FooPub',
             'published_time': self.post.date_published,
             'url': 'https://testserver/title/',
             'og_publisher': 'https://facebook.com/foo.blag',
@@ -157,19 +153,17 @@ class TestMeta(BaseTestCase):
         settings.FB_APPID = ''
 
     def test_templatetag(self):
-        meta = self.post.as_meta()
+        self.post.as_meta()
         response = self.client.get('/title/')
         self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
         self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url))
-        self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))
         self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
-        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
         self.assertContains(response, '<meta name="key" content="val">')
         self.assertContains(response, '<meta custom1="custom_name1" content="custom_val1">')
         self.assertContains(response, '<meta custom2="custom_name2" content="custom_val2">')
@@ -185,7 +179,6 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
-        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
 
     def test_templatetag_secure_image(self):
         """

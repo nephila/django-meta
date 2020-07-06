@@ -1,11 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+import sys
+import warnings
+
 from django.test import TestCase
 
 from meta.templatetags.meta import (
-    custom_meta, custom_meta_extras, facebook_prop, generic_prop, googleplus_html_scope, googleplus_prop, meta,
-    meta_extras, meta_list, meta_namespaces, og_prop, title_prop, twitter_prop,
+    custom_meta, custom_meta_extras, facebook_prop, generic_prop, googleplus_html_scope, googleplus_prop,
+    googleplus_scope, meta, meta_extras, meta_list, meta_namespaces, meta_namespaces_gplus, meta_namespaces_schemaorg,
+    og_prop, schemaorg_html_scope, schemaorg_prop, schemaorg_scope, title_prop, twitter_prop,
 )
 from meta.views import Meta
 
@@ -100,22 +104,136 @@ class FacebookPropTestCase(TestCase):
 
 
 class GooglePlusPropTestcase(TestCase):
+
+    def setUp(self):
+        # The __warningregistry__'s need to be in a pristine state for tests
+        # to work properly.
+        for v in sys.modules.values():
+            if getattr(v, '__warningregistry__', None):
+                v.__warningregistry__ = {}
+
     def test_google_plus_basically_works(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                googleplus_prop('foo', 'bar'),
+                '<meta itemprop="foo" content="bar">'
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+    def test_google_plus_html_scope_works(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                googleplus_html_scope('bar'),
+                ' itemscope itemtype="http://schema.org/bar" '
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+    def test_google_plus_scope_works(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                googleplus_scope('bar'),
+                ' itemscope itemtype="http://schema.org/bar" '
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+    def test_google_plus_escapes_xss(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                googleplus_prop('fo"o', 'b<ar'),
+                '<meta itemprop="fo&quot;o" content="b&lt;ar">'
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+    def test_meta_namespaces_gplus(self):
+        context_use_schemaorg = {
+            'meta': Meta(use_schemaorg=True)
+        }
+        context_no_use_schemaorg = {
+            'meta': Meta(use_schemaorg=False)
+        }
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                meta_namespaces_gplus({}),
+                ''
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                meta_namespaces_gplus(context_no_use_schemaorg),
+                ''
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.assertEqual(
+                meta_namespaces_gplus(context_use_schemaorg),
+                ' itemscope itemtype="http://schema.org/Article" '
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+
+class SchemaOrgPropTestcase(TestCase):
+    def test_schemaorg_basically_works(self):
         self.assertEqual(
-            googleplus_prop('foo', 'bar'),
+            schemaorg_prop('foo', 'bar'),
             '<meta itemprop="foo" content="bar">'
         )
 
-    def test_google_plus_scope_works(self):
+    def test_schemaorg_html_scope_works(self):
         self.assertEqual(
-            googleplus_html_scope('bar'),
+            schemaorg_html_scope('bar'),
             ' itemscope itemtype="http://schema.org/bar" '
         )
 
-    def test_google_plus_escapes_xss(self):
+    def test_schemaorg_scope_works(self):
         self.assertEqual(
-            googleplus_prop('fo"o', 'b<ar'),
+            schemaorg_scope('bar'),
+            ' itemscope itemtype="http://schema.org/bar" '
+        )
+
+    def test_schemaorg_escapes_xss(self):
+        self.assertEqual(
+            schemaorg_prop('fo"o', 'b<ar'),
             '<meta itemprop="fo&quot;o" content="b&lt;ar">'
+        )
+
+    def test_meta_namespaces_gplus(self):
+        context_use_schemaorg = {
+            'meta': Meta(use_schemaorg=True)
+        }
+        context_no_use_schemaorg = {
+            'meta': Meta(use_schemaorg=False)
+        }
+
+        self.assertEqual(
+            meta_namespaces_schemaorg({}),
+            ''
+        )
+
+        self.assertEqual(
+            meta_namespaces_schemaorg(context_no_use_schemaorg),
+            ''
+        )
+
+        self.assertEqual(
+            meta_namespaces_schemaorg(context_use_schemaorg),
+            ' itemscope itemtype="http://schema.org/Article" '
         )
 
 

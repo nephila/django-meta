@@ -19,7 +19,7 @@ class Meta(object):
         self.title = kwargs.get('title')
         self.og_title = kwargs.get('og_title')
         self.twitter_title = kwargs.get('twitter_title')
-        self.gplus_title = kwargs.get('gplus_title')
+        self.schemaorg_title = kwargs.get('schemaorg_title')
         self.description = kwargs.get('description')
         self.extra_props = kwargs.get('extra_props')
         self.extra_custom_props = kwargs.get('extra_custom_props')
@@ -39,11 +39,9 @@ class Meta(object):
         self.use_og = kwargs.get('use_og', settings.USE_OG_PROPERTIES)
         self.use_twitter = kwargs.get('use_twitter', settings.USE_TWITTER_PROPERTIES)
         self.use_facebook = kwargs.get('use_facebook', settings.USE_FACEBOOK_PROPERTIES)
-        self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
+        self.use_schemaorg = kwargs.get('use_schemaorg', settings.USE_SCHEMAORG_PROPERTIES)
         self.use_title_tag = kwargs.get('use_title_tag', settings.USE_TITLE_TAG)
-        self.gplus_type = kwargs.get('gplus_type', settings.GPLUS_TYPE)
-        self.gplus_publisher = kwargs.get('gplus_publisher', settings.GPLUS_PUBLISHER)
-        self.gplus_author = kwargs.get('gplus_author', settings.GPLUS_AUTHOR)
+        self.schemaorg_type = kwargs.get('schemaorg_type', settings.SCHEMAORG_TYPE)
         self.fb_pages = kwargs.get('fb_pages', settings.FB_PAGES)
         self.og_app_id = kwargs.get('og_app_id', settings.FB_APPID)
         self.request = kwargs.get('request', None)
@@ -134,7 +132,7 @@ class MetadataMixin(object):
     title = None
     og_title = None
     twitter_title = None
-    gplus_title = None
+    schemaorg_title = None
     description = None
     extra_props = None
     extra_custom_props = None
@@ -152,9 +150,7 @@ class MetadataMixin(object):
     use_sites = False
     use_og = False
     use_title_tag = False
-    gplus_type = None
-    gplus_author = None
-    gplus_publisher = None
+    schemaorg_type = None
 
     def __init__(self, **kwargs):
         self.use_sites = settings.USE_SITES
@@ -180,8 +176,8 @@ class MetadataMixin(object):
     def get_meta_twitter_title(self, context=None):
         return self.twitter_title
 
-    def get_meta_gplus_title(self, context=None):
-        return self.gplus_title
+    def get_meta_schemaorg_title(self, context=None):
+        return self.schemaorg_title
 
     def get_meta_description(self, context=None):
         return self.description
@@ -222,14 +218,8 @@ class MetadataMixin(object):
     def get_meta_facebook_app_id(self, context=None):
         return self.facebook_app_id
 
-    def get_meta_gplus_type(self, context=None):
-        return self.gplus_type
-
-    def get_meta_gplus_author(self, context=None):
-        return self.gplus_author
-
-    def get_meta_gplus_publisher(self, context=None):
-        return self.gplus_publisher
+    def get_meta_schemaorg_type(self, context=None):
+        return self.schemaorg_type
 
     def get_meta_locale(self, context=None):
         return self.locale
@@ -242,7 +232,7 @@ class MetadataMixin(object):
             title=self.get_meta_title(context=context),
             og_title=self.get_meta_og_title(context=context),
             twitter_title=self.get_meta_twitter_title(context=context),
-            gplus_title=self.get_meta_gplus_title(context=context),
+            schemaorg_title=self.get_meta_schemaorg_title(context=context),
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),
@@ -257,9 +247,7 @@ class MetadataMixin(object):
             twitter_card=self.get_meta_twitter_card(context=context),
             locale=self.get_meta_locale(context=context),
             facebook_app_id=self.get_meta_facebook_app_id(context=context),
-            gplus_type=self.get_meta_gplus_type(context=context),
-            gplus_author=self.get_meta_gplus_author(context=context),
-            gplus_publisher=self.get_meta_gplus_publisher(context=context),
+            schemaorg_type=self.get_meta_schemaorg_type(context=context),
         )
 
     def get_context_data(self, **kwargs):

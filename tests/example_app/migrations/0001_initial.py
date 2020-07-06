@@ -25,7 +25,7 @@ class Migration(migrations.Migration):
                 ('title', models.CharField(max_length=255, verbose_name='Title')),
                 ('og_title', models.CharField(max_length=255, verbose_name='Opengraph title', blank=True)),
                 ('twitter_title', models.CharField(max_length=255, verbose_name='Twitter title', blank=True)),
-                ('gplus_title', models.CharField(max_length=255, verbose_name='Gplus title', blank=True)),
+                ('schemaorg_title', models.CharField(max_length=255, verbose_name='Schema.org title', blank=True)),
                 ('slug', models.SlugField(verbose_name='slug')),
                 ('abstract', models.TextField(verbose_name='Abstract')),
                 ('meta_description', models.TextField(blank=True, default='', verbose_name='Post meta description')),
