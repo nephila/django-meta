@@ -189,6 +189,7 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta property="og:image" content="http://example.com/path/to/image">')
         settings.SITE_PROTOCOL = 'https'
         response = self.client.get('/mixin/title/')
+        self.assertContains(response, '<meta property="og:image" content="https://example.com/path/to/image">')
         self.assertContains(response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">')
         settings.SITE_PROTOCOL = 'http'
 

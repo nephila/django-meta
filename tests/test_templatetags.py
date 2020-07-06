@@ -25,6 +25,7 @@ class OgPropTestCase(TestCase):
         for content in ('image', 'video', 'audio'):
             self.assertEqual(
                 og_prop(content, 'https://some/{}'.format(content)),
+                '<meta property="og:{0}" content="https://some/{0}">\n'
                 '<meta property="og:{0}:secure_url" content="https://some/{0}">'.format(content),
             )
             self.assertEqual(
