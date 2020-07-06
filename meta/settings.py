@@ -14,7 +14,7 @@ IMAGE_URL = getattr(django_settings, 'META_IMAGE_URL', django_settings.STATIC_UR
 USE_OG_PROPERTIES = getattr(django_settings, 'META_USE_OG_PROPERTIES', False)
 USE_TWITTER_PROPERTIES = getattr(django_settings, 'META_USE_TWITTER_PROPERTIES', False)
 USE_FACEBOOK_PROPERTIES = getattr(django_settings, 'META_USE_FACEBOOK_PROPERTIES', False)
-USE_GOOGLEPLUS_PROPERTIES = getattr(django_settings, 'META_USE_GOOGLEPLUS_PROPERTIES', False)
+USE_SCHEMAORG_PROPERTIES = getattr(django_settings, 'META_USE_SCHEMAORG_PROPERTIES', False)
 USE_SITES = getattr(django_settings, 'META_USE_SITES', False)
 USE_TITLE_TAG = getattr(django_settings, 'META_USE_TITLE_TAG', False)
 OG_NAMESPACES = getattr(django_settings, 'META_OG_NAMESPACES', None)
@@ -32,7 +32,7 @@ TWITTER_TYPES = (
     ('app', _('App')),
 )
 FB_TYPES = OBJECT_TYPES
-GPLUS_TYPES = (
+SCHEMAORG_TYPES = (
     ('Article', _('Article')),
     ('Blog', _('Blog')),
     ('WebPage', _('Page')),
@@ -61,7 +61,5 @@ TWITTER_TYPE = getattr(django_settings, 'META_TWITTER_TYPE', TWITTER_TYPES[0][0]
 TWITTER_TYPES = getattr(django_settings, 'META_TWITTER_TYPES', TWITTER_TYPES)
 TWITTER_SITE = getattr(django_settings, 'META_TWITTER_SITE', '')
 TWITTER_AUTHOR = getattr(django_settings, 'META_TWITTER_AUTHOR', '')
-GPLUS_TYPE = getattr(django_settings, 'META_GPLUS_TYPE', GPLUS_TYPES[0][0])
-GPLUS_TYPES = getattr(django_settings, 'META_GPLUS_TYPES', GPLUS_TYPES)
-GPLUS_AUTHOR = getattr(django_settings, 'META_GPLUS_AUTHOR', '')
-GPLUS_PUBLISHER = getattr(django_settings, 'META_GPLUS_PUBLISHER', '')
+SCHEMAORG_TYPE = getattr(django_settings, 'META_SCHEMAORG_TYPE', SCHEMAORG_TYPES[0][0])
+SCHEMAORG_TYPES = getattr(django_settings, 'META_SCHEMAORG_TYPES', SCHEMAORG_TYPES)

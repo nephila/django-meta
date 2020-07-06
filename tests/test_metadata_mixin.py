@@ -54,16 +54,16 @@ class MetadataMixinTestCase(TestCase):
             'Foo'
         )
 
-    def test_get_meta_gplus_title(self):
+    def test_get_meta_schemaorg_title(self):
         m = MetadataMixin()
         self.assertEqual(
-            m.get_meta_gplus_title(),
+            m.get_meta_schemaorg_title(),
             None
         )
 
-        m.gplus_title = 'Foo'
+        m.schemaorg_title = 'Foo'
         self.assertEqual(
-            m.get_meta_gplus_title(),
+            m.get_meta_schemaorg_title(),
             'Foo'
         )
 

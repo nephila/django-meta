@@ -47,16 +47,14 @@
         {% if meta.twitter_creator %}{% twitter_prop 'creator' meta.twitter_creator %}{% endif %}
         {% if meta.twitter_site %}{% twitter_prop 'site' meta.twitter_site %}{% endif %}
     {% endif %}
-    {% if meta.use_googleplus %}
-        {% if meta.gplus_author %}<link rel="author" href="https://plus.google.com/{{ meta.gplus_author }}"/>{% endif %}
-        {% if meta.gplus_publisher %}<link rel="publisher" href="https://plus.google.com/{{ meta.gplus_publisher }}"/>{% endif %}
-        {% addtoblock 'html_extra' %}{% googleplus_html_scope meta.gplus_type %}{% endaddtoblock %}
-        {% if meta.gplus_title %}{% googleplus_prop 'name' meta.gplus_title %}
+    {% if meta.use_schemaorg %}
+        {% addtoblock 'html_extra' %}{% googleplus_html_scope meta.schemaorg_type %}{% endaddtoblock %}
+        {% if meta.schemaorg_title %}{% googleplus_prop 'name' meta.schemaorg_title %}
         {% elif meta.title %}{% googleplus_prop 'name' meta.title %}{% endif %}
         {% if meta.published_time %}{% googleplus_prop 'datePublished' meta.published_time %}{% endif %}
         {% if meta.modified_time %}{% googleplus_prop 'dateModified' meta.modified_time %}{% endif %}
         {% if meta.url %}{% googleplus_prop 'url' meta.url %}{% endif %}
-        {% if meta.gplus_description %}{% googleplus_prop 'description' meta.gplus_description %}
+        {% if meta.schemaorg_description %}{% googleplus_prop 'description' meta.schemaorg_description %}
         {% elif meta.description %}{% googleplus_prop 'description' meta.description %}{% endif %}
         {% if meta.image %}{% googleplus_prop 'image' meta.image %}{% endif %}
     {% endif %}

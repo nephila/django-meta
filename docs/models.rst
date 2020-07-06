@@ -119,7 +119,6 @@ Usage
 Note
 ++++
 
-* For Google+ support you must add ``{% render_block 'html_extra' %}`` in your template to add object type definition. See relevant Google+ snippets documentation (https://developers.google.com/+/web/snippet/)
 * For OpenGraph / Facebook support, edit your ``<head>`` tag to use ``meta_namespaces`` templatetags
 
 Reference template

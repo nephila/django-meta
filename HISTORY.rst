@@ -4,10 +4,10 @@
 History
 *******
 
-Unreleased
+2.0.0 (unreleased)
 ==================
 
-* Nothing yet
+* Replace Google+ support with schema.org
 
 1.6.1 (2020-01-16)
 ==================
