@@ -13,10 +13,10 @@ env:
   - TOXENV='pep8'
   - TOXENV='isort'
   - TOXENV='docs'
+  - DJANGO='django30-sekizai'
+  - DJANGO='django30-nosekizai'
   - DJANGO='django22-sekizai'
   - DJANGO='django22-nosekizai'
-  - DJANGO='django21-sekizai'
-  - DJANGO='django21-nosekizai'
   - DJANGO='django111-sekizai'
   - DJANGO='django111-nosekizai'
 
@@ -28,7 +28,7 @@ install:
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.5' ]]; then export PYVER=py35; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.6' ]]; then export PYVER=py36; fi"
   - "if [[ $TRAVIS_PYTHON_VERSION == '3.7' ]]; then export PYVER=py37; fi"
-  - "if [[ $TRAVIS_PYTHON_VERSION == '3.8' ]]; then export PYVER=py37; fi"
+  - "if [[ $TRAVIS_PYTHON_VERSION == '3.8' ]]; then export PYVER=py38; fi"
   - "if [[ ${DJANGO}z != 'z' ]]; then export TOXENV=$PYVER-$DJANGO; fi"
 
 # command to run tests, e.g. python setup.py test
@@ -49,17 +49,13 @@ matrix:
   - python: 2.7
     env: TOXENV='docs'
   - python: 2.7
-    env: DJANGO='django20-sekizai'
-  - python: 2.7
-    env: DJANGO='django20-nosekizai'
-  - python: 2.7
-    env: DJANGO='django21-sekizai'
-  - python: 2.7
-    env: DJANGO='django21-nosekizai'
-  - python: 2.7
     env: DJANGO='django22-sekizai'
   - python: 2.7
     env: DJANGO='django22-nosekizai'
+  - python: 2.7
+    env: DJANGO='django30-sekizai'
+  - python: 2.7
+    env: DJANGO='django30-nosekizai'
   - python: 3.5
     env: TOXENV='pep8'
   - python: 3.5
@@ -70,6 +66,10 @@ matrix:
     env: DJANGO='django111-sekizai'
   - python: 3.5
     env: DJANGO='django111-nosekizai'
+  - python: 3.5
+    env: DJANGO='django30-sekizai'
+  - python: 3.5
+    env: DJANGO='django30-nosekizai'
   - python: 3.6
     env: TOXENV='pep8'
   - python: 3.6
