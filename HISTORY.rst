@@ -4,11 +4,13 @@
 History
 *******
 
-Unreleased
+
+1.7.0 (2020-07-07)
 ==================
 
-* Nothing yet
-
+* Fixed support for secure_url
+* Normalized twitter_card / twitter_type attributes
+q
 1.6.1 (2020-01-16)
 ==================
 
