@@ -71,8 +71,10 @@ properties you want to use::
         ]
     )
 
-When the time comes to render the template, simply include the instance as
-``'meta'`` context variable.
+When the time comes to render the template, you **must** include the instance as
+``'meta'`` context variable. In case you use class-based views check the `view mixin`_
+helper, for function based views you must pass the ``meta`` object manually to the context
+where needed.
 
 ``Meta`` also accept an (optional) ``request`` argument to pass the current
 request, which is used to retrieve the ``SITE_ID`` if it's not in the settings.
