@@ -3,7 +3,7 @@ from __future__ import absolute_import, print_function, unicode_literals
 
 import warnings
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
 from meta import settings
 from meta.views import Meta, MetadataMixin
@@ -120,6 +120,22 @@ class MetadataMixinTestCase(TestCase):
         self.assertEqual(
             m.get_meta_object_type(),
             'bar'
+        )
+
+    @override_settings(SITE_DOMAIN='somedomain.com')
+    def test_get_domain(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_domain(),
+            'somedomain.com'
+        )
+
+    @override_settings(SITE_PROTOCOL='http')
+    def test_get_domain(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_protocol(),
+            'http'
         )
 
     def test_get_meta_object_type_with_setting(self):
@@ -255,11 +271,15 @@ class MetadataMixinTestCase(TestCase):
             assert len(w) == 2
             assert issubclass(w[-1].category, PendingDeprecationWarning)
 
+            self.assertEqual(m.twitter_card, 'summary')
+            assert len(w) == 3
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
             self.assertEqual(
                 m.get_meta_twitter_card(),
                 'summary'
             )
-            assert len(w) == 3
+            assert len(w) == 4
             assert issubclass(w[-1].category, PendingDeprecationWarning)
 
     def test_get_meta_twitter_type(self):
