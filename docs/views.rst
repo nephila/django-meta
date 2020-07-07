@@ -36,7 +36,7 @@ the template context which contains any of the following attributes:
 + site_name
 + twitter_site
 + twitter_creator
-+ twitter_card
++ twitter_type
 + facebook_app_id
 + locale
 + extra_props
@@ -44,6 +44,11 @@ the template context which contains any of the following attributes:
 
 In all cases, if the attribute is not set/empty, the matching metadata/property is not
 rendered.
+
+.. note:: attribute ``twitter_card`` is available as deprecated attribute with the
+          same meaning of ``twitter_type``. It will be removed in version 3.0,
+          so update your code accordingly.
+
 
 .. _meta object:
 
@@ -305,7 +310,7 @@ twitter_creator
 
 This key is used to render the ``twitter:creator`` property.
 
-twitter_card
+twitter_type
 ~~~~~~~~~~~~~
 
 This key is used to render the ``twitter:card`` property.
