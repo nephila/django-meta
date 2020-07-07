@@ -122,9 +122,10 @@ def og_prop(name, value):
     :param name: property name (without 'og:' namespace)
     :param value: property value
     """
+    content = [custom_meta('property', 'og:%s' % name, value)]
     if name in settings.OG_SECURE_URL_ITEMS and value.startswith('https'):
-        name = '%s:secure_url' % name
-    return custom_meta('property', 'og:%s' % name, value)
+        content.append(custom_meta('property', 'og:%s:secure_url' % name, value))
+    return '\n'.join(content)
 
 
 @register.simple_tag
