@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+import warnings
+
 from django.test import TestCase
 
 from meta import settings
@@ -239,17 +241,43 @@ class MetadataMixinTestCase(TestCase):
         )
 
     def test_get_meta_twitter_card(self):
-        m = MetadataMixin()
-        self.assertEqual(
-            m.get_meta_twitter_card(),
-            None
-        )
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            m = MetadataMixin()
+            self.assertEqual(
+                m.get_meta_twitter_card(),
+                None
+            )
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
 
-        m.twitter_card = 'summary'
-        self.assertEqual(
-            m.get_meta_twitter_card(),
-            'summary'
-        )
+            m.twitter_card = 'summary'
+            assert len(w) == 2
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+            self.assertEqual(
+                m.get_meta_twitter_card(),
+                'summary'
+            )
+            assert len(w) == 3
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
+
+    def test_get_meta_twitter_type(self):
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            m = MetadataMixin()
+            self.assertEqual(
+                m.get_meta_twitter_type(),
+                None
+            )
+            assert len(w) == 0
+
+            m.twitter_type = 'summary'
+            self.assertEqual(
+                m.get_meta_twitter_type(),
+                'summary'
+            )
+            assert len(w) == 0
 
     def test_get_meta_facebook_app_id(self):
         m = MetadataMixin()
