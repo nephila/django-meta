@@ -1,5 +1,7 @@
 from __future__ import unicode_literals
 
+import warnings
+
 from django.core.exceptions import ImproperlyConfigured
 
 from . import settings
@@ -33,7 +35,8 @@ class Meta(object):
         self.site_name = kwargs.get('site_name', settings.SITE_NAME)
         self.twitter_site = kwargs.get('twitter_site')
         self.twitter_creator = kwargs.get('twitter_creator')
-        self.twitter_card = kwargs.get('twitter_card')
+        self.twitter_type = kwargs.get('twitter_type', kwargs.get('twitter_card', settings.TWITTER_TYPE))
+        self.twitter_card = self.twitter_type
         self.facebook_app_id = kwargs.get('facebook_app_id')
         self.locale = kwargs.get('locale')
         self.use_og = kwargs.get('use_og', settings.USE_OG_PROPERTIES)
@@ -144,7 +147,7 @@ class MetadataMixin(object):
     site_name = None
     twitter_site = None
     twitter_creator = None
-    twitter_card = None
+    twitter_type = None
     facebook_app_id = None
     locale = None
     use_sites = False
@@ -212,8 +215,31 @@ class MetadataMixin(object):
     def get_meta_twitter_creator(self, context=None):
         return self.twitter_creator
 
+    @property
+    def twitter_card(self):
+        warnings.warn(
+            "twitter_card attribute will be removed in version 3.0",
+            PendingDeprecationWarning
+        )
+        return self.twitter_type
+
+    @twitter_card.setter
+    def twitter_card(self, value):
+        warnings.warn(
+            "twitter_card attribute will be removed in version 3.0",
+            PendingDeprecationWarning
+        )
+        self.twitter_type = value
+
     def get_meta_twitter_card(self, context=None):
-        return self.twitter_card
+        warnings.warn(
+            "get_meta_twitter_card attribute will be removed in version 3.0",
+            PendingDeprecationWarning
+        )
+        return self.twitter_type
+
+    def get_meta_twitter_type(self, context=None):
+        return self.twitter_type
 
     def get_meta_facebook_app_id(self, context=None):
         return self.facebook_app_id
@@ -244,7 +270,7 @@ class MetadataMixin(object):
             site_name=self.get_meta_site_name(context=context),
             twitter_site=self.get_meta_twitter_site(context=context),
             twitter_creator=self.get_meta_twitter_creator(context=context),
-            twitter_card=self.get_meta_twitter_card(context=context),
+            twitter_type=self.get_meta_twitter_type(context=context),
             locale=self.get_meta_locale(context=context),
             facebook_app_id=self.get_meta_facebook_app_id(context=context),
             schemaorg_type=self.get_meta_schemaorg_type(context=context),
