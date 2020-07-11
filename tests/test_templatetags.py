@@ -41,6 +41,27 @@ class OgPropTestCase(TestCase):
             '<meta property="og:random_type" content="http://some/random_type">',
         )
 
+    def test_og_full_media_data(self):
+        media = {
+            'url': 'https://some/media.url',
+            'secure_url': 'https://some/media.url',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        for content in ('image', 'video', 'audio'):
+            self.assertEqual(
+                og_prop(content, media),
+                '<meta property="og:{0}:alt" content="a media">\n'
+                '<meta property="og:{0}:height" content="100">\n'
+                '<meta property="og:{0}:secure_url" content="https://some/media.url">\n'
+                '<meta property="og:{0}:type" content="some/mime">\n'
+                '<meta property="og:{0}:url" content="https://some/media.url">\n'
+                '<meta property="og:{0}:width" content="100">'
+                ''.format(content),
+            )
+
     def test_generic_prop_basically_works(self):
         self.assertEqual(
             generic_prop('og', 'type', 'website'),

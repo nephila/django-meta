@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, print_function, unicode_literals
 
+from copy import copy
+
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, TestCase, override_settings
@@ -53,6 +55,7 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.keywords, [])
         self.assertEqual(m.url, None)
         self.assertEqual(m.image, None)
+        self.assertEqual(m.image_object, None)
         self.assertEqual(m.object_type, None)
         self.assertEqual(m.site_name, None)
         self.assertEqual(m.twitter_site, None)
@@ -192,9 +195,55 @@ class MetaObjectTestCase(TestCase):
         m = Meta(url='foo/bar')
         self.assertEqual(m.url, 'https://foo.com/foo/bar')
 
+    def test_set_image_object_with_full_url(self):
+        settings.SITE_PROTOCOL = 'https'
+        media = {
+            'url': 'http://meta.example.com/image.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        secure_media = copy(media)
+        secure_media['secure_url'] = 'https://meta.example.com/image.gif'
+        m = Meta(image_object=media)
+        self.assertEqual(m.image, 'http://meta.example.com/image.gif')
+        self.assertEqual(m.image_object, secure_media)
+
+    def test_set_image_object_with_custom_secure(self):
+        settings.SITE_PROTOCOL = 'https'
+        media = {
+            'url': 'http://meta.example.com/image.gif',
+            'secure_url': 'https://meta.example.com/custom.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        m = Meta(image_object=media)
+        self.assertEqual(m.image, 'http://meta.example.com/image.gif')
+        self.assertEqual(m.image_object, media)
+
     def test_set_image_with_full_url(self):
         m = Meta(image='http://meta.example.com/image.gif')
         self.assertEqual(m.image, 'http://meta.example.com/image.gif')
+
+    def test_set_image_object_with_absolute_path(self):
+        settings.SITE_PROTOCOL = 'https'
+        settings.SITE_DOMAIN = 'foo.com'
+        media = {
+            'url': '/img/image.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        secure_media = copy(media)
+        secure_media['secure_url'] = 'https://foo.com/img/image.gif'
+        secure_media['url'] = 'https://foo.com/img/image.gif'
+        m = Meta(image_object=media)
+        self.assertEqual(m.image, 'https://foo.com/img/image.gif')
+        self.assertEqual(m.image_object, secure_media)
 
     def test_set_image_with_absolute_path(self):
         settings.SITE_PROTOCOL = 'https'

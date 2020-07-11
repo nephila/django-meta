@@ -2,6 +2,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import warnings
+from collections import OrderedDict
 
 from django import template
 from django.apps import apps
@@ -122,9 +123,19 @@ def og_prop(name, value):
     :param name: property name (without 'og:' namespace)
     :param value: property value
     """
-    content = [custom_meta('property', 'og:%s' % name, value)]
-    if name in settings.OG_SECURE_URL_ITEMS and value.startswith('https'):
-        content.append(custom_meta('property', 'og:%s:secure_url' % name, value))
+    if not isinstance(value, dict) and name in settings.OG_SECURE_URL_ITEMS and value.startswith('https'):
+        data = {
+            name: value,
+            '%s:secure_url' % name: value
+        }
+    elif not isinstance(value, dict):
+        data = {
+            name: value,
+        }
+    else:
+        data = {'%s:%s' % (name, key): val for key, val in value.items()}
+    data = OrderedDict(sorted(data.items()))
+    content = [custom_meta('property', 'og:%s' % key, val) for key, val in data.items()]
     return '\n'.join(content)
 
 

@@ -6,7 +6,7 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.contrib import admin
 
-from .views import PostDetailView, PostListView, PostMixinDetailView
+from .views import PostDetailView, PostListView, PostMixinDetailView, PostMixinImageObjectDetailView
 
 try:
     from django.views.i18n import JavaScriptCatalog
@@ -21,6 +21,7 @@ urlpatterns = [
         {'document_root': settings.MEDIA_ROOT, 'show_indexes': True}),
     url(r'^jsi18n/(?P<packages>\S+?)/$', javascript_catalog),  # NOQA
     url(r'^mixin/(?P<slug>\w[-\w]*)/$', PostMixinDetailView.as_view(), name='post-detail-mixinx'),
+    url(r'^mixin_image/(?P<slug>\w[-\w]*)/$', PostMixinImageObjectDetailView.as_view(), name='post-detail-image-mixinx'),
     url(r'^(?P<slug>\w[-\w]*)/$', PostDetailView.as_view(), name='post-detail'),
     url(r'^$', PostListView.as_view(), name='post-list'),
 ]
