@@ -170,7 +170,6 @@ it will be rendered as::
 
 .. note: as of version 2.0, this is the preferred way to set image information.
 
-.. _view mixin:
 
 Meta.image
 ~~~~~~~~~~~~~
@@ -321,11 +320,29 @@ url
 This key should be the *full* URL of the page. It is used to render the
 ``og:url``, ``twitter:url``, ``itemprop=url`` property.
 
+image_object
+~~~~~~~~~~~~~
+
+This key must be set to a dictionary containing at least the ``url`` key, additional
+keys will be rendered if supported by each protocol. Currently only OpenGraph supports
+additional image properties.
+
+Example::
+
+    media = {
+        'url': 'http://meta.example.com/image.gif',
+        'secure_url': 'https://meta.example.com/custom.gif',
+        'type': 'some/mime',
+        'width': 100,
+        'height': 100,
+        'alt': 'a media',
+    }
+
 image
 ~~~~~~~~~~~~~
 
 This key should be the *full* URL of an image to be used with the ``og:image``,
-``twitter:image``, ``itemprop=mage`` property.
+``twitter:image``, ``itemprop=image`` property.
 
 image_width
 ~~~~~~~~~~~~~
