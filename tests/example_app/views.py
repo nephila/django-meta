@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
 from django.views.generic import DetailView, ListView
 
 from meta.views import MetadataMixin
@@ -12,8 +9,8 @@ class PostDetailView(DetailView):
     model = Post
 
     def get_context_data(self, **kwargs):
-        context = super(PostDetailView, self).get_context_data(**kwargs)
-        context['meta'] = self.get_object().as_meta()
+        context = super().get_context_data(**kwargs)
+        context["meta"] = self.get_object().as_meta()
         return context
 
 
@@ -21,7 +18,7 @@ class PostMixinDetailView(MetadataMixin, DetailView):
     model = Post
 
     def get_meta_keywords(self, context):
-        return self.object.meta_keywords.split(',')
+        return self.object.meta_keywords.split(",")
 
     def get_meta_title(self, context):
         return self.object.title
@@ -34,22 +31,15 @@ class PostMixinDetailView(MetadataMixin, DetailView):
 
 
 class PostMixinImageObjectDetailView(PostMixinDetailView):
-
     def get_meta_image_object(self, context=None):
         return self.object.get_image_object()
 
 
 class PostListView(MetadataMixin, ListView):
     model = Post
-    title = 'Some page'
-    description = 'This is an awesome page'
-    image = 'img/some_page_thumb.gif'
-    url = 'some/page/'
-    extra_props = {
-        'foo': 'bar',
-        'key': 'value'
-    }
-    extra_custom_props = [
-        ('key', 'foo', 'bar'),
-        ('property', 'name', 'value')
-    ]
+    title = "Some page"
+    description = "This is an awesome page"
+    image = "img/some_page_thumb.gif"
+    url = "some/page/"
+    extra_props = {"foo": "bar", "key": "value"}
+    extra_custom_props = [("key", "foo", "bar"), ("property", "name", "value")]

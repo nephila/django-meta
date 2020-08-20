@@ -1,29 +1,24 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
 
 from tempfile import mkdtemp
 
 HELPER_SETTINGS = dict(
-    ROOT_URLCONF='tests.example_app.urls',
-    INSTALLED_APPS=[
-        'meta',
-        'tests.example_app',
-    ],
-    META_SITE_PROTOCOL='http',
+    ROOT_URLCONF="tests.example_app.urls",
+    INSTALLED_APPS=["meta", "tests.example_app"],
+    META_SITE_PROTOCOL="http",
     META_USE_SITES=True,
     META_USE_OG_PROPERTIES=True,
     META_USE_TWITTER_PROPERTIES=True,
     META_USE_SCHEMAORG_PROPERTIES=True,
-    FILE_UPLOAD_TEMP_DIR=mkdtemp()
+    FILE_UPLOAD_TEMP_DIR=mkdtemp(),
 )
 
 try:
     import sekizai  # NOQA
 
-    HELPER_SETTINGS['INSTALLED_APPS'].append('sekizai')
-    HELPER_SETTINGS['TEMPLATE_CONTEXT_PROCESSORS'] = [
-        'sekizai.context_processors.sekizai',
+    HELPER_SETTINGS["INSTALLED_APPS"].append("sekizai")
+    HELPER_SETTINGS["TEMPLATE_CONTEXT_PROCESSORS"] = [
+        "sekizai.context_processors.sekizai",
     ]
 except ImportError:
     pass
@@ -31,18 +26,21 @@ except ImportError:
 
 def run():
     from app_helper import runner
-    runner.run('meta')
+
+    runner.run("meta")
 
 
 def setup():
     import sys
+
     from app_helper import runner
-    runner.setup('meta', sys.modules[__name__])
+
+    runner.setup("meta", sys.modules[__name__])
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     run()
 
 
-if __name__ == 'cms_helper':
+if __name__ == "cms_helper":
     setup()

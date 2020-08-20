@@ -8,13 +8,13 @@ end_of_line = lf
 charset = utf-8
 trim_trailing_whitespace = true
 insert_final_newline = true
-max_line_length = 80
+max_line_length = 120
 
 [*.md]
 trim_trailing_whitespace = false
 
 [*.rst]
-max_line_length = 80
+max_line_length = 120
 
 [*.py]
 max_line_length = 120
@@ -24,11 +24,11 @@ indent_size = 2
 indent_style = space
 max_line_length = 120
 
-[*.js]
+[*.{js,vue,json}]
 indent_size = 2
 max_line_length = 120
 
-[*.yml]
+[*.{yml,yaml}]
 indent_size = 2
 
 [Makefile]
