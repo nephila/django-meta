@@ -30,6 +30,7 @@ the template context which contains any of the following attributes:
 + keywords
 + url
 + image
++ image_object
 + image_width
 + image_height
 + object_type
@@ -91,6 +92,7 @@ and will modify values you set. These properties are:
 + keywords
 + url
 + image
++ image_object
 
 For brevity, we will only discuss those here.
 
@@ -128,12 +130,56 @@ to calculate the domain, you can either set the :ref:`META_USE_SITES` setting to
 Note that using the sites app will trigger database queries and/or cache hits,
 and it is therefore disabled by default.
 
+Meta.image_object
+~~~~~~~~~~~~~~~~~
+
+The ``image_object`` property is the most complete way to provide image meta.
+
+To use this property, you must pass a dictionary with at least the ``url`` attribute.
+
+All others keys will be rendered alongside the ``url``, if the specific protocol
+provides it.
+
+Currently only OpenGraph support more than the image url, and you might add:
+
+* ``width``: image width
+* ``height``: image height
+* ``alt``: alternate image description
+* ``secure_url``: https URL for the image, if different than the ``url`` key
+* ``type``: image mime type
+
+example::
+
+    media = {
+        'url': 'http://meta.example.com/image.gif',
+        'secure_url': 'https://meta.example.com/custom.gif',
+        'type': 'some/mime',
+        'width': 100,
+        'height': 100,
+        'alt': 'a media',
+    }
+
+it will be rendered as::
+
+    <meta property="og:image:alt" content="a media">
+    <meta property="og:image:height" content="100">
+    <meta property="og:image:secure_url" content="https://meta.example.com/image.gif">
+    <meta property="og:image:type" content="some/mime">
+    <meta property="og:image:url" content="http://meta.example.com/image.gif">
+    <meta property="og:image:width" content="100">
+
+.. note: as of version 2.0, this is the preferred way to set image information.
+
+
 Meta.image
 ~~~~~~~~~~~~~
 
 The ``image`` property behaves the same way as ``url`` property with one
 notable difference. This property treats absolute and relative paths
 differently. It will place relative paths under the :ref:`META_IMAGE_URL`.
+
+if ``image_object`` is provided, it takes precedence over this property, for all
+the protocols, even if they only support the image URL.
 
 .. _view mixin:
 
@@ -274,11 +320,29 @@ url
 This key should be the *full* URL of the page. It is used to render the
 ``og:url``, ``twitter:url``, ``itemprop=url`` property.
 
+image_object
+~~~~~~~~~~~~~
+
+This key must be set to a dictionary containing at least the ``url`` key, additional
+keys will be rendered if supported by each protocol. Currently only OpenGraph supports
+additional image properties.
+
+Example::
+
+    media = {
+        'url': 'http://meta.example.com/image.gif',
+        'secure_url': 'https://meta.example.com/custom.gif',
+        'type': 'some/mime',
+        'width': 100,
+        'height': 100,
+        'alt': 'a media',
+    }
+
 image
 ~~~~~~~~~~~~~
 
 This key should be the *full* URL of an image to be used with the ``og:image``,
-``twitter:image``, ``itemprop=mage`` property.
+``twitter:image``, ``itemprop=image`` property.
 
 image_width
 ~~~~~~~~~~~~~

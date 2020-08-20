@@ -29,6 +29,7 @@ class ModelMeta(object):
         'schemaorg_description': False,
         'keywords': False,
         'image': settings.DEFAULT_IMAGE,
+        'image_object': None,
         'image_width': False,
         'image_height': False,
         'object_type': settings.DEFAULT_TYPE,

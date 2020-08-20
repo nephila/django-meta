@@ -88,10 +88,6 @@ Please report all bugs to our Github `issue tracker`_.
     :target: https://coveralls.io/r/nephila/django-meta?branch=master
     :alt: Test coverage
 
-.. |License| image:: https://img.shields.io/github/license/nephila/django-meta.svg?style=flat-square
-   :target: https://pypi.python.org/pypi/django-meta/
-    :alt: License
-
 .. |CodeClimate| image:: https://codeclimate.com/github/nephila/django-meta/badges/gpa.svg?style=flat-square
    :target: https://codeclimate.com/github/nephila/django-meta
    :alt: Code Climate

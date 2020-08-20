@@ -2,6 +2,7 @@
 from __future__ import absolute_import, print_function, unicode_literals
 
 import warnings
+from copy import copy
 
 from django.test import TestCase, override_settings
 
@@ -107,6 +108,31 @@ class MetadataMixinTestCase(TestCase):
         self.assertEqual(
             m.get_meta_image(),
             'img/foo.gif'
+        )
+
+    def test_get_meta_image_object(self):
+        m = MetadataMixin()
+        self.assertEqual(
+            m.get_meta_image(),
+            None
+        )
+        media = {
+            'url': 'http://meta.example.com/image.gif',
+            'secure_url': 'https://meta.example.com/custom.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        m.image_object = media
+
+        self.assertEqual(
+            m.get_meta_image_object(),
+            media
+        )
+        self.assertEqual(
+            m.get_meta_image(),
+            media['url']
         )
 
     def test_get_meta_object_tye(self):
@@ -332,12 +358,21 @@ class MetadataMixinTestCase(TestCase):
         settings.FB_PAGES = 'fbpages'
         settings.FB_APPID = 'appid'
 
+        media = {
+            'url': 'images/foo.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        full_url_media = copy(media)
+        full_url_media['url'] = 'http://foo.com/static/images/foo.gif'
         m = MetadataMixin()
         m.title = 'title'
         m.description = 'description'
         m.keywords = ['foo', 'bar']
         m.url = 'some/path'
-        m.image = 'images/foo.gif'
+        m.image_object = media
 
         meta_object = m.get_meta()
 
@@ -362,9 +397,24 @@ class MetadataMixinTestCase(TestCase):
             meta_object.image,
             'http://foo.com/static/images/foo.gif'
         )
+        self.assertEqual(
+            meta_object.image_object,
+            media
+        )
         settings.SITE_DOMAIN = 'example.com'
 
     def test_get_context(self):
+        media = {
+            'url': 'images/foo.gif',
+            'type': 'some/mime',
+            'width': 100,
+            'height': 100,
+            'alt': 'a media',
+        }
+        full_url_media = copy(media)
+        full_url_media['url'] = 'https://foo.com/static/images/foo.gif'
+        full_url_media['secure_url'] = 'https://foo.com/static/images/foo.gif'
+
         class Super(object):
             def get_context_data(self):
                 return {}
@@ -374,9 +424,9 @@ class MetadataMixinTestCase(TestCase):
             description = 'description'
             keywords = ['foo', 'bar']
             url = 'some/path'
-            image = 'images/foo.gif'
+            image_object = media
 
-        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_PROTOCOL = 'https'
         settings.SITE_DOMAIN = 'foo.com'
         settings.USE_SITES = False
 
@@ -388,7 +438,7 @@ class MetadataMixinTestCase(TestCase):
         self.assertTrue(type(context['meta']), Meta)
         self.assertEqual(
             context['meta'].url,
-            'http://foo.com/some/path'
+            'https://foo.com/some/path'
         )
         self.assertEqual(
             context['meta'].keywords,
@@ -396,9 +446,14 @@ class MetadataMixinTestCase(TestCase):
         )
         self.assertEqual(
             context['meta'].image,
-            'http://foo.com/static/images/foo.gif'
+            'https://foo.com/static/images/foo.gif'
+        )
+        self.assertEqual(
+            context['meta'].image_object,
+            full_url_media
         )
 
+        settings.SITE_PROTOCOL = 'http'
         settings.SITE_DOMAIN = 'example.com'
         settings.FB_PAGES = ''
         settings.FB_APPID = ''

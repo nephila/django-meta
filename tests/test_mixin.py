@@ -103,8 +103,15 @@ class TestMeta(BaseTestCase):
         # Server is different as it's taken directly from the request object
         settings.FB_PAGES = 'fbpages'
         settings.FB_APPID = 'appid'
+        media = {
+            'url': 'https://testserver{}'.format(self.image_url),
+            'width': self.image_width,
+            'height': self.image_height,
+            'alt': 'a title',
+        }
         expected = {
             'locale': 'dummy_locale',
+            'image_object': media,
             'image': 'https://testserver{}'.format(self.image_url),
             'image_width': self.image_width,
             'image_height': self.image_height,
@@ -167,6 +174,10 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="key" content="val">')
         self.assertContains(response, '<meta custom1="custom_name1" content="custom_val1">')
         self.assertContains(response, '<meta custom2="custom_name2" content="custom_val2">')
+        self.assertContains(response, '<meta property="og:{0}:alt" content="a title">'.format('image'))
+        self.assertContains(response, '<meta property="og:{0}:height" content="{1}">'.format('image', self.image_height))
+        self.assertContains(response, '<meta property="og:{0}:width" content="{1}">'.format('image', self.image_width))
+        self.assertContains(response, '<meta property="og:{0}:url"'.format('image', 'https://example.com{}'.format(self.image_url)))
 
     def test_templatetag_metadatamixin(self):
         """
@@ -179,6 +190,22 @@ class TestMeta(BaseTestCase):
         self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
         self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
+
+    def test_templatetag_metadatamixin_image_object(self):
+        """
+        Test for issue #11
+        """
+        response = self.client.get('/mixin_image/title/')
+        self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
+        self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+        self.assertContains(response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url))
+        self.assertContains(response, '<meta property="og:{0}:alt" content="a title">'.format('image'))
+        self.assertContains(response, '<meta property="og:{0}:height" content="{1}">'.format('image', self.image_height))
+        self.assertContains(response, '<meta property="og:{0}:width" content="{1}">'.format('image', self.image_width))
+        self.assertContains(response, '<meta property="og:{0}:url"'.format('image', 'http://example.com{}'.format(self.image_url)))
 
     def test_templatetag_secure_image(self):
         """

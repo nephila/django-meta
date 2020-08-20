@@ -14,6 +14,7 @@ class Meta(object):
     _keywords = []
     _url = None
     _image = None
+    _image_object = None
     request = None
 
     def __init__(self, **kwargs):
@@ -29,6 +30,7 @@ class Meta(object):
         self.keywords = kwargs.get('keywords')
         self.url = kwargs.get('url')
         self.image = kwargs.get('image')
+        self.image_object = kwargs.get('image_object')
         self.image_width = kwargs.get('image_width')
         self.image_height = kwargs.get('image_height')
         self.object_type = kwargs.get('object_type', settings.SITE_TYPE)
@@ -111,18 +113,42 @@ class Meta(object):
     def url(self, url):
         self._url = self.get_full_url(url)
 
+    def _normalize_media_url(self, url):
+        if not url.startswith('http') and not url.startswith('/'):
+            url = '%s%s' % (settings.IMAGE_URL, url)
+        return self.get_full_url(url)
+
     @property
     def image(self):
-        return self._image
+        if self.image_object:
+            return self.image_object.get('url')
+        else:
+            return self._image
 
     @image.setter
     def image(self, image):
         if image is None and settings.DEFAULT_IMAGE:
             image = settings.DEFAULT_IMAGE
         if image:
-            if not image.startswith('http') and not image.startswith('/'):
-                image = '%s%s' % (settings.IMAGE_URL, image)
-            self._image = self.get_full_url(image)
+            self._image = self._normalize_media_url(image)
+
+    @property
+    def image_object(self):
+        return self._image_object
+
+    @image_object.setter
+    def image_object(self, image):
+        try:
+            if image:
+                image['url'] = self._normalize_media_url(image.get('url', None))
+                if self.get_protocol() == 'https':
+                    secure_fallback_url = image.get('secure_url', image.get('url', None))
+                    image['secure_url'] = self._normalize_media_url(secure_fallback_url)
+                    if image['secure_url'].startswith('http://'):
+                        image['secure_url'] = image['secure_url'].replace('http://', 'https://')
+                self._image_object = image
+        except KeyError:
+            self._image_object = None
 
 
 class MetadataMixin(object):
@@ -143,6 +169,7 @@ class MetadataMixin(object):
     keywords = []
     url = None
     image = None
+    image_object = None
     object_type = None
     site_name = None
     twitter_site = None
@@ -192,7 +219,12 @@ class MetadataMixin(object):
         return self.url
 
     def get_meta_image(self, context=None):
+        if self.image_object and self.image_object.get('url', None):
+            return self.image_object['url']
         return self.image
+
+    def get_meta_image_object(self, context=None):
+        return self.image_object
 
     def get_meta_object_type(self, context=None):
         return self.object_type or settings.SITE_TYPE
@@ -265,6 +297,7 @@ class MetadataMixin(object):
             custom_namespace=self.get_meta_custom_namespace(context=context),
             keywords=self.get_meta_keywords(context=context),
             image=self.get_meta_image(context=context),
+            image_object=self.get_meta_image_object(context=context),
             url=self.get_meta_url(context=context),
             object_type=self.get_meta_object_type(context=context),
             site_name=self.get_meta_site_name(context=context),

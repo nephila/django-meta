@@ -54,6 +54,7 @@ class Post(ModelMeta, models.Model):
         'description': 'get_description',
         'og_description': 'get_description',
         'keywords': 'get_keywords',
+        'image_object': 'get_image_object',
         'image': 'get_image_full_url',
         'image_width': 'get_image_width',
         'image_height': 'get_image_height',
@@ -101,6 +102,15 @@ class Post(ModelMeta, models.Model):
         if not description:
             description = self.abstract
         return description.strip()
+
+    def get_image_object(self):
+        if self.main_image:
+            return {
+                'url': self.build_absolute_uri(self.main_image.url),
+                'width': self.main_image.width,
+                'height': self.main_image.height,
+                'alt': self.title,
+            }
 
     def get_image_full_url(self):
         if self.main_image:

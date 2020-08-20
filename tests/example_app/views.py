@@ -33,6 +33,12 @@ class PostMixinDetailView(MetadataMixin, DetailView):
         return self.object.image_url
 
 
+class PostMixinImageObjectDetailView(PostMixinDetailView):
+
+    def get_meta_image_object(self, context=None):
+        return self.object.get_image_object()
+
+
 class PostListView(MetadataMixin, ListView):
     model = Post
     title = 'Some page'
