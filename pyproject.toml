@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=40.6.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.black]
+line-length = 119
+target-version = ["py36"]
+include = 'meta/*py'
+
+[tool.towncrier]
+package = "meta"
+directory = "changes"
+filename = "HISTORY.rst"
+title_format = "{version} ({project_date})"
+
+[tool.interrogate]
+ignore-init-method = true
+ignore-init-module = true
+ignore-magic = false
+ignore-semiprivate = false
+ignore-private = false
+ignore-module = true
+ignore-nested-functions = true
+fail-under = 0
+exclude = ["docs", ".tox"]
+ignore-regex = ["^get$", "^mock_.*", ".*BaseClass.*"]
+verbose = 0
+quiet = false
+whitelist-regex = []
+color = true

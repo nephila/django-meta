@@ -1,9 +1,6 @@
-coverage>=5
-coveralls
-mock>=1.0.1
-flake8>=2.1.0
-tox>=2.0
-pillow
-wheel
-django-app-helper>=2.0.1
 -rrequirements.txt
+coverage
+coveralls>=2.0
+mock>=1.0.1
+pillow
+django-app-helper>=2.0.1

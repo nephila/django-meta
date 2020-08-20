@@ -2,7 +2,7 @@
 django-meta
 ===========
 
-|Gitter| |PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
+|Gitter| |PyPiVersion| |PyVersion| |GAStatus| |TestCoverage| |CodeClimate| |License|
 
 This pluggable app allows Django developers to quickly add meta tags and
 OpenGraph_, Twitter, and Schema.org properties to their HTML responses.
@@ -12,34 +12,40 @@ OpenGraph_, Twitter, and Schema.org properties to their HTML responses.
 
 .. contents::
 
+************
 Installation
-============
+************
 
 See https://django-meta.readthedocs.io/en/latest/installation.html
 
+******************
 Supported versions
-==================
+******************
 
+******
 Django
-------
+******
 
-1.11 to 3.0 (newer versions might work but are not tested yet)
+2.2 to 3.1 (newer versions might work but are not tested yet)
 
 
+******
 Python
-------
+******
 
-Python 2.7, 3.5 to 3.8
+Python 3.5 to 3.8
 
+*************
 Basic concept
-=============
+*************
 
 ``django-meta`` provides a **view-method** and **model-method** interface to provide and handle meta informations
 
 For more details check `documentation`_.
 
+**************************
 Authors and Contributors
-========================
+**************************
 
 ``django-meta`` has been started by `Branko Vukelic`_.
 
@@ -47,13 +53,15 @@ Current maintainer: `Iacopo Spalletti`_
 
 See ``AUTHORS`` file for the complete list of contributors
 
+***********************************
 Apps using django-meta / extensions
-===================================
+***********************************
 
 See `third_party_apps`_
 
+**************
 Reporting bugs
-==============
+**************
 
 Please report all bugs to our Github `issue tracker`_.
 
@@ -80,13 +88,17 @@ Please report all bugs to our Github `issue tracker`_.
     :target: https://pypi.python.org/pypi/django-meta
     :alt: Python versions
 
-.. |Status| image:: https://img.shields.io/travis/nephila/django-meta.svg?style=flat-square
-    :target: https://travis-ci.org/nephila/django-meta
-    :alt: Latest Travis CI build status
+.. |GAStatus| image:: https://github.com/nephila/django-meta/workflows/Tox%20tests/badge.svg
+    :target: https://github.com/nephila/django-meta
+    :alt: Latest CI build status
 
 .. |TestCoverage| image:: https://img.shields.io/coveralls/nephila/django-meta/master.svg?style=flat-square
     :target: https://coveralls.io/r/nephila/django-meta?branch=master
     :alt: Test coverage
+
+.. |License| image:: https://img.shields.io/github/license/nephila/django-meta.svg?style=flat-square
+   :target: https://pypi.python.org/pypi/django-meta/
+    :alt: License
 
 .. |CodeClimate| image:: https://codeclimate.com/github/nephila/django-meta/badges/gpa.svg?style=flat-square
    :target: https://codeclimate.com/github/nephila/django-meta
