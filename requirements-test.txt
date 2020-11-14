@@ -4,3 +4,7 @@ coveralls>=2.0
 mock>=1.0.1
 pillow
 django-app-helper>=2.0.1
+
+pytest
+pytest-django
+pytest-asyncio
