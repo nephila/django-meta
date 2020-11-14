@@ -1,3 +1,4 @@
+import warnings
 from datetime import timedelta
 
 from app_helper.base_test import BaseTestCase
@@ -156,6 +157,20 @@ class TestMeta(BaseTestCase):
                 self.assertFalse(hasattr(meta, key))
         settings.FB_PAGES = ""
         settings.FB_APPID = ""
+
+    @override_settings(META_SITE_PROTOCOL="http")
+    def test_as_meta_get_request_deprecation(self):
+        request = self.get_request(None, "en", path="/title/", secure=True)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_meta(request)
+            assert len(w) == 0
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_request()
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
 
     def test_templatetag(self):
         self.post.as_meta()
