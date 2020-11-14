@@ -6,10 +6,26 @@ History
 
 .. towncrier release notes start
 
-2.0.0 (unreleased)
+2.0.0 (2020-11-14)
 ==================
 
-* Replace Google+ support with schema.org
+Features
+--------
+
+- Drop Python 2 (#118)
+- Drop Django<2.2 (#118)
+- Add Django 3.1 (#118)
+- Update tooling (#118)
+- Port to github-actions (#118)
+- Remove G+ support - Replace with Schema.org (#108)
+- Add support for image object (#114)
+
+
+Bugfixes
+--------
+
+- Switch request handling to thread locals (#115)
+
 
 1.7.0 (2020-07-07)
 ==================
