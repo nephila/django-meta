@@ -38,7 +38,7 @@ class Post(ModelMeta, models.Model):
 
     _metadata = {
         "title": "title",
-        "og_title": "og title",
+        "og_title": "og_title",
         "twitter_title": "twitter title",
         "schemaorg_title": "schemaorg title",
         "description": "get_description",

@@ -1,9 +1,10 @@
-import contextlib
+import warnings
 from copy import copy
 
 from django.conf import settings as dj_settings
 
 from . import settings
+from .utils import get_request, set_request
 
 NEED_REQUEST_OBJECT_ERR_MSG = """
 Meta models needs request objects when initializing if sites framework is not used.
@@ -62,7 +63,7 @@ class ModelMeta:
         """
         Build the data according to the metadata configuration
         """
-        with self._set_request(request):
+        with set_request(request):
             for field, value in metadata.items():
                 if value:
                     data = self._get_meta_value(field, value)
@@ -109,20 +110,15 @@ class ModelMeta:
                 setattr(meta, field, generaldesc)
         return meta
 
-    @contextlib.contextmanager
-    def _set_request(self, request):
-        """
-        Context processor that sets the request on the current instance
-        """
-        self._request = request
-        yield
-        delattr(self, "_request")
-
     def get_request(self):
         """
         Retrieve request from current instance
         """
-        return getattr(self, "_request", None)
+        warnings.warn(
+            "use meta.utils.get_request function, ModelMeta.get_request will be removed in version 3.0",
+            PendingDeprecationWarning,
+        )
+        return get_request()
 
     def get_author(self):
         """
@@ -186,7 +182,7 @@ class ModelMeta:
         """
         Return the full url for the provided url argument
         """
-        request = self.get_request()
+        request = get_request()
         if request:
             return request.build_absolute_uri(url)
 

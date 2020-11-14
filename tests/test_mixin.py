@@ -1,3 +1,4 @@
+import warnings
 from datetime import timedelta
 
 from app_helper.base_test import BaseTestCase
@@ -14,9 +15,10 @@ from .example_app.models import Post
 class TestMeta(BaseTestCase):
     post = None
 
-    def setUp(self):
-        super().setUp()
-        self.post = Post.objects.create(
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.post, __ = Post.objects.get_or_create(
             title="a title",
             og_title="og title",
             twitter_title="twitter title",
@@ -25,16 +27,16 @@ class TestMeta(BaseTestCase):
             abstract="post abstract",
             meta_description="post meta",
             meta_keywords="post keyword1,post keyword 2",
-            author=self.user,
+            author=cls.user,
             date_published_end=timezone.now() + timedelta(days=2),
             text="post text",
             image_url="/path/to/image",
         )
-        self.post.main_image = self.create_django_image_object()
-        self.post.save()
-        self.image_url = self.post.main_image.url
-        self.image_width = self.post.main_image.width
-        self.image_height = self.post.main_image.height
+        cls.post.main_image, __ = cls.create_django_image()
+        cls.post.save()
+        cls.image_url = cls.post.main_image.url
+        cls.image_width = cls.post.main_image.width
+        cls.image_height = cls.post.main_image.height
 
     @override_settings(META_SITE_PROTOCOL="http")
     def test_as_meta(self):
@@ -155,6 +157,20 @@ class TestMeta(BaseTestCase):
                 self.assertFalse(hasattr(meta, key))
         settings.FB_PAGES = ""
         settings.FB_APPID = ""
+
+    @override_settings(META_SITE_PROTOCOL="http")
+    def test_as_meta_get_request_deprecation(self):
+        request = self.get_request(None, "en", path="/title/", secure=True)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_meta(request)
+            assert len(w) == 0
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_request()
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
 
     def test_templatetag(self):
         self.post.as_meta()

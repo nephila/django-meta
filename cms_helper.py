@@ -11,6 +11,7 @@ HELPER_SETTINGS = dict(
     META_USE_TWITTER_PROPERTIES=True,
     META_USE_SCHEMAORG_PROPERTIES=True,
     FILE_UPLOAD_TEMP_DIR=mkdtemp(),
+    TEST_RUNNER="app_helper.pytest_runner.PytestTestRunner",
 )
 
 try:
