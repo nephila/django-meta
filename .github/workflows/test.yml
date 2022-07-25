@@ -8,20 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.8, 3.7, 3.6, 3.5]
-        django: [31,30, 22]
+        python-version: [3.10.0, 3.9, 3.8, 3.7]
+        django: [32, 31, 30, 22]
         sekizai: [sekizai,nosekizai]
-        exclude:
-          - python-version: 3.5
-            django: 30
-          - python-version: 3.5
-            django: 31
-          - django: 31
-            sekizai: sekizai
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
     - name: Cache pip
@@ -32,7 +25,7 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-pip-${{ matrix.toxenv }}
     - name: Cache tox
-      uses: actions/cache@v1
+      uses: actions/cache@v3
       with:
         path: .tox
         key: ${{ runner.os }}-tox-${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}-${{ hashFiles('setup.cfg') }}
@@ -41,7 +34,7 @@ jobs:
     - name: Install dependencies
       run: |
         sudo apt-get install gettext
-        python -m pip install --upgrade pip tox>=3.5
+        python -m pip install --upgrade pip tox>=3.23
     - name: Test with tox
       env:
         TOX_ENV: ${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}
@@ -52,11 +45,11 @@ jobs:
         tox -e$TOX_ENV
         .tox/$TOX_ENV/bin/coverage xml
         .tox/$TOX_ENV/bin/coveralls
-    - uses: codecov/codecov-action@v1
+    - uses: codecov/codecov-action@v3
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         flags: unittests
-        file: ./coverage.xml
+        files: ./coverage.xml
         fail_ci_if_error: false
     services:
       redis:
