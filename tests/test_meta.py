@@ -132,6 +132,7 @@ class MetaObjectTestCase(TestCase):
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url("foo/bar")
+        settings.USE_SITES = False
 
     @override_settings(SITE_ID=None)
     def test_get_full_url_without_site_id_with_request_will_not_raise(self):
@@ -142,6 +143,7 @@ class MetaObjectTestCase(TestCase):
         Site.objects.create(domain=request.get_host())
         m = Meta(request=request)
         self.assertEqual(m.get_full_url("foo/bar"), "http://testserver/foo/bar")
+        settings.USE_SITES = False
 
     def test_get_full_url_without_protocol_without_schema_will_raise(self):
         m = Meta()

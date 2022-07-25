@@ -305,9 +305,11 @@ class TestMeta(BaseTestCase):
         self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
-        with override_settings(META_USE_SITES=False):
-            with self.assertRaises(RuntimeError):
-                self.post.as_meta()
-        with override_settings(META_USE_SITES=True):
-            meta = self.post.as_meta()
-            self.assertEqual(meta.url, "http://example.com/title/")
+        original_sites = settings.USE_SITES
+        settings.USE_SITES = False
+        with self.assertRaises(RuntimeError):
+            self.post.as_meta()
+        settings.USE_SITES = True
+        meta = self.post.as_meta()
+        self.assertEqual(meta.url, "http://example.com/title/")
+        settings.USE_SITES = original_sites
