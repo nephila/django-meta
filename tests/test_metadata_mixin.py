@@ -243,6 +243,7 @@ class MetadataMixinTestCase(TestCase):
         self.assertEqual(meta_object.image, "http://foo.com/static/images/foo.gif")
         self.assertEqual(meta_object.image_object, media)
         settings.SITE_DOMAIN = "example.com"
+        settings.USE_SITES = True
 
     def test_get_context(self):
         media = {
@@ -286,3 +287,4 @@ class MetadataMixinTestCase(TestCase):
         settings.SITE_DOMAIN = "example.com"
         settings.FB_PAGES = ""
         settings.FB_APPID = ""
+        settings.USE_SITES = True
