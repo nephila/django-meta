@@ -1,5 +1,5 @@
 from django.conf import settings as django_settings
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 SITE_PROTOCOL = getattr(django_settings, "META_SITE_PROTOCOL", None)
 SITE_DOMAIN = getattr(django_settings, "META_SITE_DOMAIN", None)
