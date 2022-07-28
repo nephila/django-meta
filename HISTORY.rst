@@ -6,6 +6,17 @@ History
 
 .. towncrier release notes start
 
+2.1.0 (2022-07-28)
+==================
+
+Bugfixes
+--------
+
+- Changes imports from ugettext_lazy to gettext_lazy to fix deprecation warning (#130)
+- Get correct setting META_USE_SITES in build_absolute_uri model method (#133)
+- Update tox environments and github actions (#135)
+
+
 2.0.0 (2020-11-14)
 ==================
 

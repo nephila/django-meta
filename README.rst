@@ -26,14 +26,14 @@ Supported versions
 Django
 ******
 
-2.2 to 3.1 (newer versions might work but are not tested yet)
+2.2 to 4.0 (newer versions might work but are not tested yet)
 
 
 ******
 Python
 ******
 
-Python 3.5 to 3.8
+Python 3.7 to 3.10
 
 *************
 Basic concept

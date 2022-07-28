@@ -11,7 +11,7 @@ knowledge, and a willingness to follow the contribution guidelines.
 Nephila
 *******
 
-django meta is maintained by Iacopo Spalletti at `Nephila <https://www.nephila.it/>`_
+django meta is maintained by Iacopo Spalletti at `Nephila <https://www.nephila.digital/>`_
 and is released under a BSD License.
 
 Nephila is an active supporter of Django, django CMS and its community.

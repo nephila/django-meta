@@ -1,1 +1,0 @@
-Changes imports from ugettext_lazy to gettext_lazy to fix deprecation warning
