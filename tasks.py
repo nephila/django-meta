@@ -109,15 +109,19 @@ def coverage(c):
 
 
 @task
-def tag_release(c, level):
+def tag_release(c, level, new_version=""):
     """Tag release version."""
-    c.run("bumpversion --list %s --no-tag" % level)
+    if new_version:
+        new_version = f" --new-version {new_version}"
+    c.run(f"bumpversion --list {level} --no-tag{new_version}")
 
 
 @task
-def tag_dev(c, level="patch"):
+def tag_dev(c, level="patch", new_version=""):
     """Tag development version."""
-    c.run("bumpversion --list %s --message='Bump develop version [ci skip]' --no-tag" % level)
+    if new_version:
+        new_version = f" --new-version {new_version}"
+    c.run(f"bumpversion --list {level} --message='Bump develop version [ci skip]' --no-tag{new_version}")
 
 
 @task(pre=[clean])
