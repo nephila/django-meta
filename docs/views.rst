@@ -110,7 +110,7 @@ instead.
 Meta.url
 ~~~~~~~~~~~~~
 
-Setting the url behaves differently depending on whether you are passsing a
+Setting the url behaves differently depending on whether you are passing a
 path or a full URL. If your URL starts with ``'http'``, it will be used
 verbatim (not that the actual validity of the url is not checked so
 ``'httpfoo'`` will be considered a valid URL). If you use an absolute or
@@ -213,7 +213,7 @@ meta tags (see :ref:`rendering`).
 Each of the properties on the mixin can be calculated dynamically by using the
 ``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
 name of the property you wish the calculate at runtime. Each method will
-receive a ``context`` keyword argument containig the request context.
+receive a ``context`` keyword argument containing the request context.
 
 For example, to calculate the description dynamically, you may use the mixin
 like so::
@@ -299,7 +299,7 @@ The service-specific variants are also supported:
 * ``twitter_title``
 * ``schema_title``
 
-If set on the ``Meta`` object, they will be used insteaf of the generic title
+If set on the ``Meta`` object, they will be used instead of the generic title
 which will be used as a fallback.
 
 description

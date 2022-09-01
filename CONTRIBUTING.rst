@@ -165,7 +165,7 @@ Release a version
 #. Publish the release from the tags page
 #. If pipeline succeeds, push ``master``
 #. Merge ``master`` back on ``develop``
-#. Bump developement version via task: ``inv tag-dev -l (major|minor|patch)``
+#. Bump development version via task: ``inv tag-dev -l (major|minor|patch)``
 #. Push ``develop``
 
 .. _towncrier: https://pypi.org/project/towncrier/#news-fragments

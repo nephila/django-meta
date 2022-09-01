@@ -14,7 +14,7 @@ Installation
     )
 
 * Add the :ref:`required namespace tags<rendering>` to your base template
-  for compliancy with metadata protocols.
+  for compliance with metadata protocols.
 
 * Optionally you can install and configure `sekizai`_
 

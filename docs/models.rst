@@ -48,7 +48,7 @@ use in the template;
 ``ModelMeta.get_request()``: returns the ``request`` object, if given as argument to ``as_meta``;
 
 ``ModelMeta.get_author()``: returns the author object for the current instance. Default
-implementation does not return a valid object, this **must** be overidden in the application
+implementation does not return a valid object, this **must** be overridden in the application
 according to what is an author in the application domain;
 
 ``ModelMeta.build_absolute_uri(url)``: create an absolute URL (i.e.: complete with protocol and
