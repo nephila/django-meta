@@ -239,16 +239,18 @@ class MetadataMixin:
 
     @property
     def twitter_card(self):
-        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning)
+        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
         return self.twitter_type
 
     @twitter_card.setter
     def twitter_card(self, value):
-        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning)
+        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
         self.twitter_type = value
 
     def get_meta_twitter_card(self, context=None):
-        warnings.warn("get_meta_twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning)
+        warnings.warn(
+            "get_meta_twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2
+        )
         return self.twitter_type
 
     def get_meta_twitter_type(self, context=None):

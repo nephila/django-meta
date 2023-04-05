@@ -118,6 +118,7 @@ class ModelMeta:
         warnings.warn(
             "use meta.utils.get_request function, ModelMeta.get_request will be removed in version 3.0",
             PendingDeprecationWarning,
+            stacklevel=2,
         )
         return get_request()
 
