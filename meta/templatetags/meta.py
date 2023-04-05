@@ -196,7 +196,7 @@ def googleplus_prop(name, value):
     """
     Legacy Google+ property
     """
-    warnings.warn("googleplus_prop will be removed in version 3.0", PendingDeprecationWarning)
+    warnings.warn("googleplus_prop will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
     return schemaorg_prop(name, value)
 
 
@@ -205,7 +205,7 @@ def googleplus_html_scope(value):
     """
     Legacy Google+ scope
     """
-    warnings.warn("googleplus_html_scope will be removed in version 3.0", PendingDeprecationWarning)
+    warnings.warn("googleplus_html_scope will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
     return schemaorg_html_scope(value)
 
 
@@ -214,7 +214,7 @@ def googleplus_scope(value):
     """
     Legacy Google+ scope
     """
-    warnings.warn("googleplus_scope will be removed in version 3.0", PendingDeprecationWarning)
+    warnings.warn("googleplus_scope will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
     return schemaorg_html_scope(value)
 
 
@@ -263,5 +263,5 @@ def meta_namespaces_gplus(context):
     """
     Legacy Google+ attributes.
     """
-    warnings.warn("meta_namespaces_gplus will be removed in version 3.0", PendingDeprecationWarning)
+    warnings.warn("meta_namespaces_gplus will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
     return meta_namespaces_schemaorg(context)
