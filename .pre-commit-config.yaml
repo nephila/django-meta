@@ -6,7 +6,7 @@ repos:
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
-        exclude: "setup.cfg"
+        exclude: .bumpversion.cfg
       - id: end-of-file-fixer
       - id: check-yaml
       - id: check-added-large-files
@@ -25,21 +25,10 @@ repos:
     rev: 23.3.0
     hooks:
       - id: black
-  - repo: https://github.com/PyCQA/flake8
-    rev: 5.0.2
+  - repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: 'v0.0.261'
     hooks:
-      - id: flake8
-        additional_dependencies:
-          - flake8-broken-line
-          - flake8-bugbear
-          - flake8-builtins
-          - flake8-coding
-          - flake8-commas
-          - flake8-comprehensions
-          - flake8-eradicate
-          - flake8-quotes
-          - flake8-tidy-imports
-          - pep8-naming
+      - id: ruff
   - repo: https://github.com/econchick/interrogate
     rev: 1.5.0
     hooks:
@@ -53,6 +42,11 @@ repos:
       - id: pyupgrade
         args:
           - --py3-plus
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: "1.13.0"
+    hooks:
+      - id: django-upgrade
+        args: [--target-version, "3.2"]
   - repo: local
     hooks:
       - id: towncrier
@@ -61,6 +55,7 @@ repos:
         language: system
         pass_filenames: false
         always_run: true
+
 ci:
   skip:
     - towncrier

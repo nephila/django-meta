@@ -522,3 +522,4 @@ $RECYCLE.BIN/
 
 *.sqlite
 data
+!/.ruff_cache/
