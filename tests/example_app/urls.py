@@ -12,8 +12,8 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("media/<str:path>", serve, {"document_root": settings.MEDIA_ROOT, "show_indexes": True}),
     path("jsi18n/", JavaScriptCatalog.as_view(), name="javascript-catalog"),
-    path("mixin/<slug:slug>/$", PostMixinDetailView.as_view(), name="post-detail-mixinx"),
-    path("mixin_image/<slug:slug>/$", PostMixinImageObjectDetailView.as_view(), name="post-detail-image-mixinx"),
-    path("<slug:slug>/$", PostDetailView.as_view(), name="post-detail"),
+    path("mixin/<slug:slug>/", PostMixinDetailView.as_view(), name="post-detail-mixinx"),
+    path("mixin_image/<slug:slug>/", PostMixinImageObjectDetailView.as_view(), name="post-detail-image-mixinx"),
+    path("<slug:slug>/", PostDetailView.as_view(), name="post-detail"),
     path("", PostListView.as_view(), name="post-list"),
 ]
