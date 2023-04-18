@@ -6,6 +6,16 @@ History
 
 .. towncrier release notes start
 
+2.2.0 (2023-04-18)
+==================
+
+Features
+--------
+
+- Move to ruff (#138)
+- Add support for Django 4.2 (#144)
+
+
 2.1.0 (2022-07-28)
 ==================
 
