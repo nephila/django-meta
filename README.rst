@@ -6,7 +6,7 @@ django-meta
 
 Django-Meta is a pluggable Django app that allows developers to easily add meta tags and OpenGraph,
  Twitter, and Schema.org properties to their HTML responses.
- 
+
 By adding these tags to their pages, developers can improve the way their pages are displayed in search engine results and on social media platforms.
 
 .. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
