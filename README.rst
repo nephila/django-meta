@@ -6,6 +6,7 @@ django-meta
 
 Django-Meta is a pluggable Django app that allows developers to easily add meta tags and OpenGraph,
  Twitter, and Schema.org properties to their HTML responses.
+ 
 By adding these tags to their pages, developers can improve the way their pages are displayed in search engine results and on social media platforms.
 
 .. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
@@ -42,16 +43,16 @@ Supported Meta Tags
 
 Django-Meta supports a wide range of meta tags, including:
 
-Description
-Keywords
-Robots
-Author
-Google Analytics
-Open Graph (OG) tags
-Twitter Cards
-Schema.org properties
-To add meta tags to your pages using Django-Meta, you can use the provided template tags or use the view-method and model-method interface to provide and handle meta information.
+- Description
+- Keywords
+- Robots
+- Author
+- Google Analytics
+- Open Graph (OG) tags
+- Twitter Cards
+- Schema.org properties
 
+To add meta tags to your pages using Django-Meta, you can use the provided template tags or use the view-method and model-method interface to provide and handle meta information.
 
 *************
 Basic concept
@@ -60,6 +61,17 @@ Basic concept
 ``django-meta`` provides a **view-method** and **model-method** interface to provide and handle meta informations
 
 For more details check `documentation`_.
+
+************************************
+Configuration for Non-HTML Responses
+************************************
+
+By default, Django-Meta is designed to work with HTML responses.
+
+However, it can also be configured to work with non-HTML responses, such as JSON or XML.
+
+To do this, you can define your own meta classes and register them with the django-meta app.
+
 
 **************************
 Authors and Contributors
@@ -76,12 +88,7 @@ Apps using django-meta / extensions
 ***********************************
 
 See `third_party_apps`_
-************************************
-Configuration for Non-HTML Responses
-************************************
-By default, Django-Meta is designed to work with HTML responses.
- However, it can also be configured to work with non-HTML responses, such as JSON or XML.
-To do this, you can define your own meta classes and register them with the django-meta app.
+
 **************
 Reporting bugs
 **************
