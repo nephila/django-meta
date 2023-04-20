@@ -4,8 +4,9 @@ django-meta
 
 |Gitter| |PyPiVersion| |PyVersion| |GAStatus| |TestCoverage| |CodeClimate| |License|
 
-This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_, Twitter, and Schema.org properties to their HTML responses.
+Django-Meta is a pluggable Django app that allows developers to easily add meta tags and OpenGraph,
+ Twitter, and Schema.org properties to their HTML responses.
+By adding these tags to their pages, developers can improve the way their pages are displayed in search engine results and on social media platforms.
 
 .. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
              longer supports Google+, basic Schema.org support has been introduced.
