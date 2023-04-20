@@ -35,6 +35,23 @@ Python
 
 Python 3.9 to 3.11
 
+*******************
+Supported Meta Tags
+*******************
+
+Django-Meta supports a wide range of meta tags, including:
+
+Description
+Keywords
+Robots
+Author
+Google Analytics
+Open Graph (OG) tags
+Twitter Cards
+Schema.org properties
+To add meta tags to your pages using Django-Meta, you can use the provided template tags or use the view-method and model-method interface to provide and handle meta information.
+
+
 *************
 Basic concept
 *************
