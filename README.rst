@@ -58,7 +58,12 @@ Apps using django-meta / extensions
 ***********************************
 
 See `third_party_apps`_
-
+************************************
+Configuration for Non-HTML Responses
+************************************
+By default, Django-Meta is designed to work with HTML responses.
+ However, it can also be configured to work with non-HTML responses, such as JSON or XML.
+To do this, you can define your own meta classes and register them with the django-meta app.
 **************
 Reporting bugs
 **************
