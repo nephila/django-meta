@@ -17,6 +17,7 @@ class Meta:
     request = None
 
     def __init__(self, **kwargs):
+        self.request = kwargs.get("request", None)
         self.use_sites = kwargs.get("use_sites", settings.USE_SITES)
         self.title = kwargs.get("title")
         self.og_title = kwargs.get("og_title")
@@ -48,7 +49,6 @@ class Meta:
         self.schemaorg_type = kwargs.get("schemaorg_type", settings.SCHEMAORG_TYPE)
         self.fb_pages = kwargs.get("fb_pages", settings.FB_PAGES)
         self.og_app_id = kwargs.get("og_app_id", settings.FB_APPID)
-        self.request = kwargs.get("request", None)
 
     def get_domain(self):
         if self.use_sites:
