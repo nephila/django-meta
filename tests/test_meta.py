@@ -86,7 +86,7 @@ class MetaObjectTestCase(TestCase):
             title="A page title",
             image="/static/image.png",
         )
-        self.assertEqual(m.image, "http://testserver/static/image.png'")
+        self.assertEqual(m.image, "http://testserver/static/image.png")
         settings.USE_SITES = False
         django_settings.SITE_ID = 1
 
