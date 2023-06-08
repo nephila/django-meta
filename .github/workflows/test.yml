@@ -1,0 +1,58 @@
+name: Tox tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.11.x, 3.10.x, 3.9]
+        django: [42, 32]
+        sekizai: [sekizai,nosekizai]
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Cache pip
+      uses: actions/cache@v1
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.toxenv }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.toxenv }}
+    - name: Cache tox
+      uses: actions/cache@v3
+      with:
+        path: .tox
+        key: ${{ runner.os }}-tox-${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}-${{ hashFiles('setup.cfg') }}
+        restore-keys: |
+          ${{ runner.os }}-tox-${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}-
+    - name: Install dependencies
+      run: |
+        sudo apt-get install gettext
+        python -m pip install --upgrade pip tox>4
+    - name: Test with tox
+      env:
+        TOX_ENV: ${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}
+        COMMAND: coverage run
+        COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        COVERALLS_SERVICE_NAME: github
+      run: |
+        tox -e$TOX_ENV
+        .tox/$TOX_ENV/bin/coverage xml
+        .tox/$TOX_ENV/bin/coveralls
+    - uses: codecov/codecov-action@v3
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        flags: unittests
+        files: ./coverage.xml
+        fail_ci_if_error: false
+    services:
+      redis:
+        image: redis
+        ports:
+          - 6379:6379

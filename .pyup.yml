@@ -1,0 +1,7 @@
+update: all
+pin: False
+branch:
+schedule: "every day"
+search: True
+branch_prefix: pyup/
+close_prs: True

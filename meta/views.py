@@ -1,6 +1,5 @@
-from __future__ import unicode_literals
-
 import json
+import warnings
 from datetime import date
 
 from django.core.exceptions import ImproperlyConfigured
@@ -14,7 +13,7 @@ from . import settings
 visited = {}
 
 
-class FullUrlMixin(object):
+class FullUrlMixin:
     """
     Provides a few convenience methods to retrieve the full URL (which includes protocol and domain) of an object.
 
@@ -23,15 +22,17 @@ class FullUrlMixin(object):
 
     def get_domain(self):
         """
-        Discover the current website domain
+                Discover the current website domain
 
-        :py:class:`django.contrib.sites.models.Site`
-        and :ref:`META_SITE_DOMAIN`
-        (in this order) are used
+        class Meta:
+                :py:class:`django.contrib.sites.models.Site`
+                and :ref:`META_SITE_DOMAIN`
+                (in this order) are used
 
-        :return: domain URL
+                :return: domain URL
         """
         from django.contrib.sites.models import Site
+
         try:
             if self.use_sites:
                 return Site.objects.get_current(self.request).domain
@@ -42,7 +43,7 @@ class FullUrlMixin(object):
                 except AttributeError:
                     return Site.objects.get_current().domain
         if not settings.SITE_DOMAIN:
-            raise ImproperlyConfigured('META_SITE_DOMAIN is not set')
+            raise ImproperlyConfigured("META_SITE_DOMAIN is not set")
         return settings.SITE_DOMAIN
 
     def get_protocol(self):
@@ -52,7 +53,7 @@ class FullUrlMixin(object):
         :return: domain URL
         """
         if not settings.SITE_PROTOCOL:
-            raise ImproperlyConfigured('META_SITE_PROTOCOL is not set')
+            raise ImproperlyConfigured("META_SITE_PROTOCOL is not set")
         return settings.SITE_PROTOCOL
 
     def _get_full_url(self, url):
@@ -68,24 +69,21 @@ class FullUrlMixin(object):
             pass
         if not url:
             return None
-        if url.startswith('http'):
+        if url.startswith("http"):
             return url
         meta_protocol = self.get_protocol()
         domain = self.get_domain()
-        separator = '://'
-        if url.startswith('//'):
-            separator = ':'
-            domain = ''
-        elif not url.startswith('/'):
-            url = '/%s' % url
-        if domain.startswith('http'):
-            meta_protocol = ''
-            separator = ''
-        return '{meta_protocol}{separator}{domain}{url}'.format(
-            meta_protocol=meta_protocol,
-            separator=separator,
-            domain=domain,
-            url=url
+        separator = "://"
+        if url.startswith("//"):
+            separator = ":"
+            domain = ""
+        elif not url.startswith("/"):
+            url = "/%s" % url
+        if domain.startswith("http"):
+            meta_protocol = ""
+            separator = ""
+        return "{meta_protocol}{separator}{domain}{url}".format(
+            meta_protocol=meta_protocol, separator=separator, domain=domain, url=url
         )
 
 
@@ -93,9 +91,11 @@ class Meta(FullUrlMixin):
     """
     Helper for building context meta object
     """
+
     _keywords = []
     _url = None
     _image = None
+    _image_object = None
     _schema = {}
     """
     Base schema.org types definition.
@@ -111,41 +111,38 @@ class Meta(FullUrlMixin):
     """
 
     def __init__(self, **kwargs):
-        self.use_sites = kwargs.get('use_sites', settings.USE_SITES)
-        self.title = kwargs.get('title')
-        self.og_title = kwargs.get('og_title')
-        self.twitter_title = kwargs.get('twitter_title')
-        self.gplus_title = kwargs.get('gplus_title')
-        self.description = kwargs.get('description')
-        self.extra_props = kwargs.get('extra_props')
-        self.extra_custom_props = kwargs.get('extra_custom_props')
-        self.custom_namespace = kwargs.get('custom_namespace', settings.OG_NAMESPACES)
-        self.keywords = kwargs.get('keywords')
-        self.url = kwargs.get('url')
-        self.image = kwargs.get('image')
-        self.image_width = kwargs.get('image_width')
-        self.image_height = kwargs.get('image_height')
-        self.object_type = kwargs.get('object_type', settings.SITE_TYPE)
-        self.site_name = kwargs.get('site_name', settings.SITE_NAME)
-        self.twitter_site = kwargs.get('twitter_site')
-        self.twitter_creator = kwargs.get('twitter_creator')
-        self.twitter_card = kwargs.get('twitter_card')
-        self.facebook_app_id = kwargs.get('facebook_app_id')
-        self.locale = kwargs.get('locale')
-        self.use_og = kwargs.get('use_og', settings.USE_OG_PROPERTIES)
-        self.use_twitter = kwargs.get('use_twitter', settings.USE_TWITTER_PROPERTIES)
-        self.use_facebook = kwargs.get('use_facebook', settings.USE_FACEBOOK_PROPERTIES)
-        self.use_googleplus = kwargs.get('use_googleplus', settings.USE_GOOGLEPLUS_PROPERTIES)
-        self.use_json_ld = kwargs.get('use_json_ld', settings.USE_JSON_LD_SCHEMA)
-        self.use_title_tag = kwargs.get('use_title_tag', settings.USE_TITLE_TAG)
-        self.gplus_type = kwargs.get('gplus_type', settings.GPLUS_TYPE)
-        self.gplus_publisher = kwargs.get('gplus_publisher', settings.GPLUS_PUBLISHER)
-        self.gplus_author = kwargs.get('gplus_author', settings.GPLUS_AUTHOR)
-        self.fb_pages = kwargs.get('fb_pages', settings.FB_PAGES)
-        self.og_app_id = kwargs.get('og_app_id', settings.FB_APPID)
-        self.request = kwargs.get('request', None)
-        self._schema = kwargs.get('schema', {})
-        self._obj = kwargs.get('obj', {})
+        self.use_sites = kwargs.get("use_sites", settings.USE_SITES)
+        self.title = kwargs.get("title")
+        self.og_title = kwargs.get("og_title")
+        self.twitter_title = kwargs.get("twitter_title")
+        self.schemaorg_title = kwargs.get("schemaorg_title")
+        self.description = kwargs.get("description")
+        self.extra_props = kwargs.get("extra_props")
+        self.extra_custom_props = kwargs.get("extra_custom_props")
+        self.custom_namespace = kwargs.get("custom_namespace", settings.OG_NAMESPACES)
+        self.keywords = kwargs.get("keywords")
+        self.url = kwargs.get("url")
+        self.image = kwargs.get("image")
+        self.image_object = kwargs.get("image_object")
+        self.image_width = kwargs.get("image_width")
+        self.image_height = kwargs.get("image_height")
+        self.object_type = kwargs.get("object_type", settings.SITE_TYPE)
+        self.site_name = kwargs.get("site_name", settings.SITE_NAME)
+        self.twitter_site = kwargs.get("twitter_site")
+        self.twitter_creator = kwargs.get("twitter_creator")
+        self.twitter_type = kwargs.get("twitter_type", kwargs.get("twitter_card", settings.TWITTER_TYPE))
+        self.twitter_card = self.twitter_type
+        self.facebook_app_id = kwargs.get("facebook_app_id")
+        self.locale = kwargs.get("locale")
+        self.use_og = kwargs.get("use_og", settings.USE_OG_PROPERTIES)
+        self.use_twitter = kwargs.get("use_twitter", settings.USE_TWITTER_PROPERTIES)
+        self.use_facebook = kwargs.get("use_facebook", settings.USE_FACEBOOK_PROPERTIES)
+        self.use_schemaorg = kwargs.get("use_schemaorg", settings.USE_SCHEMAORG_PROPERTIES)
+        self.use_title_tag = kwargs.get("use_title_tag", settings.USE_TITLE_TAG)
+        self.schemaorg_type = kwargs.get("schemaorg_type", settings.SCHEMAORG_TYPE)
+        self.fb_pages = kwargs.get("fb_pages", settings.FB_PAGES)
+        self.og_app_id = kwargs.get("og_app_id", settings.FB_APPID)
+        self.request = kwargs.get("request", None)
 
     @property
     def keywords(self):
@@ -156,10 +153,10 @@ class Meta(FullUrlMixin):
         if keywords is None:
             kws = settings.DEFAULT_KEYWORDS
         else:
-            if not hasattr(keywords, '__iter__'):
+            if not hasattr(keywords, "__iter__"):
                 # Not iterable
-                raise ValueError('Keywords must be an iterable')
-            kws = [k for k in keywords]
+                raise ValueError("Keywords must be an intrable")
+            kws = list(keywords)
             if settings.INCLUDE_KEYWORDS:
                 kws += settings.INCLUDE_KEYWORDS
         seen = set()
@@ -177,18 +174,42 @@ class Meta(FullUrlMixin):
     def url(self, url):
         self._url = self._get_full_url(url)
 
+    def _normalize_media_url(self, url):
+        if not url.startswith("http") and not url.startswith("/"):
+            url = "{}{}".format(settings.IMAGE_URL, url)
+        return self.get_full_url(url)
+
     @property
     def image(self):
-        return self._image
+        if self.image_object:
+            return self.image_object.get("url")
+        else:
+            return self._image
 
     @image.setter
     def image(self, image):
         if image is None and settings.DEFAULT_IMAGE:
             image = settings.DEFAULT_IMAGE
         if image:
-            if not image.startswith('http') and not image.startswith('/'):
-                image = '%s%s' % (settings.IMAGE_URL, image)
-            self._image = self.get_full_url(image)
+            self._image = self._normalize_media_url(image)
+
+    @property
+    def image_object(self):
+        return self._image_object
+
+    @image_object.setter
+    def image_object(self, image):
+        try:
+            if image:
+                image["url"] = self._normalize_media_url(image.get("url", None))
+                if self.get_protocol() == "https":
+                    secure_fallback_url = image.get("secure_url", image.get("url", None))
+                    image["secure_url"] = self._normalize_media_url(secure_fallback_url)
+                    if image["secure_url"].startswith("http://"):
+                        image["secure_url"] = image["secure_url"].replace("http://", "https://")
+                self._image_object = image
+        except KeyError:
+            self._image_object = None
 
     @property
     def schema(self):
@@ -232,8 +253,8 @@ class Meta(FullUrlMixin):
             visited[self._obj._local_key] = None
         for key, val in self._schema.items():
             schema[key] = process_item(val)
-        if '@type' not in schema:
-            schema['@type'] = self.gplus_type
+        if "@type" not in schema:
+            schema["@type"] = self.gplus_type
         # after generating the full schema, we can save it in the local cache for future uses
         if isinstance(self._obj, ModelMeta):
             visited[self._obj._local_key] = schema
@@ -250,7 +271,7 @@ class Meta(FullUrlMixin):
         :return: json
         """
         data = self.schema
-        data['@context'] = 'http://schema.org'
+        data["@context"] = "http://schema.org"
         return json.dumps(data)
 
 
@@ -258,13 +279,14 @@ class MetadataMixin(FullUrlMixin):
     """
     Django CBV mixin to prepare metadata for the view context
     """
+
     meta_class = Meta
-    context_meta_name = 'meta'
+    context_meta_name = "meta"
 
     title = None
     og_title = None
     twitter_title = None
-    gplus_title = None
+    schemaorg_title = None
     description = None
     extra_props = None
     extra_custom_props = None
@@ -272,26 +294,25 @@ class MetadataMixin(FullUrlMixin):
     keywords = []
     url = None
     image = None
+    image_object = None
     object_type = None
     site_name = None
     twitter_site = None
     twitter_creator = None
-    twitter_card = None
+    twitter_type = None
     facebook_app_id = None
     locale = None
     use_sites = False
     use_og = False
     use_title_tag = False
-    gplus_type = None
-    gplus_author = None
-    gplus_publisher = None
+    schemaorg_type = None
     schema = {}
 
     def __init__(self, **kwargs):
         self.use_sites = settings.USE_SITES
         self.use_og = settings.USE_OG_PROPERTIES
         self.use_title_tag = settings.USE_TITLE_TAG
-        super(MetadataMixin, self).__init__(**kwargs)
+        super().__init__(**kwargs)
 
     def get_meta_class(self):
         return self.meta_class
@@ -311,8 +332,8 @@ class MetadataMixin(FullUrlMixin):
     def get_meta_twitter_title(self, context=None):
         return self.twitter_title
 
-    def get_meta_gplus_title(self, context=None):
-        return self.gplus_title
+    def get_meta_schemaorg_title(self, context=None):
+        return self.schemaorg_title
 
     def get_meta_description(self, context=None):
         return self.description
@@ -324,7 +345,12 @@ class MetadataMixin(FullUrlMixin):
         return self.url
 
     def get_meta_image(self, context=None):
+        if self.image_object and self.image_object.get("url", None):
+            return self.image_object["url"]
         return self.image
+
+    def get_meta_image_object(self, context=None):
+        return self.image_object
 
     def get_meta_object_type(self, context=None):
         return self.object_type or settings.SITE_TYPE
@@ -347,20 +373,30 @@ class MetadataMixin(FullUrlMixin):
     def get_meta_twitter_creator(self, context=None):
         return self.twitter_creator
 
+    @property
+    def twitter_card(self):
+        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
+        return self.twitter_type
+
+    @twitter_card.setter
+    def twitter_card(self, value):
+        warnings.warn("twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2)
+        self.twitter_type = value
+
     def get_meta_twitter_card(self, context=None):
-        return self.twitter_card
+        warnings.warn(
+            "get_meta_twitter_card attribute will be removed in version 3.0", PendingDeprecationWarning, stacklevel=2
+        )
+        return self.twitter_type
+
+    def get_meta_twitter_type(self, context=None):
+        return self.twitter_type
 
     def get_meta_facebook_app_id(self, context=None):
         return self.facebook_app_id
 
-    def get_meta_gplus_type(self, context=None):
-        return self.gplus_type
-
-    def get_meta_gplus_author(self, context=None):
-        return self.gplus_author
-
-    def get_meta_gplus_publisher(self, context=None):
-        return self.gplus_publisher
+    def get_meta_schemaorg_type(self, context=None):
+        return self.schemaorg_type
 
     def get_meta_locale(self, context=None):
         return self.locale
@@ -398,28 +434,27 @@ class MetadataMixin(FullUrlMixin):
             title=self.get_meta_title(context=context),
             og_title=self.get_meta_og_title(context=context),
             twitter_title=self.get_meta_twitter_title(context=context),
-            gplus_title=self.get_meta_gplus_title(context=context),
+            schemaorg_title=self.get_meta_schemaorg_title(context=context),
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),
             custom_namespace=self.get_meta_custom_namespace(context=context),
             keywords=self.get_meta_keywords(context=context),
             image=self.get_meta_image(context=context),
+            image_object=self.get_meta_image_object(context=context),
             url=self.get_meta_url(context=context),
             object_type=self.get_meta_object_type(context=context),
             site_name=self.get_meta_site_name(context=context),
             twitter_site=self.get_meta_twitter_site(context=context),
             twitter_creator=self.get_meta_twitter_creator(context=context),
-            twitter_card=self.get_meta_twitter_card(context=context),
+            twitter_type=self.get_meta_twitter_type(context=context),
             locale=self.get_meta_locale(context=context),
             facebook_app_id=self.get_meta_facebook_app_id(context=context),
-            gplus_type=self.get_meta_gplus_type(context=context),
-            gplus_author=self.get_meta_gplus_author(context=context),
-            gplus_publisher=self.get_meta_gplus_publisher(context=context),
+            schemaorg_type=self.get_meta_schemaorg_type(context=context),
             schema=self.get_schema(context=context),
         )
 
     def get_context_data(self, **kwargs):
-        context = super(MetadataMixin, self).get_context_data(**kwargs)
+        context = super().get_context_data(**kwargs)
         context[self.context_meta_name] = self.get_meta(context=context)
         return context

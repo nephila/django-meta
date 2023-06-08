@@ -5,7 +5,7 @@ Credits
 Development Lead
 ----------------
 
-* Iacopo Spalletti <i.spalletti@nephila.it>
+* Iacopo Spalletti <i.spalletti@nephila.digital>
 
 Past core developers
 --------------------
@@ -17,13 +17,17 @@ Contributors
 ------------
 
 * Adam Chainz
+* Alexander Pitkin
+* asmyshlyaev177
 * Basil Shubin
 * Branko Vukelic
 * Cansin Yildiz
 * Dmitry Fillo
 * ellmetha
 * EmiM
+* hink
 * John Carter
+* Joseph Solomon
 * Ken Cochrane
 * Leif Denby
 * Leonardo Cavallucci
@@ -33,5 +37,8 @@ Contributors
 * Miroslav Bendík
 * Murat Aydos
 * mvergerdelbove
+* Peter Morrow
 * Sergei Maertens
+* Thijs Triemstra
+* Tim Gates
 * Zan Anderle

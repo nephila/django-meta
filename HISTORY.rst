@@ -9,6 +9,69 @@ History
 
 * Add explicit Schema.org support
 
+.. towncrier release notes start
+
+2.2.0 (2023-04-18)
+==================
+
+Features
+--------
+
+- Move to ruff (#138)
+- Add support for Django 4.2 (#144)
+
+
+2.1.0 (2022-07-28)
+==================
+
+Bugfixes
+--------
+
+- Changes imports from ugettext_lazy to gettext_lazy to fix deprecation warning (#130)
+- Get correct setting META_USE_SITES in build_absolute_uri model method (#133)
+- Update tox environments and github actions (#135)
+
+
+2.0.0 (2020-11-14)
+==================
+
+Features
+--------
+
+- Drop Python 2 (#118)
+- Drop Django<2.2 (#118)
+- Add Django 3.1 (#118)
+- Update tooling (#118)
+- Port to github-actions (#118)
+- Remove G+ support - Replace with Schema.org (#108)
+- Add support for image object (#114)
+
+
+Bugfixes
+--------
+
+- Switch request handling to thread locals (#115)
+
+
+1.7.0 (2020-07-07)
+==================
+
+* Fixed support for secure_url
+* Normalized twitter_card / twitter_type attributes
+
+1.6.1 (2020-01-16)
+==================
+
+* Added explicit dependency on six
+* Added python 3.8
+
+1.6.0 (2019-12-22)
+==================
+
+* Added Django 3.0 support
+* Moved to django-app-helper
+* Improved documentation regarding extra / custom props
+
 1.5.2 (2019-07-02)
 ==================
 

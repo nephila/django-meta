@@ -1,0 +1,38 @@
+name: Upload Python Package
+
+on:
+  release:
+    types: [published,prereleased]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.toxenv }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.toxenv }}
+    - name: Cache tox
+      uses: actions/cache@v3
+      with:
+        path: .tox
+        key: ${{ runner.os }}-tox-release-${{ hashFiles('setup.cfg') }}
+        restore-keys: |
+          ${{ runner.os }}-tox-release-
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools tox>4
+    - name: Build and publish
+      env:
+        TWINE_USERNAME: __token__
+        TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+      run: |
+        tox -erelease

@@ -1,15 +1,13 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
+import warnings
 from datetime import timedelta
 
+from app_helper.base_test import BaseTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
-from djangocms_helper.base_test import BaseTestCase
 
+from meta import settings
 from meta.models import ModelMeta
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
-from meta.views import settings
 
 from .example_app.models import Post
 
@@ -17,69 +15,73 @@ from .example_app.models import Post
 class TestMeta(BaseTestCase):
     post = None
 
-    def setUp(self):
-        super(TestMeta, self).setUp()
-        self.post = Post.objects.create(
-            title='a title',
-            og_title='og title',
-            twitter_title='twitter title',
-            gplus_title='gplus title',
-            slug='title',
-            abstract='post abstract',
-            meta_description='post meta',
-            meta_keywords='post keyword1,post keyword 2',
-            author=self.user,
+    @classmethod
+    def setUpTestData(cls):
+        super().setUpTestData()
+        cls.post, __ = Post.objects.get_or_create(
+            title="a title",
+            og_title="og title",
+            twitter_title="twitter title",
+            schemaorg_title="schemaorg title",
+            slug="title",
+            abstract="post abstract",
+            meta_description="post meta",
+            meta_keywords="post keyword1,post keyword 2",
+            author=cls.user,
             date_published_end=timezone.now() + timedelta(days=2),
-            text='post text',
-            image_url='/path/to/image'
+            text="post text",
+            image_url="/path/to/image",
         )
-        self.post.main_image = self.create_django_image_object()
-        self.post.save()
-        self.image_url = self.post.main_image.url
-        self.image_width = self.post.main_image.width
-        self.image_height = self.post.main_image.height
+        cls.post.main_image, __ = cls.create_django_image()
+        cls.post.save()
+        cls.image_url = cls.post.main_image.url
+        cls.image_width = cls.post.main_image.width
+        cls.image_height = cls.post.main_image.height
 
-    @override_settings(META_SITE_PROTOCOL='http')
+    @override_settings(META_SITE_PROTOCOL="http")
     def test_as_meta(self):
         expected = {
-            'locale': 'dummy_locale',
-            'image': 'http://example.com{}'.format(self.image_url),
-            'image_width': self.image_width,
-            'image_height': self.image_height,
-            'object_type': 'Article',
-            'tag': None,
-            'keywords': ['post keyword1', 'post keyword 2'],
-            'og_profile_id': '1111111111111',
-            'twitter_description': 'post meta',
-            'gplus_type': 'BlogPosting',
-            'title': 'a title',
-            'og_title': 'og title',
-            'twitter_title': 'twitter title',
-            'gplus_title': 'gplus title',
-            'gplus_description': 'post meta',
-            'expiration_time': self.post.date_published_end,
-            'og_description': 'post meta',
-            'description': 'post meta',
-            'twitter_type': 'Summary',
-            'modified_time': self.post.date_modified,
-            'og_author_url': 'https://facebook.com/foo.bar',
-            'og_app_id': 'appid',
-            'fb_pages': 'fbpages',
-            'gplus_author': '+FooBar',
-            'gplus_publisher': '+FooPub',
-            'published_time': self.post.date_published,
-            'url': 'http://example.com/title/',
-            'og_publisher': 'https://facebook.com/foo.blag',
-            'og_type': 'Article',
-            'twitter_author': '@FooBar',
-            'twitter_site': '@FooBlag',
-            'false_prop': False,
-            'other_prop': 'get_other_prop',
-            'custom_namespace': ['foo', 'bar'],
+            "locale": "dummy_locale",
+            "image": "http://example.com{}".format(self.image_url),
+            "image_width": self.image_width,
+            "image_height": self.image_height,
+            "object_type": "Article",
+            "tag": None,
+            "keywords": ["post keyword1", "post keyword 2"],
+            "og_profile_id": "1111111111111",
+            "twitter_description": "post meta",
+            "schemaorg_type": "Article",
+            "title": "a title",
+            "og_title": "og title",
+            "twitter_title": "twitter title",
+            "schemaorg_title": "schemaorg title",
+            "schemaorg_description": "post meta",
+            "expiration_time": self.post.date_published_end,
+            "og_description": "post meta",
+            "description": "post meta",
+            "twitter_type": "Summary",
+            "modified_time": self.post.date_modified,
+            "og_author_url": "https://facebook.com/foo.bar",
+            "og_app_id": "appid",
+            "fb_pages": "fbpages",
+            "published_time": self.post.date_published,
+            "url": "http://example.com/title/",
+            "og_publisher": "https://facebook.com/foo.blag",
+            "og_type": "Article",
+            "twitter_author": "@FooBar",
+            "twitter_site": "@FooBlag",
+            "false_prop": False,
+            "other_prop": "get_other_prop",
+            "custom_namespace": ["foo", "bar"],
+            "extra_props": {"key": "val"},
+            "extra_custom_props": [
+                ("custom1", "custom_name1", "custom_val1"),
+                ("custom2", "custom_name2", "custom_val2"),
+            ],
         }
-        settings.OG_NAMESPACES = ['foo', 'bar']
-        settings.FB_PAGES = 'fbpages'
-        settings.FB_APPID = 'appid'
+        settings.OG_NAMESPACES = ["foo", "bar"]
+        settings.FB_PAGES = "fbpages"
+        settings.FB_APPID = "appid"
         meta = self.post.as_meta()
         self.assertTrue(meta)
         for key in expected.keys():
@@ -89,52 +91,62 @@ class TestMeta(BaseTestCase):
             else:
                 self.assertFalse(hasattr(meta, key))
 
-        self.assertEqual(self.post.build_absolute_uri('hi'), 'http://example.com/hi')
-        self.assertEqual(self.post.build_absolute_uri('http://example.com/hi'), 'http://example.com/hi')
+        self.assertEqual(self.post.build_absolute_uri("hi"), "http://example.com/hi")
+        self.assertEqual(self.post.build_absolute_uri("http://example.com/hi"), "http://example.com/hi")
         settings.OG_NAMESPACES = None
-        settings.FB_PAGES = ''
-        settings.FB_APPID = ''
+        settings.FB_PAGES = ""
+        settings.FB_APPID = ""
 
-    @override_settings(META_SITE_PROTOCOL='http')
+    @override_settings(META_SITE_PROTOCOL="http")
     def test_as_meta_with_request(self):
         # Server is different as it's taken directly from the request object
-        settings.FB_PAGES = 'fbpages'
-        settings.FB_APPID = 'appid'
-        expected = {
-            'locale': 'dummy_locale',
-            'image': 'https://testserver{}'.format(self.image_url),
-            'image_width': self.image_width,
-            'image_height': self.image_height,
-            'object_type': 'Article',
-            'tag': False,
-            'keywords': ['post keyword1', 'post keyword 2'],
-            'og_profile_id': '1111111111111',
-            'twitter_description': 'post meta',
-            'gplus_type': 'BlogPosting',
-            'title': 'a title',
-            'og_title': 'og title',
-            'twitter_title': 'twitter title',
-            'gplus_title': 'gplus title',
-            'gplus_description': 'post meta',
-            'expiration_time': self.post.date_published_end,
-            'og_description': 'post meta',
-            'description': 'post meta',
-            'twitter_type': 'Summary',
-            'modified_time': self.post.date_modified,
-            'og_author_url': 'https://facebook.com/foo.bar',
-            'og_app_id': 'appid',
-            'fb_pages': 'fbpages',
-            'gplus_author': '+FooBar',
-            'gplus_publisher': '+FooPub',
-            'published_time': self.post.date_published,
-            'url': 'https://testserver/title/',
-            'og_publisher': 'https://facebook.com/foo.blag',
-            'og_type': 'Article',
-            'twitter_author': '@FooBar',
-            'twitter_site': '@FooBlag',
-            'custom_namespace': None,
+        settings.FB_PAGES = "fbpages"
+        settings.FB_APPID = "appid"
+        media = {
+            "url": "https://testserver{}".format(self.image_url),
+            "width": self.image_width,
+            "height": self.image_height,
+            "alt": "a title",
         }
-        request = self.get_request(None, 'en', path='/title/', secure=True)
+        expected = {
+            "locale": "dummy_locale",
+            "image_object": media,
+            "image": "https://testserver{}".format(self.image_url),
+            "image_width": self.image_width,
+            "image_height": self.image_height,
+            "object_type": "Article",
+            "tag": False,
+            "keywords": ["post keyword1", "post keyword 2"],
+            "og_profile_id": "1111111111111",
+            "twitter_description": "post meta",
+            "schemaorg_type": "Article",
+            "title": "a title",
+            "og_title": "og title",
+            "twitter_title": "twitter title",
+            "schemaorg_title": "schemaorg title",
+            "schemaorg_description": "post meta",
+            "expiration_time": self.post.date_published_end,
+            "og_description": "post meta",
+            "description": "post meta",
+            "twitter_type": "Summary",
+            "modified_time": self.post.date_modified,
+            "og_author_url": "https://facebook.com/foo.bar",
+            "og_app_id": "appid",
+            "fb_pages": "fbpages",
+            "published_time": self.post.date_published,
+            "url": "https://testserver/title/",
+            "og_publisher": "https://facebook.com/foo.blag",
+            "og_type": "Article",
+            "twitter_author": "@FooBar",
+            "twitter_site": "@FooBlag",
+            "custom_namespace": None,
+            "extra_props": {"key": "val"},
+            "extra_custom_props": [
+                ("custom1", "custom_name1", "custom_val1"),
+                ("custom2", "custom_name2", "custom_val2"),
+            ],
+        }
+        request = self.get_request(None, "en", path="/title/", secure=True)
         meta = self.post.as_meta(request)
         self.assertTrue(meta)
         for key in ModelMeta._metadata_default.keys():
@@ -143,96 +155,161 @@ class TestMeta(BaseTestCase):
                 self.assertEqual(value, getattr(meta, key))
             else:
                 self.assertFalse(hasattr(meta, key))
-        settings.FB_PAGES = ''
-        settings.FB_APPID = ''
+        settings.FB_PAGES = ""
+        settings.FB_APPID = ""
+
+    @override_settings(META_SITE_PROTOCOL="http")
+    def test_as_meta_get_request_deprecation(self):
+        request = self.get_request(None, "en", path="/title/", secure=True)
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_meta(request)
+            assert len(w) == 0
+
+        with warnings.catch_warnings(record=True) as w:
+            warnings.simplefilter("always")
+            self.post.get_request()
+            assert len(w) == 1
+            assert issubclass(w[-1].category, PendingDeprecationWarning)
 
     def test_templatetag(self):
-        meta = self.post.as_meta()
-        response = self.client.get('/title/')
-        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/BlogPosting" >')
-        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/BlogPosting"')
+        self.post.as_meta()
+        response = self.client.get("/title/")
+        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
+        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
-        self.assertContains(response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url))
-        self.assertContains(response, '<link rel="author" href="https://plus.google.com/{0}"/>'.format(meta.gplus_author))
-        self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
-        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
+        self.assertContains(
+            response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url)
+        )
+        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(
+            response, '<meta property="og:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(response, '<meta name="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="keywords" content="{}">'.format(", ".join(self.post.meta_keywords.split(",")))
+        )
+        self.assertContains(response, '<meta name="key" content="val">')
+        self.assertContains(response, '<meta custom1="custom_name1" content="custom_val1">')
+        self.assertContains(response, '<meta custom2="custom_name2" content="custom_val2">')
+        self.assertContains(response, '<meta property="og:{}:alt" content="a title">'.format("image"))
+        self.assertContains(response, '<meta property="og:{}:height" content="{}">'.format("image", self.image_height))
+        self.assertContains(response, '<meta property="og:{}:width" content="{}">'.format("image", self.image_width))
+        self.assertContains(
+            response,
+            '<meta property="og:{}:url" content="{}'.format("image", "http://example.com{}".format(self.image_url)),
+        )
 
     def test_templatetag_metadatamixin(self):
         """
         Test for issue #11
         """
-        response = self.client.get('/mixin/title/')
-        self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta property="og:description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+        response = self.client.get("/mixin/title/")
+        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(
+            response, '<meta property="og:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(response, '<meta name="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="keywords" content="{}">'.format(", ".join(self.post.meta_keywords.split(",")))
+        )
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
-        self.assertContains(response, '<link rel="publisher" href="https://plus.google.com/{0}"/>'.format('+FooPub'))
+
+    def test_templatetag_metadatamixin_image_object(self):
+        """
+        Test for issue #11
+        """
+        response = self.client.get("/mixin_image/title/")
+        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(
+            response, '<meta property="og:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(response, '<meta name="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="keywords" content="{}">'.format(", ".join(self.post.meta_keywords.split(",")))
+        )
+        self.assertContains(
+            response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url)
+        )
+        self.assertContains(response, '<meta property="og:{}:alt" content="a title">'.format("image"))
+        self.assertContains(response, '<meta property="og:{}:height" content="{}">'.format("image", self.image_height))
+        self.assertContains(response, '<meta property="og:{}:width" content="{}">'.format("image", self.image_width))
+        self.assertContains(
+            response,
+            '<meta property="og:{}:url" content="{}'.format("image", "http://example.com{}".format(self.image_url)),
+        )
 
     def test_templatetag_secure_image(self):
         """
         Test for issue #79
         """
-        settings.SITE_PROTOCOL = 'http'
-        response = self.client.get('/mixin/title/')
+        settings.SITE_PROTOCOL = "http"
+        response = self.client.get("/mixin/title/")
         self.assertContains(response, '<meta property="og:image" content="http://example.com/path/to/image">')
-        settings.SITE_PROTOCOL = 'https'
-        response = self.client.get('/mixin/title/')
-        self.assertContains(response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">')
-        settings.SITE_PROTOCOL = 'http'
+        settings.SITE_PROTOCOL = "https"
+        response = self.client.get("/mixin/title/")
+        self.assertContains(response, '<meta property="og:image" content="https://example.com/path/to/image">')
+        self.assertContains(
+            response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">'
+        )
+        settings.SITE_PROTOCOL = "http"
 
     def test_templatetag_no_og(self):
         from meta import settings
+
         settings.USE_OG_PROPERTIES = False
-        response = self.client.get('/title/')
-        self.assertFalse(response.rendered_content.find('og:description') > -1)
-        self.assertContains(response, '<meta itemprop="description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="twitter:description" content="{0}">'.format(self.post.meta_description))
-        self.assertContains(response, '<meta name="keywords" content="{0}">'.format(', '.join(self.post.meta_keywords.split(","))))
+        response = self.client.get("/title/")
+        self.assertFalse(response.rendered_content.find("og:description") > -1)
+        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
+        )
+        self.assertContains(
+            response, '<meta name="keywords" content="{}">'.format(", ".join(self.post.meta_keywords.split(",")))
+        )
         settings.USE_OG_PROPERTIES = True
 
     def test_templatetag_custom_namespaces(self):
         from meta import settings
-        settings.OG_NAMESPACES = ['foo', 'bar']
-        response = self.client.get('/title/')
+
+        settings.OG_NAMESPACES = ["foo", "bar"]
+        response = self.client.get("/title/")
         for ns in settings.OG_NAMESPACES:
-            self.assertContains(response, '{0}: http://ogp.me/ns/{0}#'.format(ns))
+            self.assertContains(response, "{0}: http://ogp.me/ns/{0}#".format(ns))
         settings.OG_NAMESPACES = None
 
     def test_generic_prop_basically_works(self):
         """
         Test vendorized generic_prop templatetag
         """
-        self.assertEqual(
-            generic_prop('og', 'type', 'website'),
-            '<meta property="og:type" content="website">'
-        )
+        self.assertEqual(generic_prop("og", "type", "website"), '<meta property="og:type" content="website">')
 
     def test_google_plus_scope_works(self):
         """
         Test vendorized googleplus_scope templatetag
         """
-        self.assertEqual(
-            googleplus_html_scope('bar'),
-            ' itemscope itemtype="http://schema.org/bar" '
-        )
+        self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
 
+    @override_settings(META_SITE_PROTOCOL="https")
     def test_image_protocol(self):
-        proto = settings.SITE_PROTOCOL
-        settings.SITE_PROTOCOL = 'https'
         meta = self.post.as_meta()
-        self.assertEqual('https://example.com{}'.format(self.image_url), getattr(meta, 'image'))
-        settings.SITE_PROTOCOL = proto
+        self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
-        with override_settings(META_USE_SITES=False):
-            with self.assertRaises(RuntimeError):
-                self.post.as_meta()
-        with override_settings(META_USE_SITES=True):
-            meta = self.post.as_meta()
-            self.assertEqual(meta.url, 'http://example.com/title/')
+        original_sites = settings.USE_SITES
+        settings.USE_SITES = False
+        with self.assertRaises(RuntimeError):
+            self.post.as_meta()
+        settings.USE_SITES = True
+        meta = self.post.as_meta()
+        self.assertEqual(meta.url, "http://example.com/title/")
+        settings.USE_SITES = original_sites

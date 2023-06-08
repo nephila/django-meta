@@ -1,25 +1,25 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, print_function, unicode_literals
-
 import contextlib
+import warnings
 from copy import copy
 
-from django.conf import settings as dj_settings
 from django.db.models import Manager
 from django.utils.functional import cached_property
 
 from . import settings
+from .utils import get_request, set_request
 from .views import FullUrlMixin
 
-NEED_REQUEST_OBJECT_ERR_MSG = """
-Meta models needs request objects when initializing if sites framework is not used.
-""".strip()
+NEED_REQUEST_OBJECT_ERR_MSG = (
+    "Meta models needs request objects when initializing if sites framework "
+    "is not used. See META_USE_SITES setting."
+).strip()
 
 
 class ModelMeta(FullUrlMixin):
     """
     Meta information mixin.
     """
+
     _metadata = {}
     """
     Metadata configuration dictionary
@@ -38,38 +38,37 @@ class ModelMeta(FullUrlMixin):
     Callable must be available in the module (i.e.: imported if not defined in the module itself)
     """
     _metadata_default = {
-        'title': False,
-        'og_title': False,
-        'twitter_title': False,
-        'gplus_title': False,
-        'description': False,
-        'og_description': False,
-        'twitter_description': False,
-        'gplus_description': False,
-        'keywords': False,
-        'image': settings.DEFAULT_IMAGE,
-        'image_width': False,
-        'image_height': False,
-        'object_type': settings.DEFAULT_TYPE,
-        'og_type': settings.FB_TYPE,
-        'og_app_id': settings.FB_APPID,
-        'og_profile_id': settings.FB_PROFILE_ID,
-        'og_publisher': settings.FB_PUBLISHER,
-        'og_author_url': settings.FB_AUTHOR_URL,
-        'fb_pages': settings.FB_PAGES,
-        'twitter_type': settings.TWITTER_TYPE,
-        'twitter_site': settings.TWITTER_SITE,
-        'twitter_author': settings.TWITTER_AUTHOR,
-        'gplus_type': settings.GPLUS_TYPE,
-        'gplus_author': settings.GPLUS_AUTHOR,
-        'gplus_publisher': settings.GPLUS_PUBLISHER,
-        'published_time': False,
-        'modified_time': False,
-        'expiration_time': False,
-        'tag': False,
-        'url': False,
-        'locale': False,
-        'custom_namespace': settings.OG_NAMESPACES,
+        "title": False,
+        "og_title": False,
+        "twitter_title": False,
+        "schemaorg_title": False,
+        "description": False,
+        "og_description": False,
+        "twitter_description": False,
+        "schemaorg_description": False,
+        "keywords": False,
+        "image": settings.DEFAULT_IMAGE,
+        "image_object": None,
+        "image_width": False,
+        "image_height": False,
+        "object_type": settings.DEFAULT_TYPE,
+        "og_type": settings.FB_TYPE,
+        "og_app_id": settings.FB_APPID,
+        "og_profile_id": settings.FB_PROFILE_ID,
+        "og_publisher": settings.FB_PUBLISHER,
+        "og_author_url": settings.FB_AUTHOR_URL,
+        "fb_pages": settings.FB_PAGES,
+        "twitter_type": settings.TWITTER_TYPE,
+        "twitter_site": settings.TWITTER_SITE,
+        "twitter_author": settings.TWITTER_AUTHOR,
+        "schemaorg_type": settings.SCHEMAORG_TYPE,
+        "published_time": False,
+        "modified_time": False,
+        "expiration_time": False,
+        "tag": False,
+        "url": False,
+        "locale": False,
+        "custom_namespace": settings.OG_NAMESPACES,
     }
     _schema = {}
     """
@@ -106,7 +105,7 @@ class ModelMeta(FullUrlMixin):
         """
         Build the data according to the metadata configuration
         """
-        with self._set_request(request):
+        with set_request(request):
             for field, value in metadata.items():
                 if value:
                     data = self._get_meta_value(field, value)
@@ -135,12 +134,12 @@ class ModelMeta(FullUrlMixin):
         if value:
             try:
                 return process_value(getattr(self, value))
-            except AttributeError:
+            except (AttributeError, TypeError):
                 return value
 
     def as_meta(self, request=None):
         """
-        Populates the :py:class:`~meta.views.Meta` object  with values from :py:attr:`_metadata`
+        Populate :py:class:`~meta.views.Meta` object  with values from :py:attr:`_metadata`
 
         :param request: optional request object. Used to build the correct URI for linked objects
         :return: Meta object
@@ -151,12 +150,12 @@ class ModelMeta(FullUrlMixin):
         meta = Meta(request=request, obj=self)
         for field, data in self._retrieve_data(request, metadata):
             setattr(meta, field, data)
-        for field in ('og_title', 'twitter_title', 'gplus_title'):
-            generaltitle = getattr(meta, 'title', False)
+        for field in ("og_title", "twitter_title", "schemaorg_title"):
+            generaltitle = getattr(meta, "title", False)
             if not getattr(meta, field, False) and generaltitle:
                 setattr(meta, field, generaltitle)
-        for field in ('og_description', 'twitter_description', 'gplus_description'):
-            generaldesc = getattr(meta, 'description', False)
+        for field in ("og_description", "twitter_description", "schemaorg_description"):
+            generaldesc = getattr(meta, "description", False)
             if not getattr(meta, field, False) and generaldesc:
                 setattr(meta, field, generaldesc)
         if self._schema:
@@ -183,26 +182,33 @@ class ModelMeta(FullUrlMixin):
         """
         self._request = request
         yield
-        delattr(self, '_request')
+        delattr(self, "_request")
 
     def get_request(self):
         """
         Retrieve request from current instance
         """
-        return getattr(self, '_request', None)
+        warnings.warn(
+            "use meta.utils.get_request function, ModelMeta.get_request will be removed in version 3.0",
+            PendingDeprecationWarning,
+            stacklevel=2,
+        )
+        return get_request()
 
     def get_author(self):
         """
         Retrieve the author object. This is meant to be overridden in the model
         to return the actual author instance (e.g.: the user object).
         """
-        class Author(object):
+
+        class Author:
             fb_url = None
             twitter_profile = None
-            gplus_profile = None
+            schemaorg_profile = None
 
             def get_full_name(self):  # pragma: no cover
                 return None
+
         return Author()
 
     def get_author_url(self):
@@ -212,7 +218,7 @@ class ModelMeta(FullUrlMixin):
         try:
             return self.get_author().fb_url
         except AttributeError:  # pragma: no cover
-            return ''
+            return ""
 
     def get_author_name(self):
         """
@@ -221,7 +227,7 @@ class ModelMeta(FullUrlMixin):
         try:
             return self.get_author().get_full_name()
         except AttributeError:  # pragma: no cover
-            return ''
+            return ""
 
     def get_author_twitter(self):
         """
@@ -230,16 +236,16 @@ class ModelMeta(FullUrlMixin):
         try:
             return self.get_author().twitter_profile
         except AttributeError:  # pragma: no cover
-            return ''
+            return ""
 
-    def get_author_gplus(self):
+    def get_author_schemaorg(self):
         """
-        Sample method to return the author google plus URL
+        Sample method to return the author Schema.org URL
         """
         try:
-            return self.get_author().gplus_profile
+            return self.get_author().schemaorg_profile
         except AttributeError:  # pragma: no cover
-            return ''
+            return ""
 
     def get_meta_protocol(self):
         """
@@ -251,23 +257,18 @@ class ModelMeta(FullUrlMixin):
         """
         Return the full url for the provided url argument
         """
-        request = self.get_request()
+        request = get_request()
         if request:
             return request.build_absolute_uri(url)
 
-        if not dj_settings.META_USE_SITES:
+        if not settings.USE_SITES:
             raise RuntimeError(NEED_REQUEST_OBJECT_ERR_MSG)
 
         return self._get_full_url(url)
 
     def mainEntityOfPage(self):
-        return {
-            '@type': 'WebPage',
-            '@id': self.build_absolute_uri(self.get_absolute_url())
-        }
+        return {"@type": "WebPage", "@id": self.build_absolute_uri(self.get_absolute_url())}
 
     @property
     def _local_key(self):
-        return '%s:%s:%s' % (
-            self._meta.app_label, self._meta.model_name, self.pk
-        )
+        return "{}:{}:{}".format(self._meta.app_label, self._meta.model_name, self.pk)

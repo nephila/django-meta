@@ -1,0 +1,42 @@
+name: Code quality
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    strategy:
+      matrix:
+        python-version: ["3.11.x"]
+        toxenv: [ruff, isort, black, pypi-description, docs, towncrier]
+    steps:
+    - uses: actions/checkout@v3
+      with:
+        repository: ${{ github.event.pull_request.head.repo.full_name }}
+        ref: ${{ github.event.pull_request.head.ref }}
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: Cache pip
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ matrix.toxenv }}
+        restore-keys: |
+          ${{ runner.os }}-pip-${{ matrix.toxenv }}
+    - name: Cache tox
+      uses: actions/cache@v3
+      with:
+        path: .tox
+        key: ${{ runner.os }}-lint-${{ matrix.toxenv }}-${{ hashFiles('setup.cfg') }}
+        restore-keys: |
+          ${{ runner.os }}-lint-${{ matrix.toxenv }}-
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip setuptools tox>4
+    - name: Test with tox
+      if: ${{ matrix.toxenv != 'towncrier' || (!contains(github.event.head_commit.message, '[pre-commit.ci]') && !contains(github.event.pull_request.body, 'pre-commit.ci start')) }}
+      run: |
+        tox -e${{ matrix.toxenv }}

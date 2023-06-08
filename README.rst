@@ -2,51 +2,80 @@
 django-meta
 ===========
 
-|Gitter| |PyPiVersion| |PyVersion| |Status| |TestCoverage| |CodeClimate| |License|
+|Gitter| |PyPiVersion| |PyVersion| |GAStatus| |TestCoverage| |CodeClimate| |License|
 
-This pluggable app allows Django developers to quickly add meta tags and
-OpenGraph_, Twitter, and Google Plus properties to their HTML responses.
+Django-Meta is a pluggable Django app that allows developers to easily add meta tags and OpenGraph,
+ Twitter, and Schema.org properties to their HTML responses.
 
+By adding these tags to their pages, developers can improve the way their pages are displayed in search engine results and on social media platforms.
 
-.. note:: django-meta is now maintained by Nephila on `github`_. Old bitbucket
-          repository won't be updated anymore.
-
-.. warning:: as of version 1.0 django-meta has included django-meta-mixin 0.2.1;
-             django-meta 1.0 is a drop in replacement for django-meta-mixin:
-             as a result django-meta-mixin is no longer actively developed
-
-.. warning:: As of version 1.4, the support for Python 2.6 and Django<1.8 has been dropped
+.. warning:: **INCOMPATIBLE CHANGE**: as of version 2.0 django-meta has no
+             longer supports Google+, basic Schema.org support has been introduced.
 
 .. contents::
 
+************
 Installation
-============
+************
 
 See https://django-meta.readthedocs.io/en/latest/installation.html
 
+******************
 Supported versions
-==================
+******************
 
+******
 Django
-------
+******
 
-1.11 to 2.2 (newer versions might work but are not tested yet)
+3.2 to 4.2 (newer versions might work but are not tested yet)
 
 
+******
 Python
-------
+******
 
-Python 2.7, 3.5, 3.6, 3.7
+Python 3.9 to 3.11
 
+*******************
+Supported Meta Tags
+*******************
+
+Django-Meta supports a wide range of meta tags, including:
+
+- Description
+- Keywords
+- Robots
+- Author
+- Google Analytics
+- Open Graph (OG) tags
+- Twitter Cards
+- Schema.org properties
+
+To add meta tags to your pages using Django-Meta, you can use the provided template tags or use the view-method and model-method interface to provide and handle meta information.
+
+*************
 Basic concept
-=============
+*************
 
 ``django-meta`` provides a **view-method** and **model-method** interface to provide and handle meta informations
 
 For more details check `documentation`_.
 
+************************************
+Configuration for Non-HTML Responses
+************************************
+
+By default, Django-Meta is designed to work with HTML responses.
+
+However, it can also be configured to work with non-HTML responses, such as JSON or XML.
+
+To do this, you can define your own meta classes and register them with the django-meta app.
+
+
+**************************
 Authors and Contributors
-========================
+**************************
 
 ``django-meta`` has been started by `Branko Vukelic`_.
 
@@ -54,13 +83,15 @@ Current maintainer: `Iacopo Spalletti`_
 
 See ``AUTHORS`` file for the complete list of contributors
 
+***********************************
 Apps using django-meta / extensions
-===================================
+***********************************
 
 See `third_party_apps`_
 
+**************
 Reporting bugs
-==============
+**************
 
 Please report all bugs to our Github `issue tracker`_.
 
@@ -87,9 +118,9 @@ Please report all bugs to our Github `issue tracker`_.
     :target: https://pypi.python.org/pypi/django-meta
     :alt: Python versions
 
-.. |Status| image:: https://img.shields.io/travis/nephila/django-meta.svg?style=flat-square
-    :target: https://travis-ci.org/nephila/django-meta
-    :alt: Latest Travis CI build status
+.. |GAStatus| image:: https://github.com/nephila/django-meta/workflows/Tox%20tests/badge.svg
+    :target: https://github.com/nephila/django-meta
+    :alt: Latest CI build status
 
 .. |TestCoverage| image:: https://img.shields.io/coveralls/nephila/django-meta/master.svg?style=flat-square
     :target: https://coveralls.io/r/nephila/django-meta?branch=master
