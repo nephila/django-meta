@@ -1,5 +1,6 @@
 from copy import copy
 
+from django.conf import settings as django_settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, TestCase, override_settings
@@ -72,6 +73,22 @@ class MetaObjectTestCase(TestCase):
         m = Meta(keywords=["foo", "bar"])
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(m.keywords[1], "bar")
+
+    def test_set_image_request(self):
+        settings.USE_SITES = True
+        settings.SITE_PROTOCOL = "http"
+        django_settings.SITE_ID = None
+        factory = RequestFactory()
+        request = factory.get("/")
+        Site.objects.create(domain=request.get_host())
+        m = Meta(
+            request=request,
+            title="A page title",
+            image="/static/image.png",
+        )
+        self.assertEqual(m.image, "http://testserver/static/image.png")
+        settings.USE_SITES = False
+        django_settings.SITE_ID = 1
 
     def test_set_keywords_with_include(self):
         settings.INCLUDE_KEYWORDS = ["baz"]
