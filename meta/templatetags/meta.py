@@ -178,7 +178,7 @@ def schemaorg_html_scope(value):
 
     :param value: declared scope
     """
-    return ' itemscope itemtype="http://schema.org/%s" ' % escape(value)
+    return ' itemscope itemtype="https://schema.org/%s" ' % escape(value)
 
 
 @register.simple_tag
@@ -255,7 +255,7 @@ def meta_namespaces_schemaorg(context):
     # do nothing if meta is not in context or if G+ is not enabled
     if not context.get("meta") or not context["meta"].use_schemaorg:
         return ""
-    return mark_safe(' itemscope itemtype="http://schema.org/{}" '.format(context["meta"].schemaorg_type))
+    return mark_safe(' itemscope itemtype="https://schema.org/{}" '.format(context["meta"].schemaorg_type))
 
 
 @register.simple_tag(takes_context=True)
