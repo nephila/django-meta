@@ -175,8 +175,8 @@ class TestMeta(BaseTestCase):
     def test_templatetag(self):
         self.post.as_meta()
         response = self.client.get("/title/")
-        self.assertContains(response, '<html  itemscope itemtype="http://schema.org/Article" >')
-        self.assertNotContains(response, '    itemscope itemtype="http://schema.org/Article"')
+        self.assertContains(response, '<html  itemscope itemtype="https://schema.org/Article" >')
+        self.assertNotContains(response, '    itemscope itemtype="https://schema.org/Article"')
         self.assertContains(response, 'article:published_time"')
         self.assertContains(
             response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url)
@@ -297,7 +297,7 @@ class TestMeta(BaseTestCase):
         """
         Test vendorized googleplus_scope templatetag
         """
-        self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
+        self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
     @override_settings(META_SITE_PROTOCOL="https")
     def test_image_protocol(self):

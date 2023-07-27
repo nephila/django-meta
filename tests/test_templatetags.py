@@ -137,14 +137,14 @@ class GooglePlusPropTestcase(TestCase):
     def test_google_plus_html_scope_works(self):
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
+            self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
             assert len(w) == 1
             assert issubclass(w[-1].category, PendingDeprecationWarning)
 
     def test_google_plus_scope_works(self):
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
-            self.assertEqual(googleplus_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
+            self.assertEqual(googleplus_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
             assert len(w) == 1
             assert issubclass(w[-1].category, PendingDeprecationWarning)
 
@@ -174,7 +174,7 @@ class GooglePlusPropTestcase(TestCase):
         with warnings.catch_warnings(record=True) as w:
             warnings.simplefilter("always")
             self.assertEqual(
-                meta_namespaces_gplus(context_use_schemaorg), ' itemscope itemtype="http://schema.org/Article" '
+                meta_namespaces_gplus(context_use_schemaorg), ' itemscope itemtype="https://schema.org/Article" '
             )
             assert len(w) == 1
             assert issubclass(w[-1].category, PendingDeprecationWarning)
@@ -185,10 +185,10 @@ class SchemaOrgPropTestcase(TestCase):
         self.assertEqual(schemaorg_prop("foo", "bar"), '<meta itemprop="foo" content="bar">')
 
     def test_schemaorg_html_scope_works(self):
-        self.assertEqual(schemaorg_html_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
+        self.assertEqual(schemaorg_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
     def test_schemaorg_scope_works(self):
-        self.assertEqual(schemaorg_scope("bar"), ' itemscope itemtype="http://schema.org/bar" ')
+        self.assertEqual(schemaorg_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
     def test_schemaorg_escapes_xss(self):
         self.assertEqual(schemaorg_prop('fo"o', "b<ar"), '<meta itemprop="fo&quot;o" content="b&lt;ar">')
@@ -202,7 +202,7 @@ class SchemaOrgPropTestcase(TestCase):
         self.assertEqual(meta_namespaces_schemaorg(context_no_use_schemaorg), "")
 
         self.assertEqual(
-            meta_namespaces_schemaorg(context_use_schemaorg), ' itemscope itemtype="http://schema.org/Article" '
+            meta_namespaces_schemaorg(context_use_schemaorg), ' itemscope itemtype="https://schema.org/Article" '
         )
 
 
