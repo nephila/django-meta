@@ -40,6 +40,13 @@ class MetadataMixinTestCase(TestCase):
         m.schemaorg_title = "Foo"
         self.assertEqual(m.get_meta_schemaorg_title(), "Foo")
 
+    def test_get_meta_schemaorg_description(self):
+        m = MetadataMixin()
+        self.assertEqual(m.get_meta_schemaorg_description(), None)
+
+        m.schemaorg_description = "Foo"
+        self.assertEqual(m.get_meta_schemaorg_description(), "Foo")
+
     def test_get_meta_description(self):
         m = MetadataMixin()
         self.assertEqual(m.get_meta_description(), None)

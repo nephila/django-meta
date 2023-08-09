@@ -45,6 +45,7 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.title, None)
         self.assertEqual(m.og_title, None)
         self.assertEqual(m.schemaorg_title, None)
+        self.assertEqual(m.schemaorg_description, None)
         self.assertEqual(m.twitter_title, None)
         self.assertEqual(m.description, None)
         self.assertEqual(m.extra_props, None)

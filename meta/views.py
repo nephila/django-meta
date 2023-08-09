@@ -23,6 +23,7 @@ class Meta:
         self.og_title = kwargs.get("og_title")
         self.twitter_title = kwargs.get("twitter_title")
         self.schemaorg_title = kwargs.get("schemaorg_title")
+        self.schemaorg_description = kwargs.get("schemaorg_description")
         self.description = kwargs.get("description")
         self.extra_props = kwargs.get("extra_props")
         self.extra_custom_props = kwargs.get("extra_custom_props")
@@ -152,6 +153,7 @@ class MetadataMixin:
     og_title = None
     twitter_title = None
     schemaorg_title = None
+    schemaorg_description = None
     description = None
     extra_props = None
     extra_custom_props = None
@@ -198,6 +200,9 @@ class MetadataMixin:
 
     def get_meta_schemaorg_title(self, context=None):
         return self.schemaorg_title
+
+    def get_meta_schemaorg_description(self, context=None):
+        return self.schemaorg_description
 
     def get_meta_description(self, context=None):
         return self.description
@@ -274,6 +279,7 @@ class MetadataMixin:
             og_title=self.get_meta_og_title(context=context),
             twitter_title=self.get_meta_twitter_title(context=context),
             schemaorg_title=self.get_meta_schemaorg_title(context=context),
+            schemaorg_description=self.get_meta_schemaorg_description(context=context),
             description=self.get_meta_description(context=context),
             extra_props=self.get_meta_extra_props(context=context),
             extra_custom_props=self.get_meta_extra_custom_props(context=context),

@@ -23,6 +23,7 @@ class TestMeta(BaseTestCase):
             og_title="og title",
             twitter_title="twitter title",
             schemaorg_title="schemaorg title",
+            schemaorg_description="schemaorg description",
             slug="title",
             abstract="post abstract",
             meta_description="post meta",
@@ -55,7 +56,7 @@ class TestMeta(BaseTestCase):
             "og_title": "og title",
             "twitter_title": "twitter title",
             "schemaorg_title": "schemaorg title",
-            "schemaorg_description": "post meta",
+            "schemaorg_description": "schemaorg description",
             "expiration_time": self.post.date_published_end,
             "og_description": "post meta",
             "description": "post meta",
@@ -124,7 +125,7 @@ class TestMeta(BaseTestCase):
             "og_title": "og title",
             "twitter_title": "twitter title",
             "schemaorg_title": "schemaorg title",
-            "schemaorg_description": "post meta",
+            "schemaorg_description": "schemaorg description",
             "expiration_time": self.post.date_published_end,
             "og_description": "post meta",
             "description": "post meta",
@@ -181,7 +182,9 @@ class TestMeta(BaseTestCase):
         self.assertContains(
             response, '<meta name="twitter:image" content="http://example.com{}">'.format(self.image_url)
         )
-        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta itemprop="description" content="{}">'.format(self.post.schemaorg_description)
+        )
         self.assertContains(
             response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
         )
@@ -269,7 +272,9 @@ class TestMeta(BaseTestCase):
         settings.USE_OG_PROPERTIES = False
         response = self.client.get("/title/")
         self.assertFalse(response.rendered_content.find("og:description") > -1)
-        self.assertContains(response, '<meta itemprop="description" content="{}">'.format(self.post.meta_description))
+        self.assertContains(
+            response, '<meta itemprop="description" content="{}">'.format(self.post.schemaorg_description)
+        )
         self.assertContains(
             response, '<meta name="twitter:description" content="{}">'.format(self.post.meta_description)
         )
