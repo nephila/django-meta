@@ -6,6 +6,17 @@ History
 
 .. towncrier release notes start
 
+2.3.0 (2023-08-10)
+==================
+
+Bugfixes
+--------
+
+- Fix schemaorg_description not being in Meta class (#127)
+- Fix schema.org protocol to be https (#152)
+- Fix request set order in Meta.__init__ (#155)
+
+
 2.2.0 (2023-04-18)
 ==================
 
