@@ -24,6 +24,10 @@ class Migration(migrations.Migration):
                 ("og_title", models.CharField(max_length=255, verbose_name="Opengraph title", blank=True)),
                 ("twitter_title", models.CharField(max_length=255, verbose_name="Twitter title", blank=True)),
                 ("schemaorg_title", models.CharField(max_length=255, verbose_name="Schema.org title", blank=True)),
+                (
+                    "schemaorg_description",
+                    models.CharField(max_length=255, verbose_name="Schema.org description", blank=True),
+                ),
                 ("slug", models.SlugField(verbose_name="slug")),
                 ("abstract", models.TextField(verbose_name="Abstract")),
                 ("meta_description", models.TextField(blank=True, default="", verbose_name="Post meta description")),

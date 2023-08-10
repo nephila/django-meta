@@ -20,6 +20,7 @@ class Post(ModelMeta, models.Model):
     og_title = models.CharField(_("Opengraph title"), blank=True, max_length=255)
     twitter_title = models.CharField(_("Twitter title"), blank=True, max_length=255)
     schemaorg_title = models.CharField(_("Schema.org title"), blank=True, max_length=255)
+    schemaorg_description = models.CharField(_("Schema.org description"), blank=True, max_length=255)
     slug = models.SlugField(_("slug"))
     abstract = models.TextField(_("Abstract"))
     meta_description = models.TextField(verbose_name=_("Post meta description"), blank=True, default="")
@@ -41,6 +42,7 @@ class Post(ModelMeta, models.Model):
         "og_title": "og_title",
         "twitter_title": "twitter title",
         "schemaorg_title": "schemaorg title",
+        "schemaorg_description": "schemaorg description",
         "description": "get_description",
         "og_description": "get_description",
         "keywords": "get_keywords",
