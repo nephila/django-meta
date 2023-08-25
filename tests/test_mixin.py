@@ -319,10 +319,11 @@ class TestMeta(BaseTestCase):
 
     @override_settings(META_SITE_PROTOCOL="https", META_USE_SITES=True)
     def test_image_protocol(self):
-        proto = settings.SITE_PROTOCOL
-        settings.SITE_PROTOCOL = 'https'
         meta = self.post.as_meta()
         self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
+        with override_settings(META_SITE_PROTOCOL="http"):
+            meta = self.post.as_meta()
+            self.assertEqual("http://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
         with override_settings(META_USE_SITES=False):

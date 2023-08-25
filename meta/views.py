@@ -142,7 +142,7 @@ class Meta(FullUrlMixin):
         self.use_twitter = kwargs.get("use_twitter", get_setting("USE_TWITTER_PROPERTIES"))
         self.use_facebook = kwargs.get("use_facebook", get_setting("USE_FACEBOOK_PROPERTIES"))
         self.use_schemaorg = kwargs.get("use_schemaorg", get_setting("USE_SCHEMAORG_PROPERTIES"))
-        self.use_json_ld = kwargs.get('use_json_ld', get_setting("USE_JSON_LD_SCHEMA")
+        self.use_json_ld = kwargs.get('use_json_ld', get_setting("USE_JSON_LD_SCHEMA"))
         self.use_title_tag = kwargs.get("use_title_tag", get_setting("USE_TITLE_TAG"))
         self.schemaorg_type = kwargs.get("schemaorg_type", get_setting("SCHEMAORG_TYPE"))
         self.fb_pages = kwargs.get("fb_pages", get_setting("FB_PAGES"))
