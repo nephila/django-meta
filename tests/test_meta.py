@@ -1,45 +1,13 @@
 from copy import copy
 
-from django.conf import settings as django_settings
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
 from django.test import RequestFactory, TestCase, override_settings
 
-from meta import settings
 from meta.views import Meta
 
 
 class MetaObjectTestCase(TestCase):
-    old = {}
-
-    def setUp(self):
-        super().setUp()
-        data = dict(
-            SITE_TYPE=None,
-            SITE_NAME=None,
-            SITE_PROTOCOL=None,
-            SITE_DOMAIN=None,
-            INCLUDE_KEYWORDS=[],
-            DEFAULT_KEYWORDS=[],
-            USE_OG_PROPERTIES=False,
-            IMAGE_URL="/static/",
-            USE_TWITTER_PROPERTIES=False,
-            USE_FACEBOOK_PROPERTIES=False,
-            USE_SCHEMAORG_PROPERTIES=False,
-            USE_TITLE_TAG=False,
-            USE_SITES=False,
-            DEFAULT_IMAGE=None,
-        )
-        self.old = {}
-        for key, val in data.items():
-            self.old[key] = getattr(settings, key)
-            setattr(settings, key, val)
-
-    def tearDown(self):
-        super().tearDown()
-        for key, val in self.old.items():
-            setattr(settings, key, val)
-
     def test_defaults(self):
         m = Meta()
         self.assertEqual(m.title, None)
@@ -75,10 +43,8 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(m.keywords[1], "bar")
 
+    @override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="http", SITE_ID=None)
     def test_set_image_request(self):
-        settings.USE_SITES = True
-        settings.SITE_PROTOCOL = "http"
-        django_settings.SITE_ID = None
         factory = RequestFactory()
         request = factory.get("/")
         Site.objects.create(domain=request.get_host())
@@ -88,11 +54,9 @@ class MetaObjectTestCase(TestCase):
             image="/static/image.png",
         )
         self.assertEqual(m.image, "http://testserver/static/image.png")
-        settings.USE_SITES = False
-        django_settings.SITE_ID = 1
 
+    @override_settings(META_INCLUDE_KEYWORDS=["baz"])
     def test_set_keywords_with_include(self):
-        settings.INCLUDE_KEYWORDS = ["baz"]
         m = Meta(keywords=["foo", "bar"])
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(m.keywords[1], "bar")
@@ -103,32 +67,23 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(len(m.keywords), 1)
 
+    @override_settings(META_FB_APPID="appid", META_FB_PAGES="fbpages")
     def test_pages_appid(self):
-        settings.FB_APPID = "appid"
-        m = Meta(fb_pages="fbpages")
-        self.assertEqual(m.fb_pages, "fbpages")
-        self.assertEqual(m.og_app_id, "appid")
-
-        settings.FB_PAGES = "fbpages"
         m = Meta()
         self.assertEqual(m.fb_pages, "fbpages")
         self.assertEqual(m.og_app_id, "appid")
 
-        settings.FB_PAGES = ""
-        settings.FB_APPID = ""
-
+    @override_settings(META_DEFAULT_KEYWORDS=["foo", "bar"])
     def test_set_keywords_with_defaults(self):
-        settings.DEFAULT_KEYWORDS = ["foo", "bar"]
         m = Meta()
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(m.keywords[1], "bar")
 
+    @override_settings(META_OG_NAMESPACES=["foo", "bar"])
     def test_set_namespaces(self):
-        settings.OG_NAMESPACES = ["foo", "bar"]
         m = Meta()
         self.assertEqual(m.custom_namespace[0], "foo")
         self.assertEqual(m.custom_namespace[1], "bar")
-        settings.OG_NAMESPACES = None
 
     def test_get_full_url_with_none(self):
         m = Meta()
@@ -143,62 +98,53 @@ class MetaObjectTestCase(TestCase):
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url("foo/bar")
 
-    @override_settings(SITE_ID=None)
+    @override_settings(SITE_ID=None, META_USE_SITES=True, META_SITE_PROTOCOL="http")
     def test_get_full_url_without_site_id_will_raise(self):
-        settings.USE_SITES = True
-        settings.SITE_PROTOCOL = "http"
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url("foo/bar")
-        settings.USE_SITES = False
 
-    @override_settings(SITE_ID=None)
+    @override_settings(SITE_ID=None, META_USE_SITES=True, META_SITE_PROTOCOL="http")
     def test_get_full_url_without_site_id_with_request_will_not_raise(self):
-        settings.USE_SITES = True
-        settings.SITE_PROTOCOL = "http"
         factory = RequestFactory()
         request = factory.get("/")
         Site.objects.create(domain=request.get_host())
         m = Meta(request=request)
         self.assertEqual(m.get_full_url("foo/bar"), "http://testserver/foo/bar")
-        settings.USE_SITES = False
 
     def test_get_full_url_without_protocol_without_schema_will_raise(self):
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url("//foo.com/foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="http")
     def test_get_full_url_without_domain_will_raise(self):
-        settings.SITE_PROTOCOL = "http"
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
             m.get_full_url("foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_get_full_url_with_domain_and_protocol(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         m = Meta()
         self.assertEqual(m.get_full_url("foo/bar"), "https://foo.com/foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="https")
     def test_get_full_url_without_schema(self):
-        settings.SITE_PROTOCOL = "https"
         m = Meta()
         self.assertEqual(m.get_full_url("//foo.com/foo/bar"), "https://foo.com/foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_get_full_url_with_absolute_path(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         m = Meta()
         self.assertEqual(m.get_full_url("/foo/bar"), "https://foo.com/foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_set_url(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         m = Meta(url="foo/bar")
         self.assertEqual(m.url, "https://foo.com/foo/bar")
 
+    @override_settings(META_SITE_PROTOCOL="https")
     def test_set_image_object_with_full_url(self):
-        settings.SITE_PROTOCOL = "https"
         media = {
             "url": "http://meta.example.com/image.gif",
             "type": "some/mime",
@@ -212,8 +158,8 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.image, "http://meta.example.com/image.gif")
         self.assertEqual(m.image_object, secure_media)
 
+    @override_settings(META_SITE_PROTOCOL="https")
     def test_set_image_object_with_custom_secure(self):
-        settings.SITE_PROTOCOL = "https"
         media = {
             "url": "http://meta.example.com/image.gif",
             "secure_url": "https://meta.example.com/custom.gif",
@@ -230,9 +176,8 @@ class MetaObjectTestCase(TestCase):
         m = Meta(image="http://meta.example.com/image.gif")
         self.assertEqual(m.image, "http://meta.example.com/image.gif")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_set_image_object_with_absolute_path(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         media = {
             "url": "/img/image.gif",
             "type": "some/mime",
@@ -247,36 +192,32 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.image, "https://foo.com/img/image.gif")
         self.assertEqual(m.image_object, secure_media)
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_set_image_with_absolute_path(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         m = Meta(image="/img/image.gif")
         self.assertEqual(m.image, "https://foo.com/img/image.gif")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_set_image_with_relative_path(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
         m = Meta(image="img/image.gif")
         self.assertEqual(m.image, "https://foo.com/static/img/image.gif")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com", META_IMAGE_URL="/thumb/")
     def test_set_image_with_image_url(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
-        settings.IMAGE_URL = "/thumb/"
         m = Meta(image="img/image.gif")
         self.assertEqual(m.image, "https://foo.com/thumb/img/image.gif")
 
+    @override_settings(
+        META_SITE_PROTOCOL="https",
+        META_SITE_DOMAIN="foo.com",
+        META_IMAGE_URL="/thumb/",
+        META_DEFAULT_IMAGE="img/image.gif",
+    )
     def test_set_image_with_default_image_url(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
-        settings.IMAGE_URL = "/thumb/"
-        settings.DEFAULT_IMAGE = "img/image.gif"
         m = Meta()
         self.assertEqual(m.image, "https://foo.com/thumb/img/image.gif")
 
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com", META_DEFAULT_IMAGE="img/image.gif")
     def test_set_image_with_defaults(self):
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
-        settings.DEFAULT_IMAGE = "img/image.gif"
         m = Meta()
         self.assertEqual(m.image, "https://foo.com/static/img/image.gif")

@@ -6,7 +6,7 @@ from django.apps import apps
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
 
-from .. import settings
+from ..settings import get_setting
 
 register = template.Library()
 
@@ -124,7 +124,7 @@ def og_prop(name, value):
     :param name: property name (without 'og:' namespace)
     :param value: property value
     """
-    if not isinstance(value, dict) and name in settings.OG_SECURE_URL_ITEMS and value.startswith("https"):
+    if not isinstance(value, dict) and name in get_setting("OG_SECURE_URL_ITEMS") and value.startswith("https"):
         data = {name: value, "%s:secure_url" % name: value}
     elif not isinstance(value, dict):
         data = {

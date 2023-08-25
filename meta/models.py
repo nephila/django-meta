@@ -1,9 +1,7 @@
 import warnings
 from copy import copy
 
-from django.conf import settings as dj_settings
-
-from . import settings
+from .settings import get_setting
 from .utils import get_request, set_request
 
 NEED_REQUEST_OBJECT_ERR_MSG = (
@@ -28,28 +26,28 @@ class ModelMeta:
         "twitter_description": False,
         "schemaorg_description": False,
         "keywords": False,
-        "image": settings.DEFAULT_IMAGE,
+        "image": get_setting("DEFAULT_IMAGE"),
         "image_object": None,
         "image_width": False,
         "image_height": False,
-        "object_type": settings.DEFAULT_TYPE,
-        "og_type": settings.FB_TYPE,
-        "og_app_id": settings.FB_APPID,
-        "og_profile_id": settings.FB_PROFILE_ID,
-        "og_publisher": settings.FB_PUBLISHER,
-        "og_author_url": settings.FB_AUTHOR_URL,
-        "fb_pages": settings.FB_PAGES,
-        "twitter_type": settings.TWITTER_TYPE,
-        "twitter_site": settings.TWITTER_SITE,
-        "twitter_author": settings.TWITTER_AUTHOR,
-        "schemaorg_type": settings.SCHEMAORG_TYPE,
+        "object_type": get_setting("DEFAULT_TYPE"),
+        "og_type": get_setting("FB_TYPE"),
+        "og_app_id": get_setting("FB_APPID"),
+        "og_profile_id": get_setting("FB_PROFILE_ID"),
+        "og_publisher": get_setting("FB_PUBLISHER"),
+        "og_author_url": get_setting("FB_AUTHOR_URL"),
+        "fb_pages": get_setting("FB_PAGES"),
+        "twitter_type": get_setting("TWITTER_TYPE"),
+        "twitter_site": get_setting("TWITTER_SITE"),
+        "twitter_author": get_setting("TWITTER_AUTHOR"),
+        "schemaorg_type": get_setting("SCHEMAORG_TYPE"),
         "published_time": False,
         "modified_time": False,
         "expiration_time": False,
         "tag": False,
         "url": False,
         "locale": False,
-        "custom_namespace": settings.OG_NAMESPACES,
+        "custom_namespace": get_setting("OG_NAMESPACES"),
     }
 
     def get_meta(self, request=None):
@@ -178,7 +176,7 @@ class ModelMeta:
         """
         Current http protocol
         """
-        return dj_settings.META_SITE_PROTOCOL
+        return get_setting("SITE_PROTOCOL")
 
     def build_absolute_uri(self, url):
         """
@@ -188,7 +186,7 @@ class ModelMeta:
         if request:
             return request.build_absolute_uri(url)
 
-        if not settings.USE_SITES:
+        if not get_setting("USE_SITES"):
             raise RuntimeError(NEED_REQUEST_OBJECT_ERR_MSG)
 
         from django.contrib.sites.models import Site

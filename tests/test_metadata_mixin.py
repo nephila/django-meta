@@ -1,9 +1,8 @@
 import warnings
 from copy import copy
 
-from django.test import TestCase
+from django.test import TestCase, override_settings
 
-from meta import settings
 from meta.views import Meta, MetadataMixin
 
 
@@ -92,25 +91,19 @@ class MetadataMixinTestCase(TestCase):
         m.object_type = "bar"
         self.assertEqual(m.get_meta_object_type(), "bar")
 
+    @override_settings(META_SITE_DOMAIN="somedomain.com")
     def test_get_domain(self):
-        domain = settings.SITE_DOMAIN
-        settings.SITE_DOMAIN = "somedomain.com"
         m = MetadataMixin()
         self.assertEqual(m.get_domain(), "somedomain.com")
-        settings.SITE_DOMAIN = domain
 
+    @override_settings(META_SITE_PROTOCOL="http")
     def test_get_domain_http(self):
-        protocol = settings.SITE_PROTOCOL
-        settings.SITE_PROTOCOL = "http"
         m = MetadataMixin()
         self.assertEqual(m.get_protocol(), "http")
-        settings.SITE_PROTOCOL = protocol
 
+    @override_settings(META_SITE_TYPE="foo")
     def test_get_meta_object_type_with_setting(self):
         m = MetadataMixin()
-
-        settings.SITE_TYPE = "foo"
-
         self.assertEqual(m.get_meta_object_type(), "foo")
 
     def test_get_meta_site_name(self):
@@ -120,11 +113,9 @@ class MetadataMixinTestCase(TestCase):
         m.site_name = "Foo"
         self.assertEqual(m.get_meta_site_name(), "Foo")
 
+    @override_settings(META_SITE_NAME="Foo")
     def test_get_meta_site_name_with_setting(self):
         m = MetadataMixin()
-
-        settings.SITE_NAME = "Foo"
-
         self.assertEqual(m.get_meta_site_name(), "Foo")
 
     def test_get_meta_extra_props(self):
@@ -153,10 +144,9 @@ class MetadataMixinTestCase(TestCase):
         m.custom_namespace = "my-website"
         self.assertEqual(m.get_meta_custom_namespace(), "my-website")
 
-        settings.OG_NAMESPACES = ["foo", "bar"]
-        m = MetadataMixin()
-        self.assertEqual(m.get_meta_custom_namespace(), ["foo", "bar"])
-        settings.OG_NAMESPACES = None
+        with override_settings(META_OG_NAMESPACES=["foo", "bar"]):
+            m = MetadataMixin()
+            self.assertEqual(m.get_meta_custom_namespace(), ["foo", "bar"])
 
     def test_get_meta_twitter_site(self):
         m = MetadataMixin()
@@ -217,13 +207,14 @@ class MetadataMixinTestCase(TestCase):
         m.locale = "en_US"
         self.assertEqual(m.get_meta_locale(), "en_US")
 
+    @override_settings(
+        META_SITE_PROTOCOL="http",
+        META_SITE_DOMAIN="foo.com",
+        META_USE_SITES=False,
+        META_FB_PAGES="fbpages",
+        META_FB_APPID="appid",
+    )
     def test_get_meta(self):
-        settings.SITE_PROTOCOL = "http"
-        settings.SITE_DOMAIN = "foo.com"
-        settings.USE_SITES = False
-        settings.FB_PAGES = "fbpages"
-        settings.FB_APPID = "appid"
-
         media = {
             "url": "images/foo.gif",
             "type": "some/mime",
@@ -249,8 +240,6 @@ class MetadataMixinTestCase(TestCase):
         self.assertEqual(meta_object.keywords, ["foo", "bar"])
         self.assertEqual(meta_object.image, "http://foo.com/static/images/foo.gif")
         self.assertEqual(meta_object.image_object, media)
-        settings.SITE_DOMAIN = "example.com"
-        settings.USE_SITES = True
 
     def test_get_context(self):
         media = {
@@ -275,23 +264,14 @@ class MetadataMixinTestCase(TestCase):
             url = "some/path"
             image_object = media
 
-        settings.SITE_PROTOCOL = "https"
-        settings.SITE_DOMAIN = "foo.com"
-        settings.USE_SITES = False
+        with override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com", META_USE_SITES=False):
+            v = View()
 
-        v = View()
+            context = v.get_context_data()
 
-        context = v.get_context_data()
-
-        self.assertTrue("meta" in context)
-        self.assertTrue(type(context["meta"]), Meta)
-        self.assertEqual(context["meta"].url, "https://foo.com/some/path")
-        self.assertEqual(context["meta"].keywords, ["foo", "bar"])
-        self.assertEqual(context["meta"].image, "https://foo.com/static/images/foo.gif")
-        self.assertEqual(context["meta"].image_object, full_url_media)
-
-        settings.SITE_PROTOCOL = "http"
-        settings.SITE_DOMAIN = "example.com"
-        settings.FB_PAGES = ""
-        settings.FB_APPID = ""
-        settings.USE_SITES = True
+            self.assertTrue("meta" in context)
+            self.assertTrue(type(context["meta"]), Meta)
+            self.assertEqual(context["meta"].url, "https://foo.com/some/path")
+            self.assertEqual(context["meta"].keywords, ["foo", "bar"])
+            self.assertEqual(context["meta"].image, "https://foo.com/static/images/foo.gif")
+            self.assertEqual(context["meta"].image_object, full_url_media)
