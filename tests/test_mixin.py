@@ -8,7 +8,6 @@ from django.utils import timezone
 from meta.models import ModelMeta
 from meta.settings import get_setting
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
-from meta.views import settings
 
 from .example_app.models import Post
 
@@ -317,13 +316,15 @@ class TestMeta(BaseTestCase):
         """
         self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
-    @override_settings(META_SITE_PROTOCOL="https", META_USE_SITES=True)
-    def test_image_protocol(self):
+    @override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="https")
+    def test_image_protocol_https(self):
         meta = self.post.as_meta()
         self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
-        with override_settings(META_SITE_PROTOCOL="http"):
-            meta = self.post.as_meta()
-            self.assertEqual("http://example.com{}".format(self.image_url), meta.image)
+
+    @override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="http")
+    def test_image_protocol_http(self):
+        meta = self.post.as_meta()
+        self.assertEqual("http://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
         with override_settings(META_USE_SITES=False):
