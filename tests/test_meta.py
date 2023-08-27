@@ -7,6 +7,13 @@ from django.test import RequestFactory, TestCase, override_settings
 from meta.views import Meta
 
 
+@override_settings(
+    META_SITE_PROTOCOL="",
+    META_USE_SITES=False,
+    META_USE_OG_PROPERTIES=False,
+    META_USE_TWITTER_PROPERTIES=False,
+    META_USE_SCHEMAORG_PROPERTIES=False,
+)
 class MetaObjectTestCase(TestCase):
     def test_defaults(self):
         m = Meta()

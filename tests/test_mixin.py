@@ -280,6 +280,7 @@ class TestMeta(BaseTestCase):
 
     @override_settings(
         META_USE_SITES=True,
+        META_USE_OG_PROPERTIES=False,
         META_USE_TWITTER_PROPERTIES=True,
         META_SITE_PROTOCOL="http",
         META_USE_SCHEMAORG_PROPERTIES=True,

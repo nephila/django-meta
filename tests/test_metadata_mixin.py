@@ -6,6 +6,13 @@ from django.test import TestCase, override_settings
 from meta.views import Meta, MetadataMixin
 
 
+@override_settings(
+    META_SITE_PROTOCOL="",
+    META_USE_SITES=False,
+    META_USE_OG_PROPERTIES=False,
+    META_USE_TWITTER_PROPERTIES=False,
+    META_USE_SCHEMAORG_PROPERTIES=False,
+)
 class MetadataMixinTestCase(TestCase):
     def test_get_meta_class(self):
         m = MetadataMixin()
