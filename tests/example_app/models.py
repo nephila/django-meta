@@ -13,44 +13,37 @@ except ImportError:
 
 
 class Publisher(ModelMeta, models.Model):
-    name = models.CharField(_('name'), max_length=255)
+    name = models.CharField(_("name"), max_length=255)
 
     _schema = {
-        '@type': 'Organization',
-        'name': 'name',
-        'logo': 'static_logo',
+        "@type": "Organization",
+        "name": "name",
+        "logo": "static_logo",
     }
 
     class Meta:
-        verbose_name = _('publisher')
-        verbose_name_plural = _('publishers')
+        verbose_name = _("publisher")
+        verbose_name_plural = _("publishers")
 
     def __str__(self):
         return self.name
 
     @property
     def static_logo(self):
-        return Meta(schema={
-            '@type': 'ImageObject',
-            'url': self.build_absolute_uri('/some/logo.png')
-        })
+        return Meta(schema={"@type": "ImageObject", "url": self.build_absolute_uri("/some/logo.png")})
 
 
 class Comment(ModelMeta, models.Model):
-    body = models.CharField(_('comment'), max_length=255)
+    body = models.CharField(_("comment"), max_length=255)
     post = models.ForeignKey(
-        'example_app.Post', on_delete=models.CASCADE, verbose_name=_('post'), related_name='comments'
+        "example_app.Post", on_delete=models.CASCADE, verbose_name=_("post"), related_name="comments"
     )
 
-    _schema = {
-        '@type': 'Comment',
-        'parentItem': 'post',
-        'text': 'body'
-    }
+    _schema = {"@type": "Comment", "text": "body"}
 
     class Meta:
-        verbose_name = _('comment')
-        verbose_name_plural = _('comments')
+        verbose_name = _("comment")
+        verbose_name_plural = _("comments")
 
     def __str__(self):
         return self.body[:10]
@@ -79,10 +72,9 @@ class Post(ModelMeta, models.Model):
     text = models.TextField(verbose_name=_("Post text"), blank=True, default="")
     image_url = models.CharField(max_length=200, null=True, blank=True)
     publisher = models.ForeignKey(
-        'example_app.Publisher', on_delete=models.CASCADE, verbose_name=_('publisher'), related_name='posts',
-        null=True
+        "example_app.Publisher", on_delete=models.CASCADE, verbose_name=_("publisher"), related_name="posts", null=True
     )
-    related_posts = models.ManyToManyField('example_app.Post', verbose_name=_('related posts'), blank=True)
+    related_posts = models.ManyToManyField("example_app.Post", verbose_name=_("related posts"), blank=True)
 
     _metadata_default = ModelMeta._metadata_default.copy()  # purely for testing purposes
     _metadata_default["locale"] = "dummy_locale"
@@ -109,7 +101,7 @@ class Post(ModelMeta, models.Model):
         "twitter_site": "@FooBlag",
         "twitter_author": "get_author_twitter",
         "schemaorg_type": "Article",
-        "published_time": "date_published",
+        "published_time": "get_date",
         "modified_time": "get_date",
         "expiration_time": "get_date",
         "url": "get_full_url",
@@ -121,25 +113,25 @@ class Post(ModelMeta, models.Model):
     }
 
     _schema = {
-        'image': 'get_image_full_url',
-        'articleBody': 'text',
-        'articleSection': 'get_categories',
-        'author': 'get_schema_author',
-        'copyrightYear': 'copyright_year',
-        'dateCreated': 'get_date',
-        'dateModified': 'get_date',
-        'datePublished': 'date_published',
-        'expires': 'get_date',
-        'headline': 'headline',
-        'keywords': 'get_keywords',
-        'description': 'get_description',
-        'name': 'title',
-        'url': 'get_full_url',
-        'mainEntityOfPage': 'mainEntityOfPage',
-        'publisher': 'publisher',
-        'comment': 'comments',
-        'commentCount': 'comments_count',
-        'citation': 'related_posts',
+        "image": "get_image_full_url",
+        "articleBody": "text",
+        "articleSection": "get_categories",
+        "author": "get_schema_author",
+        "copyrightYear": "copyright_year",
+        "dateCreated": "get_date",
+        "dateModified": "get_date",
+        "datePublished": "get_date",
+        "expires": "get_date",
+        "headline": "headline",
+        "keywords": "get_keywords",
+        "description": "get_description",
+        "name": "title",
+        "url": "get_full_url",
+        "mainEntityOfPage": "mainEntityOfPage",
+        "publisher": "publisher",
+        "comment": "comments",
+        "commentCount": "comments_count",
+        "citation": "related_posts",
     }
 
     class Meta:
@@ -174,7 +166,7 @@ class Post(ModelMeta, models.Model):
         return self.comments.count()
 
     def get_keywords(self):
-        return self.meta_keywords.strip().split(',')
+        return self.meta_keywords.strip().split(",")
 
     def get_description(self):
         description = self.meta_description
@@ -211,6 +203,7 @@ class Post(ModelMeta, models.Model):
         author.fb_url = "https://facebook.com/foo.bar"
         author.twitter_profile = "@FooBar"
         author.get_full_name = self.author.get_full_name
+        author.schemaorg_profile = "https://schemaorg-profile.com"
         return author
 
     def __unicode__(self):
@@ -225,13 +218,13 @@ class Post(ModelMeta, models.Model):
 
     def get_custom_props(self):
         return [("custom1", "custom_name1", "custom_val1"), ("custom2", "custom_name2", "custom_val2")]
-    
+
     def get_categories(self):
-        return ['category 1', 'category 2']
+        return ["category 1", "category 2"]
 
     def get_schema_author(self):
         author = self.get_author()
         return {
-            '@type': 'Person',
-            'name': author.get_full_name(),
+            "@type": "Person",
+            "name": author.get_full_name(),
         }

@@ -47,9 +47,9 @@ class FullUrlMixin:
 
     def get_protocol(self):
         """
-        Discover the current website protocol from  :ref:`META_SITE_PROTOCOL`
+        Discover the current website protocol from :ref:`META_SITE_PROTOCOL`
 
-        :return: domain URL
+        :return: http or https depending on :ref:`META_SITE_PROTOCOL`
         """
         if not get_setting("SITE_PROTOCOL"):
             raise ImproperlyConfigured("META_SITE_PROTOCOL is not set")
@@ -225,7 +225,7 @@ class Meta(FullUrlMixin):
         * dates as isoformat
         * iterables and dicts are processed depth-first to process their items
 
-        If no type is set :py:attr:`~meta.views.Meta.gplus_type` is used
+        If no type is set :py:attr:`~meta.views.Meta.schemaorg_type` is used
 
         :return: dict
         """
@@ -257,7 +257,7 @@ class Meta(FullUrlMixin):
         for key, val in self._schema.items():
             schema[key] = process_item(val)
         if "@type" not in schema:
-            schema["@type"] = self.gplus_type
+            schema["@type"] = self.schemaorg_type
         # after generating the full schema, we can save it in the local cache for future uses
         if isinstance(self._obj, ModelMeta):
             visited[self._obj._local_key] = schema

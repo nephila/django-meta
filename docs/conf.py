@@ -275,8 +275,8 @@ texinfo_documents = [
 # texinfo_show_urls = 'footnote'
 
 # If true, do not generate a @detailmenu in the "Top" node's menu.
-#texinfo_no_detailmenu = False
+# texinfo_no_detailmenu = False
 
 intersphinx_mapping = {
-    'django': ('https://django.readthedocs.io/en/latest/', None),
+    "django": ("https://django.readthedocs.io/en/latest/", None),
 }

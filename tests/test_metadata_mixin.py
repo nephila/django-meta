@@ -12,6 +12,7 @@ from meta.views import Meta, MetadataMixin
     META_USE_OG_PROPERTIES=False,
     META_USE_TWITTER_PROPERTIES=False,
     META_USE_SCHEMAORG_PROPERTIES=False,
+    META_USE_JSON_LD_SCHEMA=False,
 )
 class MetadataMixinTestCase(TestCase):
     def test_get_meta_class(self):
@@ -120,6 +121,11 @@ class MetadataMixinTestCase(TestCase):
         m.site_name = "Foo"
         self.assertEqual(m.get_meta_site_name(), "Foo")
 
+    @override_settings(META_SITE_PROTOCOL="http", META_SITE_DOMAIN="http://foo.com")
+    def test_get_full_url_with_wrong_domain(self):
+        m = MetadataMixin()
+        self.assertEqual(m._get_full_url("/foo/bar"), "http://foo.com/foo/bar")
+
     @override_settings(META_SITE_NAME="Foo")
     def test_get_meta_site_name_with_setting(self):
         m = MetadataMixin()
@@ -199,6 +205,10 @@ class MetadataMixinTestCase(TestCase):
             m.twitter_type = "summary"
             self.assertEqual(m.get_meta_twitter_type(), "summary")
             assert len(w) == 0
+
+    def test_no_schema_org(self):
+        m = MetadataMixin()
+        self.assertEqual(m.schema, {})
 
     def test_get_meta_facebook_app_id(self):
         m = MetadataMixin()

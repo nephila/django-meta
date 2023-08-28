@@ -1,4 +1,3 @@
-import contextlib
 import warnings
 from copy import copy
 
@@ -133,14 +132,7 @@ class ModelMeta(FullUrlMixin):
 
         if value:
             try:
-                attr = getattr(self, value)
-                if callable(attr):
-                    try:
-                        return attr(field)
-                    except TypeError:
-                        return attr()
-                else:
-                    return attr
+                return process_value(getattr(self, value))
             except (AttributeError, TypeError):
                 return value
 
@@ -181,15 +173,6 @@ class ModelMeta(FullUrlMixin):
             if value:
                 schema[field] = self._get_meta_value(field, value)
         return schema
-
-    @contextlib.contextmanager
-    def _set_request(self, request):
-        """
-        Context processor that sets the request on the current instance
-        """
-        self._request = request
-        yield
-        delattr(self, "_request")
 
     def get_request(self):
         """
