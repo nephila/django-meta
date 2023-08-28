@@ -1,6 +1,5 @@
-import warnings
-
 import json
+import warnings
 from datetime import date
 
 from django.core.exceptions import ImproperlyConfigured
@@ -14,7 +13,7 @@ from .settings import get_setting
 visited = {}
 
 
-class FullUrlMixin(object):
+class FullUrlMixin:
     """
     Provides a few convenience methods to retrieve the full URL (which includes protocol and domain) of an object.
 
@@ -32,6 +31,7 @@ class FullUrlMixin(object):
         :return: domain URL
         """
         from django.contrib.sites.models import Site
+
         try:
             if self.use_sites:
                 return Site.objects.get_current(self.request).domain
@@ -42,7 +42,7 @@ class FullUrlMixin(object):
                 except AttributeError:
                     return Site.objects.get_current().domain
         if not get_setting("SITE_DOMAIN"):
-            raise ImproperlyConfigured('META_SITE_DOMAIN is not set')
+            raise ImproperlyConfigured("META_SITE_DOMAIN is not set")
         return get_setting("SITE_DOMAIN")
 
     def get_protocol(self):
@@ -52,7 +52,7 @@ class FullUrlMixin(object):
         :return: domain URL
         """
         if not get_setting("SITE_PROTOCOL"):
-            raise ImproperlyConfigured('META_SITE_PROTOCOL is not set')
+            raise ImproperlyConfigured("META_SITE_PROTOCOL is not set")
         return get_setting("SITE_PROTOCOL")
 
     def _get_full_url(self, url):
@@ -68,24 +68,21 @@ class FullUrlMixin(object):
             pass
         if not url:
             return None
-        if url.startswith('http'):
+        if url.startswith("http"):
             return url
         meta_protocol = self.get_protocol()
         domain = self.get_domain()
-        separator = '://'
-        if url.startswith('//'):
-            separator = ':'
-            domain = ''
-        elif not url.startswith('/'):
-            url = '/%s' % url
-        if domain.startswith('http'):
-            meta_protocol = ''
-            separator = ''
-        return '{meta_protocol}{separator}{domain}{url}'.format(
-            meta_protocol=meta_protocol,
-            separator=separator,
-            domain=domain,
-            url=url
+        separator = "://"
+        if url.startswith("//"):
+            separator = ":"
+            domain = ""
+        elif not url.startswith("/"):
+            url = "/%s" % url
+        if domain.startswith("http"):
+            meta_protocol = ""
+            separator = ""
+        return "{meta_protocol}{separator}{domain}{url}".format(
+            meta_protocol=meta_protocol, separator=separator, domain=domain, url=url
         )
 
 
@@ -142,7 +139,7 @@ class Meta(FullUrlMixin):
         self.use_twitter = kwargs.get("use_twitter", get_setting("USE_TWITTER_PROPERTIES"))
         self.use_facebook = kwargs.get("use_facebook", get_setting("USE_FACEBOOK_PROPERTIES"))
         self.use_schemaorg = kwargs.get("use_schemaorg", get_setting("USE_SCHEMAORG_PROPERTIES"))
-        self.use_json_ld = kwargs.get('use_json_ld', get_setting("USE_JSON_LD_SCHEMA"))
+        self.use_json_ld = kwargs.get("use_json_ld", get_setting("USE_JSON_LD_SCHEMA"))
         self.use_title_tag = kwargs.get("use_title_tag", get_setting("USE_TITLE_TAG"))
         self.schemaorg_type = kwargs.get("schemaorg_type", get_setting("SCHEMAORG_TYPE"))
         self.fb_pages = kwargs.get("fb_pages", get_setting("FB_PAGES"))
@@ -259,8 +256,8 @@ class Meta(FullUrlMixin):
             visited[self._obj._local_key] = None
         for key, val in self._schema.items():
             schema[key] = process_item(val)
-        if '@type' not in schema:
-            schema['@type'] = self.gplus_type
+        if "@type" not in schema:
+            schema["@type"] = self.gplus_type
         # after generating the full schema, we can save it in the local cache for future uses
         if isinstance(self._obj, ModelMeta):
             visited[self._obj._local_key] = schema
@@ -277,7 +274,7 @@ class Meta(FullUrlMixin):
         :return: json
         """
         data = self.schema
-        data['@context'] = 'http://schema.org'
+        data["@context"] = "http://schema.org"
         return json.dumps(data)
 
 

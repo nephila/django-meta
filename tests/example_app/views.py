@@ -39,23 +39,23 @@ class PostMixinDetailView(MetadataMixin, DetailView):
         return self.object.image_url
 
     def get_schema(self, context=None):
-        url = reverse('post-detail-mixinx', kwargs={'slug': self.object.slug})
+        url = reverse("post-detail-mixinx", kwargs={"slug": self.object.slug})
         return {
-            'image': self.object.get_image_full_url(),
-            'articleBody': self.object.text,
-            'articleSection': self.object.get_categories(),
-            'author': self.object.get_schema_author(),
-            'copyrightYear': self.object.date_published.year,
-            'dateCreated': self.object.get_date('dateCreated'),
-            'dateModified': self.object.get_date('dateModified'),
-            'datePublished': self.object.date_published,
-            'headline': self.object.abstract[:50],
-            'keywords': self.object.get_keywords(),
-            'description': self.object.get_description(),
-            'name': self.object.title,
-            'url': self.object._get_full_url(url),
-            'mainEntityOfPage': self.object._get_full_url(url),
-            'publisher': self.object.get_domain(),
+            "image": self.object.get_image_full_url(),
+            "articleBody": self.object.text,
+            "articleSection": self.object.get_categories(),
+            "author": self.object.get_schema_author(),
+            "copyrightYear": self.object.date_published.year,
+            "dateCreated": self.object.get_date("dateCreated"),
+            "dateModified": self.object.get_date("dateModified"),
+            "datePublished": self.object.date_published,
+            "headline": self.object.abstract[:50],
+            "keywords": self.object.get_keywords(),
+            "description": self.object.get_description(),
+            "name": self.object.title,
+            "url": self.object._get_full_url(url),
+            "mainEntityOfPage": self.object._get_full_url(url),
+            "publisher": self.object.get_domain(),
         }
 
 
@@ -75,65 +75,70 @@ class PostListView(MetadataMixin, ListView):
 
     def get_schema(self, context=None):
         return {
-            '@type': 'CollectionPage',
-            'name': self.title,
-            'url': reverse('post-list'),
-            'mainEntity': {
-                '@type': 'ItemList',
-                'itemListElement': [
+            "@type": "CollectionPage",
+            "name": self.title,
+            "url": reverse("post-list"),
+            "mainEntity": {
+                "@type": "ItemList",
+                "itemListElement": [
                     {
-                        '@type': 'BlogPosting',
-                        'image': self._get_full_url(self.image),
-                        'articleBody': ' '.join(paragraphs(count=5, common=False)),
-                        'author': {
-                            '@type': 'Person',
-                            'name': 'Joe Smith',
+                        "@type": "BlogPosting",
+                        "image": self._get_full_url(self.image),
+                        "articleBody": " ".join(paragraphs(count=5, common=False)),
+                        "author": {
+                            "@type": "Person",
+                            "name": "Joe Smith",
                         },
-                        'copyrightYear': now().year,
-                        'dateCreated': now() - timedelta(days=1),
-                        'dateModified': now(),
-                        'datePublished': now() - timedelta(days=1),
-                        'headline': words(count=5, common=False),
-                        'keywords': ','.join(words(count=5, common=False).split(' ')),
-                        'description': words(count=5, common=False),
-                        'name': words(count=5, common=False),
-                        'url': reverse('post-list'),
-                        'mainEntityOfPage': reverse('post-detail', kwargs={'slug': words(count=1, common=False)}),
-                        'publisher': {
-                            '@type': 'Organization',
-                            'name': 'My Publisher',
-                            'logo': Meta(schema={
-                                '@type': 'ImageObject',
-                                'url': self._get_full_url(self.image),
-                            })
-                        }
+                        "copyrightYear": now().year,
+                        "dateCreated": now() - timedelta(days=1),
+                        "dateModified": now(),
+                        "datePublished": now() - timedelta(days=1),
+                        "headline": words(count=5, common=False),
+                        "keywords": ",".join(words(count=5, common=False).split(" ")),
+                        "description": words(count=5, common=False),
+                        "name": words(count=5, common=False),
+                        "url": reverse("post-list"),
+                        "mainEntityOfPage": reverse("post-detail", kwargs={"slug": words(count=1, common=False)}),
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "My Publisher",
+                            "logo": Meta(
+                                schema={
+                                    "@type": "ImageObject",
+                                    "url": self._get_full_url(self.image),
+                                }
+                            ),
+                        },
                     },
                     {
-                        '@type': 'BlogPosting',
-                        'image': self._get_full_url(self.image),
-                        'articleBody': ' '.join(paragraphs(count=5, common=False)),
-                        'author': {
-                            '@type': 'Person',
-                            'name': 'Joe Smith',
+                        "@type": "BlogPosting",
+                        "image": self._get_full_url(self.image),
+                        "articleBody": " ".join(paragraphs(count=5, common=False)),
+                        "author": {
+                            "@type": "Person",
+                            "name": "Joe Smith",
                         },
-                        'copyrightYear': now().year,
-                        'dateCreated': now() - timedelta(days=1),
-                        'dateModified': now(),
-                        'datePublished': now() - timedelta(days=1),
-                        'headline': words(count=5, common=False),
-                        'keywords': ','.join(words(count=5, common=False).split(' ')),
-                        'description': words(count=5, common=False),
-                        'name': words(count=5, common=False),
-                        'url': reverse('post-list'),
-                        'mainEntityOfPage': reverse('post-detail', kwargs={'slug': words(count=1, common=False)}),
-                        'publisher': {
-                            '@type': 'Organization',
-                            'name': 'My Publisher',
-                            'logo': Meta(schema={
-                                '@type': 'ImageObject',
-                                'url': self._get_full_url(self.image),
-                            })
-                        }
-                    }
-                ]}}
->>>>>>> 46a4396 (Add schema.org support)
+                        "copyrightYear": now().year,
+                        "dateCreated": now() - timedelta(days=1),
+                        "dateModified": now(),
+                        "datePublished": now() - timedelta(days=1),
+                        "headline": words(count=5, common=False),
+                        "keywords": ",".join(words(count=5, common=False).split(" ")),
+                        "description": words(count=5, common=False),
+                        "name": words(count=5, common=False),
+                        "url": reverse("post-list"),
+                        "mainEntityOfPage": reverse("post-detail", kwargs={"slug": words(count=1, common=False)}),
+                        "publisher": {
+                            "@type": "Organization",
+                            "name": "My Publisher",
+                            "logo": Meta(
+                                schema={
+                                    "@type": "ImageObject",
+                                    "url": self._get_full_url(self.image),
+                                }
+                            ),
+                        },
+                    },
+                ],
+            },
+        }

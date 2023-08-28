@@ -119,18 +119,13 @@ class MetaObjectTestCase(TestCase):
         m = Meta(request=request)
         self.assertEqual(m.get_full_url("foo/bar"), "http://testserver/foo/bar")
 
-    @override_settings(SITE_ID=None)
+    @override_settings(SITE_ID=None, META_USE_SITES=True, META_SITE_PROTOCOL="http")
     def test_get_full_url_with_fdqn_original_url(self):
-        settings.USE_SITES = True
-        settings.SITE_PROTOCOL = 'http'
         factory = RequestFactory()
-        request = factory.get('/')
+        request = factory.get("/")
         Site.objects.create(domain=request.get_host())
         m = Meta(request=request)
-        self.assertEqual(
-            m.get_full_url('https://example.com/foo/bar'),
-            'https://example.com/foo/bar'
-        )
+        self.assertEqual(m.get_full_url("https://example.com/foo/bar"), "https://example.com/foo/bar")
 
     def test_get_full_url_without_protocol_without_schema_will_raise(self):
         m = Meta()
@@ -148,7 +143,7 @@ class MetaObjectTestCase(TestCase):
         m = Meta()
         self.assertEqual(m.get_full_url("foo/bar"), "https://foo.com/foo/bar")
 
-    @override_settings(META_SITE_PROTOCOL="https")
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_get_full_url_without_schema(self):
         m = Meta()
         self.assertEqual(m.get_full_url("//foo.com/foo/bar"), "https://foo.com/foo/bar")

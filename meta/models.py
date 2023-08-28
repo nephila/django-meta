@@ -1,3 +1,4 @@
+import contextlib
 import warnings
 from copy import copy
 
@@ -188,7 +189,7 @@ class ModelMeta(FullUrlMixin):
         """
         self._request = request
         yield
-        delattr(self, '_request')
+        delattr(self, "_request")
 
     def get_request(self):
         """
@@ -273,13 +274,8 @@ class ModelMeta(FullUrlMixin):
         return self._get_full_url(url)
 
     def mainEntityOfPage(self):
-        return {
-            '@type': 'WebPage',
-            '@id': self.build_absolute_uri(self.get_absolute_url())
-        }
+        return {"@type": "WebPage", "@id": self.build_absolute_uri(self.get_absolute_url())}
 
     @property
     def _local_key(self):
-        return '%s:%s:%s' % (
-            self._meta.app_label, self._meta.model_name, self.pk
-        )
+        return "{}:{}:{}".format(self._meta.app_label, self._meta.model_name, self.pk)
