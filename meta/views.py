@@ -2,7 +2,7 @@ import warnings
 
 from django.core.exceptions import ImproperlyConfigured
 
-from . import settings
+from .settings import get_setting
 
 
 class Meta:
@@ -18,7 +18,7 @@ class Meta:
 
     def __init__(self, **kwargs):
         self.request = kwargs.get("request", None)
-        self.use_sites = kwargs.get("use_sites", settings.USE_SITES)
+        self.use_sites = kwargs.get("use_sites", get_setting("USE_SITES"))
         self.title = kwargs.get("title")
         self.og_title = kwargs.get("og_title")
         self.twitter_title = kwargs.get("twitter_title")
@@ -27,43 +27,43 @@ class Meta:
         self.description = kwargs.get("description")
         self.extra_props = kwargs.get("extra_props")
         self.extra_custom_props = kwargs.get("extra_custom_props")
-        self.custom_namespace = kwargs.get("custom_namespace", settings.OG_NAMESPACES)
+        self.custom_namespace = kwargs.get("custom_namespace", get_setting("OG_NAMESPACES"))
         self.keywords = kwargs.get("keywords")
         self.url = kwargs.get("url")
         self.image = kwargs.get("image")
         self.image_object = kwargs.get("image_object")
         self.image_width = kwargs.get("image_width")
         self.image_height = kwargs.get("image_height")
-        self.object_type = kwargs.get("object_type", settings.SITE_TYPE)
-        self.site_name = kwargs.get("site_name", settings.SITE_NAME)
+        self.object_type = kwargs.get("object_type", get_setting("SITE_TYPE"))
+        self.site_name = kwargs.get("site_name", get_setting("SITE_NAME"))
         self.twitter_site = kwargs.get("twitter_site")
         self.twitter_creator = kwargs.get("twitter_creator")
-        self.twitter_type = kwargs.get("twitter_type", kwargs.get("twitter_card", settings.TWITTER_TYPE))
+        self.twitter_type = kwargs.get("twitter_type", kwargs.get("twitter_card", get_setting("TWITTER_TYPE")))
         self.twitter_card = self.twitter_type
         self.facebook_app_id = kwargs.get("facebook_app_id")
         self.locale = kwargs.get("locale")
-        self.use_og = kwargs.get("use_og", settings.USE_OG_PROPERTIES)
-        self.use_twitter = kwargs.get("use_twitter", settings.USE_TWITTER_PROPERTIES)
-        self.use_facebook = kwargs.get("use_facebook", settings.USE_FACEBOOK_PROPERTIES)
-        self.use_schemaorg = kwargs.get("use_schemaorg", settings.USE_SCHEMAORG_PROPERTIES)
-        self.use_title_tag = kwargs.get("use_title_tag", settings.USE_TITLE_TAG)
-        self.schemaorg_type = kwargs.get("schemaorg_type", settings.SCHEMAORG_TYPE)
-        self.fb_pages = kwargs.get("fb_pages", settings.FB_PAGES)
-        self.og_app_id = kwargs.get("og_app_id", settings.FB_APPID)
+        self.use_og = kwargs.get("use_og", get_setting("USE_OG_PROPERTIES"))
+        self.use_twitter = kwargs.get("use_twitter", get_setting("USE_TWITTER_PROPERTIES"))
+        self.use_facebook = kwargs.get("use_facebook", get_setting("USE_FACEBOOK_PROPERTIES"))
+        self.use_schemaorg = kwargs.get("use_schemaorg", get_setting("USE_SCHEMAORG_PROPERTIES"))
+        self.use_title_tag = kwargs.get("use_title_tag", get_setting("USE_TITLE_TAG"))
+        self.schemaorg_type = kwargs.get("schemaorg_type", get_setting("SCHEMAORG_TYPE"))
+        self.fb_pages = kwargs.get("fb_pages", get_setting("FB_PAGES"))
+        self.og_app_id = kwargs.get("og_app_id", get_setting("FB_APPID"))
 
     def get_domain(self):
         if self.use_sites:
             from django.contrib.sites.models import Site
 
             return Site.objects.get_current(self.request).domain
-        if not settings.SITE_DOMAIN:
+        if not get_setting("SITE_DOMAIN"):
             raise ImproperlyConfigured("META_SITE_DOMAIN is not set")
-        return settings.SITE_DOMAIN
+        return get_setting("SITE_DOMAIN")
 
     def get_protocol(self):
-        if not settings.SITE_PROTOCOL:
+        if not get_setting("SITE_PROTOCOL"):
             raise ImproperlyConfigured("META_SITE_PROTOCOL is not set")
-        return settings.SITE_PROTOCOL
+        return get_setting("SITE_PROTOCOL")
 
     def get_full_url(self, url):
         if not url:
@@ -83,14 +83,14 @@ class Meta:
     @keywords.setter
     def keywords(self, keywords):
         if keywords is None:
-            kws = settings.DEFAULT_KEYWORDS
+            kws = get_setting("DEFAULT_KEYWORDS")
         else:
             if not hasattr(keywords, "__iter__"):
                 # Not iterable
                 raise ValueError("Keywords must be an intrable")
             kws = list(keywords)
-            if settings.INCLUDE_KEYWORDS:
-                kws += settings.INCLUDE_KEYWORDS
+            if get_setting("INCLUDE_KEYWORDS"):
+                kws += get_setting("INCLUDE_KEYWORDS")
         seen = set()
         seen_add = seen.add
         self._keywords = [k for k in kws if k not in seen and not seen_add(k)]
@@ -105,7 +105,7 @@ class Meta:
 
     def _normalize_media_url(self, url):
         if not url.startswith("http") and not url.startswith("/"):
-            url = "{}{}".format(settings.IMAGE_URL, url)
+            url = "{}{}".format(get_setting("IMAGE_URL"), url)
         return self.get_full_url(url)
 
     @property
@@ -117,8 +117,8 @@ class Meta:
 
     @image.setter
     def image(self, image):
-        if image is None and settings.DEFAULT_IMAGE:
-            image = settings.DEFAULT_IMAGE
+        if image is None and get_setting("DEFAULT_IMAGE"):
+            image = get_setting("DEFAULT_IMAGE")
         if image:
             self._image = self._normalize_media_url(image)
 
@@ -175,19 +175,19 @@ class MetadataMixin:
     schemaorg_type = None
 
     def __init__(self, **kwargs):
-        self.use_sites = settings.USE_SITES
-        self.use_og = settings.USE_OG_PROPERTIES
-        self.use_title_tag = settings.USE_TITLE_TAG
+        self.use_sites = get_setting("USE_SITES")
+        self.use_og = get_setting("USE_OG_PROPERTIES")
+        self.use_title_tag = get_setting("USE_TITLE_TAG")
         super().__init__(**kwargs)
 
     def get_meta_class(self):
         return self.meta_class
 
     def get_protocol(self):
-        return settings.SITE_PROTOCOL
+        return get_setting("SITE_PROTOCOL")
 
     def get_domain(self):
-        return settings.SITE_DOMAIN
+        return get_setting("SITE_DOMAIN")
 
     def get_meta_title(self, context=None):
         return self.title
@@ -222,10 +222,10 @@ class MetadataMixin:
         return self.image_object
 
     def get_meta_object_type(self, context=None):
-        return self.object_type or settings.SITE_TYPE
+        return self.object_type or get_setting("SITE_TYPE")
 
     def get_meta_site_name(self, context=None):
-        return self.site_name or settings.SITE_NAME
+        return self.site_name or get_setting("SITE_NAME")
 
     def get_meta_extra_props(self, context=None):
         return self.extra_props
@@ -234,7 +234,7 @@ class MetadataMixin:
         return self.extra_custom_props
 
     def get_meta_custom_namespace(self, context=None):
-        return self.custom_namespace or settings.OG_NAMESPACES
+        return self.custom_namespace or get_setting("OG_NAMESPACES")
 
     def get_meta_twitter_site(self, context=None):
         return self.twitter_site

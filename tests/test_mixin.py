@@ -5,8 +5,8 @@ from app_helper.base_test import BaseTestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
-from meta import settings
 from meta.models import ModelMeta
+from meta.settings import get_setting
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
 
 from .example_app.models import Post
@@ -39,7 +39,7 @@ class TestMeta(BaseTestCase):
         cls.image_width = cls.post.main_image.width
         cls.image_height = cls.post.main_image.height
 
-    @override_settings(META_SITE_PROTOCOL="http")
+    @override_settings(META_SITE_PROTOCOL="http", META_USE_SITES=True)
     def test_as_meta(self):
         expected = {
             "locale": "dummy_locale",
@@ -80,29 +80,22 @@ class TestMeta(BaseTestCase):
                 ("custom2", "custom_name2", "custom_val2"),
             ],
         }
-        settings.OG_NAMESPACES = ["foo", "bar"]
-        settings.FB_PAGES = "fbpages"
-        settings.FB_APPID = "appid"
-        meta = self.post.as_meta()
-        self.assertTrue(meta)
-        for key in expected.keys():
-            value = expected[key]
-            if value is not None:
-                self.assertEqual(value, getattr(meta, key))
-            else:
-                self.assertFalse(hasattr(meta, key))
+        with override_settings(META_OG_NAMESPACES=["foo", "bar"], META_FB_PAGES="fbpages", META_FB_APPID="appid"):
+            meta = self.post.as_meta()
+            self.assertTrue(meta)
+            for key in expected.keys():
+                value = expected[key]
+                if value is not None:
+                    self.assertEqual(value, getattr(meta, key))
+                else:
+                    self.assertFalse(hasattr(meta, key))
 
-        self.assertEqual(self.post.build_absolute_uri("hi"), "http://example.com/hi")
-        self.assertEqual(self.post.build_absolute_uri("http://example.com/hi"), "http://example.com/hi")
-        settings.OG_NAMESPACES = None
-        settings.FB_PAGES = ""
-        settings.FB_APPID = ""
+            self.assertEqual(self.post.build_absolute_uri("hi"), "http://example.com/hi")
+            self.assertEqual(self.post.build_absolute_uri("http://example.com/hi"), "http://example.com/hi")
 
-    @override_settings(META_SITE_PROTOCOL="http")
+    @override_settings(META_SITE_PROTOCOL="http", META_FB_PAGES="fbpages", META_FB_APPID="appid")
     def test_as_meta_with_request(self):
         # Server is different as it's taken directly from the request object
-        settings.FB_PAGES = "fbpages"
-        settings.FB_APPID = "appid"
         media = {
             "url": "https://testserver{}".format(self.image_url),
             "width": self.image_width,
@@ -156,8 +149,6 @@ class TestMeta(BaseTestCase):
                 self.assertEqual(value, getattr(meta, key))
             else:
                 self.assertFalse(hasattr(meta, key))
-        settings.FB_PAGES = ""
-        settings.FB_APPID = ""
 
     @override_settings(META_SITE_PROTOCOL="http")
     def test_as_meta_get_request_deprecation(self):
@@ -173,6 +164,13 @@ class TestMeta(BaseTestCase):
             assert len(w) == 1
             assert issubclass(w[-1].category, PendingDeprecationWarning)
 
+    @override_settings(
+        META_USE_SITES=True,
+        META_SITE_PROTOCOL="http",
+        META_USE_OG_PROPERTIES=True,
+        META_USE_TWITTER_PROPERTIES=True,
+        META_USE_SCHEMAORG_PROPERTIES=True,
+    )
     def test_templatetag(self):
         self.post.as_meta()
         response = self.client.get("/title/")
@@ -206,6 +204,13 @@ class TestMeta(BaseTestCase):
             '<meta property="og:{}:url" content="{}'.format("image", "http://example.com{}".format(self.image_url)),
         )
 
+    @override_settings(
+        META_SITE_PROTOCOL="http",
+        META_USE_SITES=True,
+        META_USE_OG_PROPERTIES=True,
+        META_USE_TWITTER_PROPERTIES=True,
+        META_USE_SCHEMAORG_PROPERTIES=True,
+    )
     def test_templatetag_metadatamixin(self):
         """
         Test for issue #11
@@ -224,6 +229,13 @@ class TestMeta(BaseTestCase):
         )
         self.assertContains(response, '<meta name="twitter:image" content="http://example.com/path/to/image">')
 
+    @override_settings(
+        META_USE_SITES=True,
+        META_SITE_PROTOCOL="http",
+        META_USE_OG_PROPERTIES=True,
+        META_USE_TWITTER_PROPERTIES=True,
+        META_USE_SCHEMAORG_PROPERTIES=True,
+    )
     def test_templatetag_metadatamixin_image_object(self):
         """
         Test for issue #11
@@ -251,25 +263,29 @@ class TestMeta(BaseTestCase):
             '<meta property="og:{}:url" content="{}'.format("image", "http://example.com{}".format(self.image_url)),
         )
 
+    @override_settings(META_SITE_DOMAIN="example.com", META_USE_OG_PROPERTIES=True)
     def test_templatetag_secure_image(self):
         """
         Test for issue #79
         """
-        settings.SITE_PROTOCOL = "http"
-        response = self.client.get("/mixin/title/")
-        self.assertContains(response, '<meta property="og:image" content="http://example.com/path/to/image">')
-        settings.SITE_PROTOCOL = "https"
-        response = self.client.get("/mixin/title/")
-        self.assertContains(response, '<meta property="og:image" content="https://example.com/path/to/image">')
-        self.assertContains(
-            response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">'
-        )
-        settings.SITE_PROTOCOL = "http"
+        with override_settings(META_SITE_PROTOCOL="http"):
+            response = self.client.get("/mixin/title/")
+            self.assertContains(response, '<meta property="og:image" content="http://example.com/path/to/image">')
+        with override_settings(META_SITE_PROTOCOL="https"):
+            response = self.client.get("/mixin/title/")
+            self.assertContains(response, '<meta property="og:image" content="https://example.com/path/to/image">')
+            self.assertContains(
+                response, '<meta property="og:image:secure_url" content="https://example.com/path/to/image">'
+            )
 
+    @override_settings(
+        META_USE_SITES=True,
+        META_USE_OG_PROPERTIES=False,
+        META_USE_TWITTER_PROPERTIES=True,
+        META_SITE_PROTOCOL="http",
+        META_USE_SCHEMAORG_PROPERTIES=True,
+    )
     def test_templatetag_no_og(self):
-        from meta import settings
-
-        settings.USE_OG_PROPERTIES = False
         response = self.client.get("/title/")
         self.assertFalse(response.rendered_content.find("og:description") > -1)
         self.assertContains(
@@ -281,16 +297,12 @@ class TestMeta(BaseTestCase):
         self.assertContains(
             response, '<meta name="keywords" content="{}">'.format(", ".join(self.post.meta_keywords.split(",")))
         )
-        settings.USE_OG_PROPERTIES = True
 
+    @override_settings(META_OG_NAMESPACES=["foo", "bar"], META_USE_SITES=True, META_SITE_PROTOCOL="http")
     def test_templatetag_custom_namespaces(self):
-        from meta import settings
-
-        settings.OG_NAMESPACES = ["foo", "bar"]
         response = self.client.get("/title/")
-        for ns in settings.OG_NAMESPACES:
+        for ns in get_setting("OG_NAMESPACES"):
             self.assertContains(response, "{0}: http://ogp.me/ns/{0}#".format(ns))
-        settings.OG_NAMESPACES = None
 
     def test_generic_prop_basically_works(self):
         """
@@ -304,17 +316,15 @@ class TestMeta(BaseTestCase):
         """
         self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
-    @override_settings(META_SITE_PROTOCOL="https")
+    @override_settings(META_SITE_PROTOCOL="https", META_USE_SITES=True)
     def test_image_protocol(self):
         meta = self.post.as_meta()
         self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
-        original_sites = settings.USE_SITES
-        settings.USE_SITES = False
-        with self.assertRaises(RuntimeError):
-            self.post.as_meta()
-        settings.USE_SITES = True
-        meta = self.post.as_meta()
-        self.assertEqual(meta.url, "http://example.com/title/")
-        settings.USE_SITES = original_sites
+        with override_settings(META_USE_SITES=False):
+            with self.assertRaises(RuntimeError):
+                self.post.as_meta()
+        with override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="http"):
+            meta = self.post.as_meta()
+            self.assertEqual(meta.url, "http://example.com/title/")
