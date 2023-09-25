@@ -47,3 +47,35 @@ verbose = 0
 quiet = false
 whitelist-regex = []
 color = true
+
+[tool.bumpversion]
+allow_dirty = false
+commit = true
+message = "Release {new_version}"
+commit_args = "--no-verify"
+tag = false
+current_version = "2.3.1.dev1"
+parse = """(?x)
+    (?P<major>[0-9]+)
+    \\.(?P<minor>[0-9]+)
+    \\.(?P<patch>[0-9]+)
+    (?:
+        .(?P<release>dev)
+        (?:(?P<relver>[0-9]+))?
+    )?
+"""
+serialize = [
+    "{major}.{minor}.{patch}.{release}{relver}",
+    "{major}.{minor}.{patch}"
+]
+
+[tool.bumpversion.parts.release]
+values = [
+    "dev",
+    ""
+]
+optional_value = "dev"
+
+[[tool.bumpversion.files]]
+filename = "meta/__init__.py"
+search = "{current_version}"

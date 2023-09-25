@@ -39,8 +39,8 @@ def format(c):  # NOQA
 def towncrier_check(c):  # NOQA
     """Check towncrier files."""
     output = io.StringIO()
-    c.run("git branch --contains HEAD", out_stream=output)
-    skipped_branch_prefix = ["pull/", "develop", "master", "HEAD"]
+    c.run("git branch -a --contains HEAD", out_stream=output)
+    skipped_branch_prefix = ["pull/", "release/", "develop", "master", "HEAD"]
     # cleanup branch names by removing PR-only names in local, remote and disconnected branches to ensure the current
     # (i.e. user defined) branch name is used
     branches = list(
@@ -113,15 +113,18 @@ def tag_release(c, level, new_version=""):
     """Tag release version."""
     if new_version:
         new_version = f" --new-version {new_version}"
-    c.run(f"bumpversion --list {level} --no-tag{new_version}")
+    c.run(f"bump-my-version bump {level}{new_version}")
 
 
 @task
-def tag_dev(c, level="patch", new_version=""):
+def tag_dev(c, level, new_version=""):
     """Tag development version."""
     if new_version:
         new_version = f" --new-version {new_version}"
-    c.run(f"bumpversion --list {level} --message='Bump develop version [ci skip]' --no-tag{new_version}")
+    elif level == "release":
+        c.run("bump-my-version bump patch --no-commit")
+        level = "relver"
+    c.run(f"bump-my-version bump {level} --message='Bump develop version [ci skip]' {new_version} --allow-dirty")
 
 
 @task(pre=[clean])
