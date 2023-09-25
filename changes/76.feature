@@ -1,1 +1,0 @@
-Add schema.org support

@@ -6,6 +6,17 @@ History
 
 .. towncrier release notes start
 
+2.4.0 (2023-09-25)
+==================
+
+Features
+--------
+
+- Add schema.org support (#76)
+- Refactor settings to make override_settings in tests more consistent (#167)
+- Migrate to bump-my-version (#173)
+
+
 2.3.0 (2023-08-10)
 ==================
 
