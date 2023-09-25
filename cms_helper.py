@@ -10,6 +10,7 @@ HELPER_SETTINGS = dict(
     META_USE_OG_PROPERTIES=True,
     META_USE_TWITTER_PROPERTIES=True,
     META_USE_SCHEMAORG_PROPERTIES=True,
+    META_USE_JSON_LD_SCHEMA=True,
     FILE_UPLOAD_TEMP_DIR=mkdtemp(),
     TEST_RUNNER="app_helper.pytest_runner.PytestTestRunner",
     SECRET_KEY="dont-use-me",

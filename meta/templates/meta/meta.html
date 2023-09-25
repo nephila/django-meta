@@ -2,6 +2,9 @@
 {% spaceless %}
 {% autoescape off %}
 {% if meta %}
+  {% if meta.use_json_ld and meta.schema %}
+    <script type="application/ld+json">{{ meta.as_json_ld }}</script>
+  {% endif %}
 	{% if meta.description %}{% meta 'description' meta.description %}{% endif %}
     {% if meta.keywords %}{% meta_list 'keywords' meta.keywords %}{% endif %}
     {% if meta.extra_props %}{% meta_extras meta.extra_props %}{% endif %}

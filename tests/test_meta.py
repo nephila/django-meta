@@ -1,3 +1,4 @@
+import json
 from copy import copy
 
 from django.contrib.sites.models import Site
@@ -13,6 +14,7 @@ from meta.views import Meta
     META_USE_OG_PROPERTIES=False,
     META_USE_TWITTER_PROPERTIES=False,
     META_USE_SCHEMAORG_PROPERTIES=False,
+    META_USE_JSON_LD_SCHEMA=False,
 )
 class MetaObjectTestCase(TestCase):
     def test_defaults(self):
@@ -41,9 +43,11 @@ class MetaObjectTestCase(TestCase):
         self.assertEqual(m.use_twitter, False)
         self.assertEqual(m.use_facebook, False)
         self.assertEqual(m.use_schemaorg, False)
+        self.assertEqual(m.use_json_ld, False)
         self.assertEqual(m.fb_pages, "")
         self.assertEqual(m.og_app_id, "")
         self.assertEqual(m.use_title_tag, False)
+        self.assertEqual(m.schema, {"@type": m.schemaorg_type})
 
     def test_set_keywords(self):
         m = Meta(keywords=["foo", "bar"])
@@ -73,6 +77,11 @@ class MetaObjectTestCase(TestCase):
         m = Meta(keywords=["foo", "foo", "foo"])
         self.assertEqual(m.keywords[0], "foo")
         self.assertEqual(len(m.keywords), 1)
+
+    @override_settings(META_USE_JSON_LD_SCHEMA=True)
+    def test_use_json_ld(self):
+        m = Meta()
+        self.assertEqual(m.use_json_ld, True)
 
     @override_settings(META_FB_APPID="appid", META_FB_PAGES="fbpages")
     def test_pages_appid(self):
@@ -119,6 +128,14 @@ class MetaObjectTestCase(TestCase):
         m = Meta(request=request)
         self.assertEqual(m.get_full_url("foo/bar"), "http://testserver/foo/bar")
 
+    @override_settings(SITE_ID=None, META_USE_SITES=True, META_SITE_PROTOCOL="http")
+    def test_get_full_url_with_fdqn_original_url(self):
+        factory = RequestFactory()
+        request = factory.get("/")
+        Site.objects.create(domain=request.get_host())
+        m = Meta(request=request)
+        self.assertEqual(m.get_full_url("https://example.com/foo/bar"), "https://example.com/foo/bar")
+
     def test_get_full_url_without_protocol_without_schema_will_raise(self):
         m = Meta()
         with self.assertRaises(ImproperlyConfigured):
@@ -135,7 +152,7 @@ class MetaObjectTestCase(TestCase):
         m = Meta()
         self.assertEqual(m.get_full_url("foo/bar"), "https://foo.com/foo/bar")
 
-    @override_settings(META_SITE_PROTOCOL="https")
+    @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_get_full_url_without_schema(self):
         m = Meta()
         self.assertEqual(m.get_full_url("//foo.com/foo/bar"), "https://foo.com/foo/bar")
@@ -144,6 +161,11 @@ class MetaObjectTestCase(TestCase):
     def test_get_full_url_with_absolute_path(self):
         m = Meta()
         self.assertEqual(m.get_full_url("/foo/bar"), "https://foo.com/foo/bar")
+
+    @override_settings(META_SITE_PROTOCOL="http", META_SITE_DOMAIN="http://foo.com")
+    def test_get_full_url_with_wrong_domain(self):
+        m = Meta()
+        self.assertEqual(m.get_full_url("/foo/bar"), "http://foo.com/foo/bar")
 
     @override_settings(META_SITE_PROTOCOL="https", META_SITE_DOMAIN="foo.com")
     def test_set_url(self):
@@ -228,3 +250,19 @@ class MetaObjectTestCase(TestCase):
     def test_set_image_with_defaults(self):
         m = Meta()
         self.assertEqual(m.image, "https://foo.com/static/img/image.gif")
+
+    def test_schema_org(self):
+        m = Meta(schema={"foo": "bar", "list": [{"fuu": "baz", "test": "schema"}]})
+        self.assertEqual(
+            m.schema,
+            {"foo": "bar", "list": [{"fuu": "baz", "test": "schema"}], "@type": m.schemaorg_type},
+        )
+
+    def test_as_json_ld(self):
+        m = Meta(schema={"foo": "bar", "list": [{"fuu": "baz", "test": "schema"}]})
+        data = m.schema
+        data["@context"] = "http://schema.org"
+        self.assertEqual(
+            m.as_json_ld(),
+            json.dumps(data),
+        )

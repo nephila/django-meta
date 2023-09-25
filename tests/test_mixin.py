@@ -2,6 +2,7 @@ import warnings
 from datetime import timedelta
 
 from app_helper.base_test import BaseTestCase
+from django.core.exceptions import ImproperlyConfigured
 from django.test.utils import override_settings
 from django.utils import timezone
 
@@ -9,7 +10,7 @@ from meta.models import ModelMeta
 from meta.settings import get_setting
 from meta.templatetags.meta_extra import generic_prop, googleplus_html_scope
 
-from .example_app.models import Post
+from .example_app.models import Comment, Post, Publisher
 
 
 class TestMeta(BaseTestCase):
@@ -18,6 +19,7 @@ class TestMeta(BaseTestCase):
     @classmethod
     def setUpTestData(cls):
         super().setUpTestData()
+        cls.publisher, __ = Publisher.objects.get_or_create(name="publisher name")
         cls.post, __ = Post.objects.get_or_create(
             title="a title",
             og_title="og title",
@@ -32,10 +34,34 @@ class TestMeta(BaseTestCase):
             date_published_end=timezone.now() + timedelta(days=2),
             text="post text",
             image_url="/path/to/image",
+            publisher=cls.publisher,
         )
+        cls.related_post, __ = Post.objects.get_or_create(
+            title="related title",
+            og_title="related og title",
+            twitter_title="related twitter title",
+            schemaorg_title="related schemaorg title",
+            schemaorg_description="related schemaorg description",
+            slug="related-title",
+            abstract="related post abstract",
+            meta_description="related post meta",
+            meta_keywords="related post keyword1,related post keyword 2",
+            author=cls.user,
+            date_published_end=timezone.now() + timedelta(days=2),
+            text="related post text",
+            image_url="/path/to/related-image",
+        )
+        cls.comment, __ = Comment.objects.get_or_create(
+            body="comment body",
+            post=cls.post,
+        )
+        cls.post.related_posts.add(cls.related_post)
         cls.post.main_image, __ = cls.create_django_image()
         cls.post.save()
+        cls.related_post.main_image, __ = cls.create_django_image()
+        cls.related_post.save()
         cls.image_url = cls.post.main_image.url
+        cls.related_image_url = cls.related_post.main_image.url
         cls.image_width = cls.post.main_image.width
         cls.image_height = cls.post.main_image.height
 
@@ -79,6 +105,64 @@ class TestMeta(BaseTestCase):
                 ("custom1", "custom_name1", "custom_val1"),
                 ("custom2", "custom_name2", "custom_val2"),
             ],
+            "schema": {
+                "@type": "Article",
+                "image": "http://example.com{}".format(self.image_url),
+                "articleBody": "post text",
+                "articleSection": ["category 1", "category 2"],
+                "author": {
+                    "@type": "Person",
+                    "name": self.post.author.get_full_name(),
+                },
+                "copyrightYear": self.post.date_published.year,
+                "dateCreated": self.post.date_created.isoformat(),
+                "dateModified": self.post.date_modified.isoformat(),
+                "datePublished": self.post.date_published.isoformat(),
+                "expires": self.post.date_published_end.isoformat(),
+                "headline": "post abstract",
+                "keywords": ["post keyword1", "post keyword 2"],
+                "description": "post meta",
+                "name": "a title",
+                "url": "http://example.com/title/",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "http://example.com/title/",
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "http://example.com/some/logo.png",
+                    },
+                    "name": "publisher name",
+                },
+                "comment": [{"@type": "Comment", "text": "comment body"}],
+                "commentCount": self.post.comments.count(),
+                "citation": [
+                    {
+                        "@type": "Article",
+                        "articleBody": "related post text",
+                        "articleSection": ["category 1", "category 2"],
+                        "author": {"@type": "Person", "name": self.related_post.author.get_full_name()},
+                        "citation": [],
+                        "comment": [],
+                        "commentCount": self.related_post.comments.count(),
+                        "copyrightYear": self.related_post.date_published.year,
+                        "dateCreated": self.related_post.date_created.isoformat(),
+                        "dateModified": self.related_post.date_modified.isoformat(),
+                        "datePublished": self.related_post.date_published.isoformat(),
+                        "description": "related post meta",
+                        "expires": self.related_post.date_published_end.isoformat(),
+                        "headline": "related post abstract",
+                        "image": "http://example.com{}".format(self.related_image_url),
+                        "keywords": ["related post keyword1", "related post keyword 2"],
+                        "mainEntityOfPage": {"@id": "http://example.com/related-title/", "@type": "WebPage"},
+                        "name": "related title",
+                        "publisher": None,
+                        "url": "http://example.com/related-title/",
+                    }
+                ],
+            },
         }
         with override_settings(META_OG_NAMESPACES=["foo", "bar"], META_FB_PAGES="fbpages", META_FB_APPID="appid"):
             meta = self.post.as_meta()
@@ -139,6 +223,64 @@ class TestMeta(BaseTestCase):
                 ("custom1", "custom_name1", "custom_val1"),
                 ("custom2", "custom_name2", "custom_val2"),
             ],
+            "schema": {
+                "@type": "Article",
+                "image": "http://example.com{}".format(self.image_url),
+                "articleBody": "post text",
+                "articleSection": ["category 1", "category 2"],
+                "author": {
+                    "@type": "Person",
+                    "name": self.post.author.get_full_name(),
+                },
+                "copyrightYear": self.post.date_published.year,
+                "dateCreated": self.post.date_created.isoformat(),
+                "dateModified": self.post.date_modified.isoformat(),
+                "datePublished": self.post.date_published.isoformat(),
+                "expires": self.post.date_published_end.isoformat(),
+                "headline": "post abstract",
+                "keywords": ["post keyword1", "post keyword 2"],
+                "description": "post meta",
+                "name": "a title",
+                "url": "http://example.com/title/",
+                "mainEntityOfPage": {
+                    "@type": "WebPage",
+                    "@id": "http://example.com/title/",
+                },
+                "publisher": {
+                    "@type": "Organization",
+                    "logo": {
+                        "@type": "ImageObject",
+                        "url": "http://example.com/some/logo.png",
+                    },
+                    "name": "publisher name",
+                },
+                "comment": [{"@type": "Comment", "text": "comment body"}],
+                "commentCount": self.post.comments.count(),
+                "citation": [
+                    {
+                        "@type": "Article",
+                        "articleBody": "related post text",
+                        "articleSection": ["category 1", "category 2"],
+                        "author": {"@type": "Person", "name": self.related_post.author.get_full_name()},
+                        "citation": [],
+                        "comment": [],
+                        "commentCount": self.related_post.comments.count(),
+                        "copyrightYear": self.related_post.date_published.year,
+                        "dateCreated": self.related_post.date_created.isoformat(),
+                        "dateModified": self.related_post.date_modified.isoformat(),
+                        "datePublished": self.related_post.date_published.isoformat(),
+                        "description": "related post meta",
+                        "expires": self.related_post.date_published_end.isoformat(),
+                        "headline": "related post abstract",
+                        "image": "http://example.com{}".format(self.related_image_url),
+                        "keywords": ["related post keyword1", "related post keyword 2"],
+                        "mainEntityOfPage": {"@id": "http://example.com/related-title/", "@type": "WebPage"},
+                        "name": "related title",
+                        "publisher": None,
+                        "url": "http://example.com/related-title/",
+                    }
+                ],
+            },
         }
         request = self.get_request(None, "en", path="/title/", secure=True)
         meta = self.post.as_meta(request)
@@ -170,6 +312,7 @@ class TestMeta(BaseTestCase):
         META_USE_OG_PROPERTIES=True,
         META_USE_TWITTER_PROPERTIES=True,
         META_USE_SCHEMAORG_PROPERTIES=True,
+        META_USE_JSON_LD_SCHEMA=True,
     )
     def test_templatetag(self):
         self.post.as_meta()
@@ -202,6 +345,10 @@ class TestMeta(BaseTestCase):
         self.assertContains(
             response,
             '<meta property="og:{}:url" content="{}'.format("image", "http://example.com{}".format(self.image_url)),
+        )
+        print(response.content)
+        self.assertContains(
+            response, '<script type="application/ld+json">{}</script>'.format(self.post.as_meta().as_json_ld())
         )
 
     @override_settings(
@@ -316,10 +463,15 @@ class TestMeta(BaseTestCase):
         """
         self.assertEqual(googleplus_html_scope("bar"), ' itemscope itemtype="https://schema.org/bar" ')
 
-    @override_settings(META_SITE_PROTOCOL="https", META_USE_SITES=True)
-    def test_image_protocol(self):
+    @override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="https")
+    def test_image_protocol_https(self):
         meta = self.post.as_meta()
         self.assertEqual("https://example.com{}".format(self.image_url), meta.image)
+
+    @override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="http")
+    def test_image_protocol_http(self):
+        meta = self.post.as_meta()
+        self.assertEqual("http://example.com{}".format(self.image_url), meta.image)
 
     def test_not_use_sites(self):
         with override_settings(META_USE_SITES=False):
@@ -328,3 +480,17 @@ class TestMeta(BaseTestCase):
         with override_settings(META_USE_SITES=True, META_SITE_PROTOCOL="http"):
             meta = self.post.as_meta()
             self.assertEqual(meta.url, "http://example.com/title/")
+
+    @override_settings(META_SITE_PROTOCOL=None)
+    def test_get_meta_protocol_without_site_protocol_will_raise(self):
+        with self.assertRaises(ImproperlyConfigured):
+            self.post.get_meta_protocol()
+
+    def test_get_meta_protocol(self):
+        with override_settings(META_SITE_PROTOCOL="http"):
+            self.assertEqual(self.post.get_meta_protocol(), "http")
+        with override_settings(META_SITE_PROTOCOL="https"):
+            self.assertEqual(self.post.get_meta_protocol(), "https")
+
+    def test_get_author_schemaorg(self):
+        self.assertEqual(self.post.get_author_schemaorg(), "https://schemaorg-profile.com")
