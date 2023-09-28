@@ -158,7 +158,7 @@ class Meta(FullUrlMixin):
         else:
             if not hasattr(keywords, "__iter__"):
                 # Not iterable
-                raise ValueError("Keywords must be an intrable")
+                raise ValueError("Keywords must be an iterable")
             kws = list(keywords)
             if get_setting("INCLUDE_KEYWORDS"):
                 kws += get_setting("INCLUDE_KEYWORDS")
