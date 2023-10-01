@@ -186,8 +186,7 @@ class Meta(FullUrlMixin):
     def image(self):
         if self.image_object:
             return self.image_object.get("url")
-        else:
-            return self._image
+        return self._image
 
     @image.setter
     def image(self, image):
