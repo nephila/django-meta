@@ -186,8 +186,7 @@ class Meta(FullUrlMixin):
     def image(self):
         if self.image_object:
             return self.image_object.get("url")
-        else:
-            return self._image
+        return self._image
 
     @image.setter
     def image(self, image):
@@ -245,8 +244,7 @@ class Meta(FullUrlMixin):
                 return [process_item(value) for value in item]
             elif isinstance(item, dict):
                 return {itemkey: process_item(itemvalue) for itemkey, itemvalue in item.items()}
-            else:
-                return item
+            return item
 
         schema = {}
         # object is immediately set here to recursion
