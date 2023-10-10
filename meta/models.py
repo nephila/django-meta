@@ -127,8 +127,7 @@ class ModelMeta(FullUrlMixin):
                     return item(field)
                 except TypeError:
                     return item()
-            else:
-                return item
+            return item
 
         if value:
             try:
