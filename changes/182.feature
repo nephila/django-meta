@@ -1,1 +1,0 @@
-Remove useless "else" statements.
