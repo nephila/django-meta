@@ -6,7 +6,7 @@ History
 
 .. towncrier release notes start
 
-2.0.0 (2023-12-13)
+2.4.1 (2023-12-13)
 ==================
 
 Features
