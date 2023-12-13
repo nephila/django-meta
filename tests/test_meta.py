@@ -3,7 +3,7 @@ from copy import copy
 
 from django.contrib.sites.models import Site
 from django.core.exceptions import ImproperlyConfigured
-from django.test import RequestFactory, TestCase, override_settings
+from django.test import RequestFactory, TestCase, modify_settings, override_settings
 
 from meta.views import Meta
 
@@ -266,3 +266,20 @@ class MetaObjectTestCase(TestCase):
             m.as_json_ld(),
             json.dumps(data),
         )
+
+    @override_settings(META_SITE_DOMAIN="example-no-sites.com", META_SITE_PROTOCOL="http")
+    @modify_settings(INSTALLED_APPS={"remove": "django.contrib.sites"})
+    def test_get_full_url_without_sites(self):
+        m = Meta()
+        self.assertEqual(m.get_full_url("foo/bar"), "http://example-no-sites.com/foo/bar")
+
+    @override_settings(
+        META_SITE_DOMAIN="example-no-sites.com",
+        META_SITE_PROTOCOL="http",
+        META_USE_SITES=True,
+    )
+    @modify_settings(INSTALLED_APPS={"remove": "django.contrib.sites"})
+    def test_get_full_url_without_sites_wrong_setting(self):
+        m = Meta()
+        with self.assertRaises(ImproperlyConfigured):
+            self.assertEqual(m.get_full_url("foo/bar"), "http://example-no-sites.com/foo/bar")
