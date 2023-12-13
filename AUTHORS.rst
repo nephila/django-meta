@@ -38,6 +38,7 @@ Contributors
 * Murat Aydos
 * mvergerdelbove
 * Peter Morrow
+* Sayfulla Mirkhalikov
 * Sergei Maertens
 * Thijs Triemstra
 * Tim Gates
