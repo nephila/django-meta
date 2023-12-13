@@ -2,6 +2,7 @@ import json
 import warnings
 from datetime import date
 
+from django.apps import apps
 from django.core.exceptions import ImproperlyConfigured
 
 from .settings import get_setting
@@ -30,17 +31,20 @@ class FullUrlMixin:
 
         :return: domain URL
         """
-        from django.contrib.sites.models import Site
-
         try:
-            if self.use_sites:
-                return Site.objects.get_current(self.request).domain
+            use_site = self.use_sites
         except AttributeError:
-            if get_setting("USE_SITES"):
+            use_site = get_setting("USE_SITES")
+
+        if use_site:
+            try:
+                Site = apps.get_model("sites.Site")
                 try:
                     return Site.objects.get_current(self.request).domain
                 except AttributeError:
                     return Site.objects.get_current().domain
+            except LookupError:
+                raise ImproperlyConfigured("Add django.contrib.sites to INSTALLED_APPS because META_USE_SITES is True")
         if not get_setting("SITE_DOMAIN"):
             raise ImproperlyConfigured("META_SITE_DOMAIN is not set")
         return get_setting("SITE_DOMAIN")

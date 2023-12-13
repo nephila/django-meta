@@ -1,0 +1,1 @@
+Refactor FullUrlMixin get_domain to handle django.contrib.sites not in INSTALLED_APPS
