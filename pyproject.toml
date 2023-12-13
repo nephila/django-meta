@@ -54,7 +54,7 @@ commit = true
 message = "Release {new_version}"
 commit_args = "--no-verify"
 tag = false
-current_version = "2.4.1.dev1"
+current_version = "2.4.1"
 parse = """(?x)
     (?P<major>[0-9]+)
     \\.(?P<minor>[0-9]+)

@@ -6,6 +6,22 @@ History
 
 .. towncrier release notes start
 
+2.4.1 (2023-12-13)
+==================
+
+Features
+--------
+
+- Remove useless "else" statements. (#182)
+- Switch to Coveralls Github action (#188)
+
+
+Bugfixes
+--------
+
+- Refactor FullUrlMixin get_domain to handle django.contrib.sites not in INSTALLED_APPS (#192)
+
+
 2.4.0 (2023-09-25)
 ==================
 
