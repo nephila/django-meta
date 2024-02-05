@@ -6,6 +6,15 @@ History
 
 .. towncrier release notes start
 
+2.4.2 (2024-02-05)
+==================
+
+Features
+--------
+
+- Add uz translations (#198)
+
+
 2.4.1 (2023-12-13)
 ==================
 

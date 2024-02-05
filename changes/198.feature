@@ -1,1 +1,0 @@
-Add uz translations
