@@ -8,8 +8,8 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: [3.11.x, 3.10.x, 3.9]
-        django: [42, 32]
+        python-version: [3.13.x, 3.12.x, 3.11.x, 3.10.x, 3.9]
+        django: [51 ,42, 32]
         sekizai: [sekizai,nosekizai]
     steps:
     - uses: actions/checkout@v3
