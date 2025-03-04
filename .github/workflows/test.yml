@@ -18,14 +18,14 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
     - name: Cache pip
-      uses: actions/cache@v1
+      uses: actions/cache@v4
       with:
         path: ~/.cache/pip
         key: ${{ runner.os }}-pip-${{ matrix.toxenv }}
         restore-keys: |
           ${{ runner.os }}-pip-${{ matrix.toxenv }}
     - name: Cache tox
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: .tox
         key: ${{ runner.os }}-tox-${{ format('py-django{1}-{2}', matrix.python-version, matrix.django, matrix.sekizai) }}-${{ hashFiles('setup.cfg') }}
