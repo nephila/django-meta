@@ -116,6 +116,27 @@ Usage
     </body>
     </html>
 
+#. For Jinja2 support, configure your environment::
+
+
+    from jinja2 import Environment
+    from meta.jinja2 import MetaProxy
+
+    ...
+    env = Environment(**options)
+    env.globals.update({
+        ...
+        'meta_global': MetaProxy()
+    })
+
+
+   And put macro into your templates::
+
+    {% from 'meta/meta.html' import meta_macro with context %}
+    {{ meta_macro() }}
+
+   Jinja2 support is experimental for now, so feel free to tell about any issues.
+
 Note
 ++++
 
