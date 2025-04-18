@@ -9,7 +9,7 @@ from meta.views import Meta
 try:
     from django.urls import reverse
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 
 
 class Publisher(ModelMeta, models.Model):

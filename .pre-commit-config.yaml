@@ -3,7 +3,7 @@
 exclude: "(.idea|node_modules|.tox)"
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.5.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
         exclude: .bumpversion.cfg
@@ -18,32 +18,32 @@ repos:
         args:
           - --remove
   - repo: https://github.com/PyCQA/isort
-    rev: "5.13.2"
+    rev: "6.0.1"
     hooks:
       - id: isort
   - repo: https://github.com/psf/black
-    rev: 24.1.1
+    rev: 25.1.0
     hooks:
       - id: black
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.1.14'
+    rev: 'v0.11.5'
     hooks:
       - id: ruff
   - repo: https://github.com/econchick/interrogate
-    rev: 1.5.0
+    rev: 1.7.0
     hooks:
       - id: interrogate
         args:
           - "-cpyproject.toml"
           - "--quiet"
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.15.0
+    rev: v3.19.1
     hooks:
       - id: pyupgrade
         args:
           - --py3-plus
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.15.0"
+    rev: "1.24.0"
     hooks:
       - id: django-upgrade
         args: [--target-version, "3.2"]
