@@ -33,6 +33,7 @@ Contributors
 * Leonardo Cavallucci
 * m-vdb
 * Marco Federighi
+* Maxim Filipenko
 * Mirat Can Bayrak
 * Miroslav Bendík
 * Murat Aydos
