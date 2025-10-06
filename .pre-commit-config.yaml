@@ -15,15 +15,15 @@ repos:
       - id: check-merge-conflict
       - id: check-toml
   - repo: https://github.com/PyCQA/isort
-    rev: "6.0.1"
+    rev: "6.1.0"
     hooks:
       - id: isort
-  - repo: https://github.com/psf/black
+  - repo: https://github.com/psf/black-pre-commit-mirror
     rev: 25.9.0
     hooks:
       - id: black
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.13.2'
+    rev: 'v0.13.3'
     hooks:
       - id: ruff
   - repo: https://github.com/econchick/interrogate
@@ -40,7 +40,7 @@ repos:
         args:
           - --py3-plus
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: "1.28.0"
+    rev: "1.29.0"
     hooks:
       - id: django-upgrade
         args: [--target-version, "3.2"]
