@@ -28,14 +28,14 @@ Supported versions
 Django
 ******
 
-4.2 to 5.2 (newer versions might work but are not tested yet)
+4.2 to 6.0 (newer versions might work but are not tested yet)
 
 
 ******
 Python
 ******
 
-Python 3.9 to 3.13
+Python 3.9 to 3.14
 
 *******************
 Supported Meta Tags
