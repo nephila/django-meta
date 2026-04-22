@@ -3,7 +3,7 @@ coverage
 coveralls>=2.0
 mock>=1.0.1
 pillow
-django-app-helper>=2.0.1
+django-app-helper>=3.3.5
 
 pytest
 pytest-django
