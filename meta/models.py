@@ -98,6 +98,10 @@ class ModelMeta(FullUrlMixin):
         """
         metadata = copy(self._metadata_default)
         metadata.update(self._metadata)
+        if not metadata.get("title"):
+            metadata["title"] = get_setting("DEFAULT_TITLE")
+        if not metadata.get("description"):
+            metadata["description"] = get_setting("DEFAULT_DESCRIPTION")
         return metadata
 
     def _retrieve_data(self, request, metadata):
