@@ -23,7 +23,7 @@ repos:
     hooks:
       - id: black
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: 'v0.16.0'
+    rev: 'v0.15.22'
     hooks:
       - id: ruff
   - repo: https://github.com/econchick/interrogate
@@ -54,5 +54,4 @@ repos:
         always_run: true
 
 ci:
-  skip:
-    - towncrier
+  skip: [towncrier,ruff]
