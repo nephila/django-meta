@@ -49,6 +49,22 @@ META_SITE_NAME
 The site name to use in ``og:site_name`` property. Althoug this can be
 set per view, we recommend you set it globally. Defalt is ``None``.
 
+.. _META_DEFAULT_TITLE:
+
+META_DEFAULT_TITLE
+------------------
+
+Default title used when a view or model does not provide one. Default is
+``None``.
+
+.. _META_DEFAULT_DESCRIPTION:
+
+META_DEFAULT_DESCRIPTION
+------------------------
+
+Default description used when a view or model does not provide one. Default is
+``None``.
+
 .. _META_INCLUDE_KEYWORDS:
 
 META_INCLUDE_KEYWORDS
@@ -146,6 +162,8 @@ Other settings
 The following settings are available to set a default value to the corresponding
 attribute for both :ref:`views` and :ref:`models`
 
+* title: ``META_DEFAULT_TITLE`` (default: ``None``)
+* description: ``META_DEFAULT_DESCRIPTION`` (default: ``None``)
 * image: ``META_DEFAULT_IMAGE`` (must be an absolute URL, ignores `META_IMAGE_URL`_)
 * object_type: ``META_SITE_TYPE`` (default: first ``META_OBJECT_TYPES``)
 * og_type: ``META_FB_TYPE`` (default: first ``META_FB_TYPES``)
