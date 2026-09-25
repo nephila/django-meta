@@ -269,6 +269,15 @@ class Meta(FullUrlMixin):
     def schema(self, schema):
         self._schema = schema
 
+    def has_og_type_in_custom_props(self):
+        """Return True if og:type is already defined in extra_custom_props."""
+        if not self.extra_custom_props:
+            return False
+        for prop in self.extra_custom_props:
+            if len(prop) >= 3 and prop[0] == "property" and prop[1] == "og:type":
+                return True
+        return False
+
     def as_json_ld(self):
         """
         Convert the schema to json-ld

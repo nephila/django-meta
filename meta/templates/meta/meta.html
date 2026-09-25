@@ -25,8 +25,8 @@
           {% if meta.image_width %}{% og_prop 'image:width' meta.image_width %}{% endif %}
           {% if meta.image_height %}{% og_prop 'image:height' meta.image_height %}{% endif %}
         {% endif %}
-        {% if meta.og_type %}{% og_prop 'type' meta.og_type %}
-        {% elif meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}
+        {% if not meta.has_og_type_in_custom_props %}{% if meta.og_type %}{% og_prop 'type' meta.og_type %}
+        {% elif meta.object_type %}{% og_prop 'type' meta.object_type %}{% endif %}{% endif %}
         {% if meta.site_name %}{% og_prop 'site_name' meta.site_name %}{% endif %}
         {% if meta.og_author_url %}{% generic_prop 'article' 'author' meta.og_author_url %}
         {% elif meta.og_author %}{% generic_prop 'article' 'author' meta.og_author %}{% endif %}
