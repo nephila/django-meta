@@ -292,3 +292,16 @@ class MetadataMixinTestCase(TestCase):
             self.assertEqual(context["meta"].keywords, ["foo", "bar"])
             self.assertEqual(context["meta"].image, "https://foo.com/static/images/foo.gif")
             self.assertEqual(context["meta"].image_object, full_url_media)
+
+    @override_settings(
+        META_SITE_PROTOCOL="http",
+        META_SITE_DOMAIN="foo.com",
+        META_USE_SITES=False,
+        META_DEFAULT_TITLE="Default title",
+        META_DEFAULT_DESCRIPTION="Default description",
+    )
+    def test_get_meta_with_default_title_and_description(self):
+        meta_object = MetadataMixin().get_meta()
+
+        self.assertEqual(meta_object.title, "Default title")
+        self.assertEqual(meta_object.description, "Default description")
