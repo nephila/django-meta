@@ -116,12 +116,12 @@ class Meta(FullUrlMixin):
     def __init__(self, **kwargs):
         self.request = kwargs.get("request", None)
         self.use_sites = kwargs.get("use_sites", get_setting("USE_SITES"))
-        self.title = kwargs.get("title")
+        self.title = kwargs.get("title", get_setting("DEFAULT_TITLE"))
         self.og_title = kwargs.get("og_title")
         self.twitter_title = kwargs.get("twitter_title")
         self.schemaorg_title = kwargs.get("schemaorg_title")
         self.schemaorg_description = kwargs.get("schemaorg_description")
-        self.description = kwargs.get("description")
+        self.description = kwargs.get("description", get_setting("DEFAULT_DESCRIPTION"))
         self.extra_props = kwargs.get("extra_props")
         self.extra_custom_props = kwargs.get("extra_custom_props")
         self.custom_namespace = kwargs.get("custom_namespace", get_setting("OG_NAMESPACES"))
@@ -330,6 +330,8 @@ class MetadataMixin(FullUrlMixin):
         return get_setting("SITE_DOMAIN")
 
     def get_meta_title(self, context=None):
+        if self.title is None:
+            return get_setting("DEFAULT_TITLE")
         return self.title
 
     def get_meta_og_title(self, context=None):
@@ -345,6 +347,8 @@ class MetadataMixin(FullUrlMixin):
         return self.schemaorg_description
 
     def get_meta_description(self, context=None):
+        if self.description is None:
+            return get_setting("DEFAULT_DESCRIPTION")
         return self.description
 
     def get_meta_keywords(self, context=None):

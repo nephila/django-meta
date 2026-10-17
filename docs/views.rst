@@ -210,6 +210,10 @@ will return an instance of the ``Meta`` class (see :ref:`Meta object`) as ``meta
 context variable. This is, in turn, used in the partial template to render the
 meta tags (see :ref:`rendering`).
 
+If you need site-wide fallbacks, define :ref:`META_DEFAULT_TITLE` and
+:ref:`META_DEFAULT_DESCRIPTION`. They are used when a view leaves those values
+unset.
+
 Each of the properties on the mixin can be calculated dynamically by using the
 ``MetadataMixin.get_meta_PROPERTYNAME`` methods, where ``PROPERTYNAME`` is the
 name of the property you wish the calculate at runtime. Each method will
